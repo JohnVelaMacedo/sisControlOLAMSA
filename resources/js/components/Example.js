@@ -24,7 +24,6 @@ export default class Example extends Component {
 
                             <div className="card-body">
                                 Qué fue?
-                                <button onClick={this.handleClick}>Cerrar Sesión</button>
                             </div>
                         </div>
                     </div>

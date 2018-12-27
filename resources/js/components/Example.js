@@ -1,34 +1,32 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
+import Sidebar from "./Sidebar";
+import Content from "./Content";
 
 export default class Example extends Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this);
+        this.state = { type: null }
     }
 
-    handleClick() {
-        axios.post('logout')
-            .then(data => console.log(data))
-            .catch(error => console.log(error));
+    componentDidMount() {
+        axios.get('home_user')
+            .then(data => {
+                this.setState({ type: data.data.user.tipo });
+            }).catch(error => console.log(error));
     }
 
     render() {
+        const {type} = this.state;
         return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Ke fue?</div>
-
-                            <div className="card-body">
-                                Qué fue?
-                            </div>
-                        </div>
-                    </div>
+            <Router>
+                <div>
+                    <Sidebar tipo={type} />
+                    <Content />      
                 </div>
-            </div>
+            </Router>
         );
     }
 }

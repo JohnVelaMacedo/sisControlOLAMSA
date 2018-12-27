@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home_user', 'HomeController@getUser');
 
 // Rutas alternas
 // Route::view('/{path?}', 'app');

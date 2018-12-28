@@ -1,0 +1,13 @@
+div.sidebar ul li.nav-item a {
+    font-size: .9rem;
+}
+
+div.sidebar ul li.nav-item a i {
+    font-size: 1.2rem;
+    margin-right: .5rem;
+}
+
+div.sidebar ul li.nav-item a:hover {
+    background-color: rgba(255, 255, 255, 0.1)!important;
+    color: white!important;    
+}

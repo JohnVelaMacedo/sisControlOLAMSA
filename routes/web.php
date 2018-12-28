@@ -20,6 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home_user', 'HomeController@getUser');
 
+// Rutas Evaluador
+Route::resource('/pendiente_descarga', 'PendienteDescargaController');
+
 // Rutas alternas
 // Route::view('/{path?}', 'app');
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');

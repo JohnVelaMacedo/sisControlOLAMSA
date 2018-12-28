@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "./Sidebar";
-import Content from "./Content";
+import Sidebar from "./Sidebar/Sidebar";
+import Content from "./Content/Content";
 
 export default class Example extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ export default class Example extends Component {
         axios.get('home_user')
             .then(data => {
                 this.setState({ type: data.data.user.tipo });
-            }).catch(error => console.log(error));
+            }).catch(error => console.error(error));
     }
 
     render() {

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Ejemplo from "./Ejemplo/Ejemplo";
-import Ejemplo2 from "./Ejemplo/Ejemplo2";
-import Home from "./Home";
+import Ejemplo from "../Ejemplo/Ejemplo";
+import InicioDescarga from "../Users/Evaluador/InicioDescarga";
+import Home from "../Home";
 
 class Content extends Component {
     render() {
@@ -12,7 +12,7 @@ class Content extends Component {
                     <Switch>
                         <Route exact path="/home" component={Home} />
                         <Route path="/ejemplo" component={Ejemplo} />
-                        <Route path="/ejemplo2" component={Ejemplo2} />
+                        <Route path="/inicio-descarga" component={InicioDescarga} />
                     </Switch>
                 </section>
             </div>

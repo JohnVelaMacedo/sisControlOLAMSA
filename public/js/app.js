@@ -63256,85 +63256,34 @@ var Sidebar = function (_Component) {
 					break;
 				case 4:
 					aside = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						"div",
-						null,
+						"li",
+						{ className: "nav-item has-treeview" },
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"li",
-							{ className: "nav-item has-treeview" },
+							"a",
+							{ href: "#", className: "nav-link" },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"a",
-								{ href: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"p",
-									null,
-									"Inicio de Descarga",
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
-								)
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"ul",
-								{ className: "nav nav-treeview", style: { paddingLeft: '6px' } },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"li",
-									{ className: "nav-item" },
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-										{ to: "/inicio-descarga", className: "nav-link" },
-										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
-										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-											"p",
-											null,
-											"Agregar Inicio de Descarga"
-										)
-									)
-								)
+								"p",
+								null,
+								"Pendiente Descarga",
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
 							)
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"li",
-							{ className: "nav-item has-treeview" },
+							"ul",
+							{ className: "nav nav-treeview", style: { paddingLeft: '6px' } },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"a",
-								{ href: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"li",
+								{ className: "nav-item" },
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"p",
-									null,
-									"Fin de Descarga",
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
-								)
-							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"ul",
-								{ className: "nav nav-treeview", style: { paddingLeft: '6px' } },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"li",
-									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+									{ to: "/pendiente-descarga", className: "nav-link" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-										{ to: "/ejemplo", className: "nav-link" },
-										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
-										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-											"p",
-											null,
-											"Agregar Fin de Descarga"
-										)
+										"p",
+										null,
+										"Listado"
 									)
-								)
-							)
-						),
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"li",
-							{ className: "nav-item" },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"a",
-								{ href: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-list", "aria-hidden": "true" }),
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									"p",
-									null,
-									"Listado"
 								)
 							)
 						)
@@ -63968,7 +63917,7 @@ module.exports = function (css) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Ejemplo_Ejemplo__ = __webpack_require__(99);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Users_Evaluador_InicioDescarga__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Users_Evaluador_PendienteDescarga__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Home__ = __webpack_require__(101);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -64007,7 +63956,7 @@ var Content = function (_Component) {
                         null,
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { exact: true, path: "/home", component: __WEBPACK_IMPORTED_MODULE_4__Home__["a" /* default */] }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/ejemplo", component: __WEBPACK_IMPORTED_MODULE_2__Ejemplo_Ejemplo__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/inicio-descarga", component: __WEBPACK_IMPORTED_MODULE_3__Users_Evaluador_InicioDescarga__["a" /* default */] })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/pendiente-descarga", component: __WEBPACK_IMPORTED_MODULE_3__Users_Evaluador_PendienteDescarga__["a" /* default */] })
                     )
                 )
             );
@@ -64062,135 +64011,7 @@ var Ejemplo = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (Ejemplo);
 
 /***/ }),
-/* 100 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var InicioDescarga = function (_Component) {
-    _inherits(InicioDescarga, _Component);
-
-    function InicioDescarga(props) {
-        _classCallCheck(this, InicioDescarga);
-
-        var _this = _possibleConstructorReturn(this, (InicioDescarga.__proto__ || Object.getPrototypeOf(InicioDescarga)).call(this, props));
-
-        _this.handleChange = _this.handleChange.bind(_this);
-        _this.state = {
-            tipo_vehiculo: []
-        };
-        return _this;
-    }
-
-    _createClass(InicioDescarga, [{
-        key: "handleChange",
-        value: function handleChange(e) {
-            console.log(e.target.id);
-        }
-    }, {
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            var _this2 = this;
-
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('pendiente_descarga').then(function (data) {
-                _this2.setState({ tipo_vehiculo: data.data.tipo_vehiculo });
-            }).catch(function (error) {
-                console.error(error);
-            });
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var tipo_vehiculo = this.state.tipo_vehiculo;
-
-            var lista_tipo_vehiculos = tipo_vehiculo.length ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "select",
-                { className: "form-control", required: true, id: "tipo_vehiculo", onChange: this.handleChange },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "option",
-                    { value: "" },
-                    "Seleccione"
-                ),
-                tipo_vehiculo.map(function (e) {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "option",
-                        { key: e.id, value: e.id },
-                        e.descripcion
-                    );
-                })
-            ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "select",
-                { className: "form-control" },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "option",
-                    null,
-                    "No hay datos disponibles"
-                )
-            );
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "div",
-                { className: "card" },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "card-header" },
-                    "Agregar Inicio de Descarga"
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "card-body" },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "form",
-                        null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "form-row" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-group col-md-3" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "label",
-                                    null,
-                                    "Placa de Veh\xEDculo"
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", className: "form-control", name: "", id: "placa", onChange: this.handleChange })
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-group col-md-3" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "label",
-                                    null,
-                                    "Tipo de Veh\xEDculo"
-                                ),
-                                lista_tipo_vehiculos
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return InicioDescarga;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-/* harmony default export */ __webpack_exports__["a"] = (InicioDescarga);
-
-/***/ }),
+/* 100 */,
 /* 101 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -64237,6 +64058,435 @@ var Home = function (_Component) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PendienteDescarga_css__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PendienteDescarga_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__PendienteDescarga_css__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var PendienteDescarga = function (_Component) {
+    _inherits(PendienteDescarga, _Component);
+
+    function PendienteDescarga(props) {
+        _classCallCheck(this, PendienteDescarga);
+
+        var _this = _possibleConstructorReturn(this, (PendienteDescarga.__proto__ || Object.getPrototypeOf(PendienteDescarga)).call(this, props));
+
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.state = {
+            tipo_vehiculo: [],
+            fecha_hora_descarga: [],
+            pendiente_descarga: [],
+            persona: [],
+            fecha_hora_descarga_datos: {
+                observaciones: null,
+                fechaReg: null,
+                horaReg: null,
+                transportista: null,
+                tipoVehiculo: null,
+                placa: null
+            }
+        };
+        return _this;
+    }
+
+    _createClass(PendienteDescarga, [{
+        key: "handleSubmit",
+        value: function handleSubmit(e) {
+            e.preventDefault();
+            console.log(this.state);
+        }
+    }, {
+        key: "handleChange",
+        value: function handleChange(e) {
+            var nombre = e.target.id;
+            var valor = e.target.value;
+
+            this.setState(function (prevState) {
+                return {
+                    fecha_hora_descarga_datos: _extends({}, prevState.fecha_hora_descarga_datos, _defineProperty({}, nombre, valor))
+                };
+            });
+        }
+    }, {
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('fecha_hora_descarga').then(function (data) {
+                _this2.setState({
+                    tipo_vehiculo: data.data.tipo_vehiculo,
+                    pendiente_descarga: data.data.pendiente_descarga,
+                    fecha_hora_descarga: data.data.fecha_hora_descarga,
+                    persona: data.data.persona
+                });
+            }).catch(function (error) {
+                return console.error(error);
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _state = this.state,
+                tipo_vehiculo = _state.tipo_vehiculo,
+                pendiente_descarga = _state.pendiente_descarga,
+                fecha_hora_descarga = _state.fecha_hora_descarga,
+                persona = _state.persona;
+
+            // Lista de Tipos de Vehículos
+
+            var lista_tipo_vehiculos = tipo_vehiculo.length ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "select",
+                { className: "form-control", required: true, id: "tipoVehiculo", onChange: this.handleChange },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "option",
+                    { value: "" },
+                    "Seleccione"
+                ),
+                tipo_vehiculo.map(function (e) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "option",
+                        { key: e.id, value: e.id },
+                        e.descripcion
+                    );
+                })
+            ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "select",
+                { className: "form-control" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "option",
+                    null,
+                    "No hay datos disponibles"
+                )
+            );
+
+            // Lista de Transportistas
+            var lista_transportistas = persona.length ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "select",
+                { className: "form-control", required: true, id: "transportista", onChange: this.handleChange },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "option",
+                    { value: "" },
+                    "Seleccione"
+                ),
+                persona.map(function (e) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "option",
+                        { value: e.dni, key: e.id },
+                        e.nombre,
+                        " ",
+                        e.apellidos
+                    );
+                })
+            ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "select",
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "option",
+                    null,
+                    "No hay datos disponibles"
+                )
+            );
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "card" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "card-header" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "h3",
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "button",
+                            { type: "button", id: "add_descarga", className: "btn btn-success", "data-toggle": "modal",
+                                "data-target": "#exampleModal" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus", "aria-hidden": "true" })
+                        ),
+                        "Agregar Inicio de Descarga"
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "card-body" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "table-responsive" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "table",
+                            { className: "table table-hover" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "thead",
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "tr",
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "PLACA"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "TRANSPORTISTA"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "TIPO DE VEHICULO"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "OBSERVACIONES"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "FECHA/HORA (INICIO)"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "FECHA/HORA (FIN)"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "ESTADO"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "th",
+                                        null,
+                                        "ACCIONES"
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("tbody", null)
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "modal fade", id: "exampleModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "exampleModalLabel", "aria-hidden": "true" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "modal-dialog", role: "document" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "modal-content" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-header" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "h5",
+                                        { className: "modal-title", id: "exampleModalLabel" },
+                                        "Agregar Pendiente de Inicio de Descarga"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "button",
+                                        { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "span",
+                                            { "aria-hidden": "true" },
+                                            "\xD7"
+                                        )
+                                    )
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-body" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "form",
+                                        { onSubmit: this.handleSubmit },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Placa de Veh\xEDculo:"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-sm-8" },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", className: "form-control", name: "", id: "placa", onChange: this.handleChange,
+                                                    required: true, placeholder: "Ingrese el n\xFAmero de la placa" })
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Tipo de Veh\xEDculo:"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-md-8" },
+                                                lista_tipo_vehiculos
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Transportista:"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-md-8" },
+                                                lista_transportistas
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Fecha de Descarga (Inicio):"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-md-8" },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "date", className: "form-control", id: "fechaReg", min: "2018-12-29", required: true,
+                                                    onChange: this.handleChange })
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Hora de Descarga (Inicio):"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-md-8" },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "time", className: "form-control", min: "00:00", required: true, onChange: this.handleChange,
+                                                    id: "horaReg" })
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                null,
+                                                "Observaciones"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { className: "form-control", id: "observaciones", placeholder: "Ingrese una observaci\xF3n",
+                                                onChange: this.handleChange })
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group text-right" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "button",
+                                                { type: "button", className: "btn btn-secondary", "data-dismiss": "modal" },
+                                                "Cerrar"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "button",
+                                                { type: "submit", className: "btn btn-primary ml-2" },
+                                                "Guardar cambios"
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return PendienteDescarga;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (PendienteDescarga);
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(113);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(96)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./PendienteDescarga.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./PendienteDescarga.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(95)(false);
+// imports
+
+
+// module
+exports.push([module.i, "button#add_descarga {\r\n    border-radius: 50%;\r\n    margin-right: 5px;\r\n}", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

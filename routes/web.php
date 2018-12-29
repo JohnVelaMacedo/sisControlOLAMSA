@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home_user', 'HomeController@getUser');
 
 // Rutas Evaluador
-Route::resource('/pendiente_descarga', 'PendienteDescargaController');
+Route::resource('/fecha_hora_descarga', 'FechaHoraDescargaController');
 
 // Rutas alternas
 // Route::view('/{path?}', 'app');

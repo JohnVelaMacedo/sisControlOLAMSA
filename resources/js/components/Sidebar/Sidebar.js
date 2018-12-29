@@ -90,48 +90,23 @@ class Sidebar extends Component {
 				break;
 			case 4:
 				aside = (
-					<div>
 						<li className="nav-item has-treeview">
 							<a href="#" className="nav-link">
 								<i className="nav-icon fa fa-folder"></i>
 								<p>
-									Inicio de Descarga
+									Pendiente Descarga
                                     <i className="fa fa-angle-right right"></i>
 								</p>
 							</a>
 							<ul className="nav nav-treeview" style={{ paddingLeft: '6px' }}>
 								<li className="nav-item">
-									<Link to="/inicio-descarga" className="nav-link">
+									<Link to="/pendiente-descarga" className="nav-link">
 										<i className="fa fa-list-ol nav-icon"></i>
-										<p>Agregar Inicio de Descarga</p>
+										<p>Listado</p>
 									</Link>
 								</li>
 							</ul>
 						</li>
-						<li className="nav-item has-treeview">
-							<a href="#" className="nav-link">
-								<i className="nav-icon fa fa-folder"></i>
-								<p>
-									Fin de Descarga
-                                    <i className="fa fa-angle-right right"></i>
-								</p>
-							</a>
-							<ul className="nav nav-treeview" style={{ paddingLeft: '6px' }}>
-								<li className="nav-item">
-									<Link to="/ejemplo" className="nav-link">
-										<i className="fa fa-list-ol nav-icon"></i>
-										<p>Agregar Fin de Descarga</p>
-									</Link>
-								</li>
-							</ul>
-						</li>
-						<li className="nav-item">
-							<a href="#" className="nav-link">
-								<i className="nav-icon fa fa-list" aria-hidden="true"></i>
-								<p>Listado</p>
-							</a>
-						</li>
-					</div>
 				);
 				break;
 			default:

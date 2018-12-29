@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\TipoVehiculo;
+use App\FechaHoraDescarga;
+use App\PendienteDescarga;
+use App\Persona;
 
-class PendienteDescargaController extends Controller
+class FechaHoraDescargaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +18,11 @@ class PendienteDescargaController extends Controller
     public function index()
     {
         $tipo_vehiculo = TipoVehiculo::all();
-        return compact('tipo_vehiculo');
+        $pendiente_descarga = PendienteDescarga::all();
+        $fecha_hora_descarga = FechaHoraDescarga::all();
+        $persona = Persona::all();
+
+        return compact('tipo_vehiculo', 'pendiente_descarga', 'fecha_hora_descarga', 'persona');
     }
 
     /**

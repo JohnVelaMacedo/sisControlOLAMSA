@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import "./Sidebar.css";
+import OLAMSA from "../../olamsa.png";
 
 class Sidebar extends Component {
 	render() {
@@ -127,7 +128,8 @@ class Sidebar extends Component {
 		return (
 			<aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ minHeight: '600px' }}>
 				<Link className="brand-link text-center" to="/home">
-					<span className="brand-text font-weight-light">Control</span>
+					<img src={OLAMSA} alt="Olamsa" className="brand-image img-circle elevation-3" style={{opacity: '.8'}} />
+					<span className="brand-text font-weight-light">Sistema de Control</span>
 				</Link>
 				<div className="sidebar">
 					<nav className="mt-2">

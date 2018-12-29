@@ -7,6 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>OLAMSA S.A</title>
+    {{-- FavIcon --}}
+    <link rel="shortcut icon" href="{{ asset('archivos/favicon.ico')}} " type="image/x-icon">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>

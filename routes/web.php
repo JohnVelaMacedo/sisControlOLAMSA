@@ -23,6 +23,12 @@ Route::get('/home_user', 'HomeController@getUser');
 // Rutas Evaluador
 Route::resource('/fecha_hora_descarga', 'FechaHoraDescargaController');
 
+// rutas tipo persona
+Route::resource('/tipoPersona', 'TipoPersonaController');
+
+//ruta Persona
+Route::post('/agregarPersona','PersonaController@store')->name('agregarPersona');
+
 // Rutas alternas
 // Route::view('/{path?}', 'app');
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');

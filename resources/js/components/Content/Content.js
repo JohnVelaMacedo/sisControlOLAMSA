@@ -4,6 +4,7 @@ import PendienteDescarga from "../Users/Evaluador/PendienteDescarga";
 import Home from "../Home";
 import Registro from "../agenteGarita/pendienteIngreso/registro";
 import Registrar from "../administrador/usuario/registrar";
+import Lista from "../administrador/usuario/lista";
 
 class Content extends Component {
     render() {
@@ -16,6 +17,7 @@ class Content extends Component {
                         {/* <Route path="/inicio-descarga" component={InicioDescarga} /> */}
                         <Route path="/agenteRegistro" component={Registro} />
                         <Route path="/adminRegUsu" component={Registrar} />
+                        <Route path="/listaUsu" component={Lista} />
                     </Switch>
                 </section>
             </div>

@@ -21,22 +21,17 @@ class Sidebar extends Component {
 						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
 							<li className="nav-item">
 								<Link to="/adminRegUsu" className="nav-link">
-									<i className="fa fa-list-ol nav-icon"></i>
+								<i className="fa fa-plus-square nav-icon"></i>
 									<p>Agregar</p>
 								</Link>
 							</li>
 							<li className="nav-item">
-								<Link to="/ejemplo2" className="nav-link">
+								<Link to="/listaUsu" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
 									<p>Lista de Usuarios</p>
 								</Link>
 							</li>
-							<li className="nav-item">
-								<Link to="/ejemplo2" className="nav-link">
-									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Actualizar</p>
-								</Link>
-							</li>
+							
 						</ul>
 					</li>
 				);

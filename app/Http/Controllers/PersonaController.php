@@ -15,7 +15,8 @@ class PersonaController extends Controller
      */
     public function index()
     {
-        //
+        $Personas = Persona::all();
+        return compact('Personas');
     }
 
     /**
@@ -51,6 +52,7 @@ class PersonaController extends Controller
             $user=User::updateOrCreate(
                 ['id'=>$request['persona']['id']],
                 [
+                    'idPersona'             =>$persona->id,
                     'user'                  =>$request['persona']['dni'],
                     'tipo'                  =>$request['persona']['tipoP'],
                     'password'              =>bcrypt($request['password']['password']),
@@ -105,8 +107,15 @@ class PersonaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($dni)
     {
-        //
+        $p =Persona::where('dni', $dni)->get();
+        $eliminarP=Persona::where('dni',$dni)->delete();
+        $eliminarUsu=User::where('idPersona',$p->id)->delete();
+        if($eliminarP){
+            return "OK";
+        }else{
+            return "FAIL";
+        }
     }
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { WithContext as ReactTags } from 'react-tag-input';
+import Swal from 'sweetalert2';
 
 class Registro extends React.Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class Registro extends React.Component {
                     password:   '',
                     repassword: ''
                 },
-                tipoPersona:[  
+                tipoPersona:[
                 ],
                 hidePass:false,
       }
@@ -38,13 +38,13 @@ class Registro extends React.Component {
     handleChange(event) {
         const nombre=   event.target.name;
         const valor =   event.target.value;
-        if(nombre=="tipoP" && valor=="5"){
+        if(nombre=="tipoP" && valor!="5"){
             this.setState({
-                hidePass:true
+                hidePass:false
             });
         }else{
             this.setState({
-                hidePass:false
+                hidePass:true
             });
         }
       this.setState(
@@ -77,34 +77,35 @@ class Registro extends React.Component {
                 password:this.state.claves
             })
             .then(data => {
+                console.log(data);
                 if (data.data == 'OK') {
-                    // swal({
-                    //     position: 'top-end',
-                    //     type: 'success',
-                    //     title: 'Datos ingresados correctamente',
-                    //     showConfirmButton: false,
-                    //     timer: 2000
-                    // });
+                    Swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Datos ingresados correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                     setTimeout(() => {
                         location.reload();
                     }, 1500);
                 } else {
-                    // swal({
-                    //     position: 'top-end',
-                    //     type: 'error',
-                    //     title: 'No se pudo agregar',
-                    //     showConfirmButton: false,
-                    //     timer: 2000
-                    // });
+                    Swal({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'No se pudo agregar',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                 }
             }).catch(error => {
-                // swal({
-                //     position: 'top-end',
-                //     type: 'error',
-                //     title: 'Sucedió un error, comuníquese con el Administrador',
-                //     showConfirmButton: false,
-                //     timer: 2000
-                // });
+                Swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Sucedió un error, comuníquese con el Administrador',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
                 console.log(`Error: ${error}`);
             });
     }
@@ -115,7 +116,7 @@ class Registro extends React.Component {
               <div className="container-fluid">
                 <div className="card card-info">
                     <div className="card-header">
-                        <h3 className="card-title">Registro</h3>
+                        <h3 className="card-title">Agregar Nueva Persona</h3>
                         <div className="card-tools">
                         <button type="button" className="btn btn-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
                         <button type="button" className="btn btn-tool" data-widget="remove"><i className="fa fa-remove"></i></button>
@@ -168,8 +169,9 @@ class Registro extends React.Component {
                                         <div className="form-group">
                                             <label>Tipo Persona</label>
                                             <select className="form-control" id="tipoP" name="tipoP" value={this.state.persona.tipoP} onChange={this.handleChange}>
+                                            <option value='0'> ------ </option>
                                             {this.state.tipoPersona.map((e, key) => {
-                                            return <option key={key} value={e.id}>{e.descripcion}</option>;
+                                            return <option key={key+1} value={e.id}>{e.descripcion}</option>;
                                             })}
                                             </select>
                                             <small className="form-text text-muted">Seleccione el tipo de persona que desea registrar.</small>

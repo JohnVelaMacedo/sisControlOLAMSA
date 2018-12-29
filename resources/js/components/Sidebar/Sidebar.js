@@ -13,21 +13,27 @@ class Sidebar extends Component {
 						<a href="#" className="nav-link">
 							<i className="nav-icon fa fa-folder"></i>
 							<p>
-								Administrador
+								Usuarios
                                 <i className="fa fa-angle-right right"></i>
 							</p>
 						</a>
 						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
 							<li className="nav-item">
-								<Link to="/ejemplo" className="nav-link">
+								<Link to="/adminRegUsu" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Ejemplo</p>
+									<p>Agregar</p>
 								</Link>
 							</li>
 							<li className="nav-item">
 								<Link to="/ejemplo2" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Ejemplo 2</p>
+									<p>Lista de Usuarios</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/ejemplo2" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Actualizar</p>
 								</Link>
 							</li>
 						</ul>
@@ -63,29 +69,35 @@ class Sidebar extends Component {
 				break;
 			case 3:
 				aside = (
-					<li className="nav-item has-treeview">
-						<a href="#" className="nav-link">
+					<div>
+						<li className="nav-item has-treeview">
+						<Link to="agenteRegistro" className="nav-link">
 							<i className="nav-icon fa fa-folder"></i>
 							<p>
-								Agente Garita
+								Registro
                                 <i className="fa fa-angle-right right"></i>
 							</p>
-						</a>
-						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
-							<li className="nav-item">
-								<Link to="/ejemplo" className="nav-link">
-									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Ejemplo</p>
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link to="/ejemplo2" className="nav-link">
-									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Ejemplo 2</p>
-								</Link>
-							</li>
-						</ul>
+						</Link>
 					</li>
+					<li className="nav-item has-treeview">
+						<Link to="#" className="nav-link">
+							<i className="nav-icon fa fa-folder"></i>
+							<p>
+								Pendiente Ingreso
+                                <i className="fa fa-angle-right right"></i>
+							</p>
+						</Link>
+					</li>
+					<li className="nav-item has-treeview">
+						<Link to="#" className="nav-link">
+							<i className="nav-icon fa fa-folder"></i>
+							<p>
+								Pendiente Salida
+                                <i className="fa fa-angle-right right"></i>
+							</p>
+						</Link>
+					</li>
+					</div>
 				);
 				break;
 			case 4:

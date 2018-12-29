@@ -28,7 +28,7 @@ Route::resource('/tipoPersona', 'TipoPersonaController');
 
 //ruta Persona
 Route::post('/agregarPersona','PersonaController@store')->name('agregarPersona');
-Route::post('/eliminarPersona/{dni}','PersonaController@store')->name('agregarPersona');
+Route::get('/eliminarPersona/{dni}','PersonaController@destroy')->name('eliminarPersona');
 Route::resource('/listaPersona','PersonaController');
 
 // Rutas alternas

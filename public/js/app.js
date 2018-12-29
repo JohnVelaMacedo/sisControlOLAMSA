@@ -99429,7 +99429,7 @@ var Lista = function (_React$Component) {
     };
 
     axios.get('listaPersona').then(function (data) {
-      console.log(data);
+      //console.log(data);
       _this.setState({ data: [].concat(_toConsumableArray(data.data.Personas)) });
     }).catch(function (error) {
       console.error(error);
@@ -99461,12 +99461,11 @@ var Lista = function (_React$Component) {
       }).then(function (result) {
         if (result.value) {
           axios.get("/eliminarPersona/" + e.dni).then(function (data) {
+            console.log(data.data);
             if (data.data == "OK") {
-              swal('Eliminado!', 'El sector ha sido eliminado.', 'success');
+              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El sector ha sido eliminado.', 'success');
               setTimeout(function () {
-                // location.reload();
-
-                _this2.getData();
+                location.reload();
               }, 1500);
             } else {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({

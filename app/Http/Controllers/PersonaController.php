@@ -109,7 +109,7 @@ class PersonaController extends Controller
      */
     public function destroy($dni)
     {
-        $p =Persona::where('dni', $dni)->get();
+        $p =\DB::table('persona')->where('dni', $dni)->first();
         $eliminarP=Persona::where('dni',$dni)->delete();
         $eliminarUsu=User::where('idPersona',$p->id)->delete();
         if($eliminarP){

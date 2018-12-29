@@ -13,7 +13,7 @@ class Lista extends React.Component {
 
       axios.get('listaPersona')
         .then(data => {
-            console.log(data);
+            //console.log(data);
             this.setState({data: [...data.data.Personas]});
         }).catch(error => {
             console.error(error);
@@ -38,16 +38,15 @@ class Lista extends React.Component {
             if (result.value) {
                 axios.get(`/eliminarPersona/${e.dni}`)
                     .then(data => {
+                      console.log(data.data);
                     if(data.data=="OK"){
-                        swal(
+                        Swal(
                         'Eliminado!',
                          'El sector ha sido eliminado.',
                          'success'
                             );
                         setTimeout(() => {
-                            // location.reload();
-                            
-                            this.getData();
+                            location.reload();
                         }, 1500);
                     }else{
                       Swal({

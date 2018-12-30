@@ -50,7 +50,7 @@ class PersonaController extends Controller
         );
         if($request['persona']['tipoP']!="5"){
             $user=User::updateOrCreate(
-                ['id'=>$request['persona']['id']],
+                ['id'=>$persona->id],
                 [
                     'idPersona'             =>$persona->id,
                     'user'                  =>$request['persona']['dni'],
@@ -59,6 +59,8 @@ class PersonaController extends Controller
                     'remember_token'        =>null
                 ]
             );
+        }else{
+            $eliminarUsu=User::where('idPersona',$persona->id)->delete();
         }
         if($persona){
             return "OK";
@@ -84,9 +86,11 @@ class PersonaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($dni)
     {
-        //
+        $p =\DB::table('persona')->where('dni', $dni)->first();
+        $u =\DB::table('user')->where('idPersona', $p->id)->first();
+        return compact('p','u');
     }
 
     /**

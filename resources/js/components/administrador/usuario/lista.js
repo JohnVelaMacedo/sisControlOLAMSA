@@ -3,12 +3,15 @@ import { render } from "react-dom";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Swal from 'sweetalert2';
+import Registro from './registrar'
 
 class Lista extends React.Component {
     constructor() {
       super();
+      this.registro = React.createRef();
       this.state = {
-        data: []
+        data: [],
+        dniEdit:'primer'
       };
 
       axios.get('listaPersona')
@@ -21,7 +24,11 @@ class Lista extends React.Component {
 
     }
     editarP(e){
-        console.log(e);
+        // console.log(e);
+        this.setState({
+          dniEdit: e
+        });
+        this.registro.current.fillForm(e);
     }
     eliminarP(e){
         // console.log(e);
@@ -137,7 +144,8 @@ class Lista extends React.Component {
                     accessor: "tipo",
                     maxWidth: 100,
                     Cell: row =>(
-                        <button className="form-control btn btn-primary" onClick={()=>this.editarP(row.row)}>Editar</button>
+                        <button className="form-control btn btn-primary" data-toggle="modal" 
+                        data-target="#exampleModal" onClick={()=>this.editarP(row.row)}>Editar</button>
                     )
                   }
                 ]
@@ -145,20 +153,26 @@ class Lista extends React.Component {
             ]}
             defaultPageSize={10}
             className="-striped -highlight"
-            
-            // getTdProps={(state, rowInfo, column, instance) => {
-            //     return {
-            //       onClick: (e, handleOriginal) => {
-            //         console.log("It was in this row:", rowInfo.original);
-            //         if (handleOriginal) {
-            //             handleOriginal();
-            //           }
-            //       }
-            //     };
-            //   }}
-
           />
           
+          {/* MODAL AGREGAR */}
+          <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog modal-lg" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLabel">Editar Persona</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <Registro ref={this.registro} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/* MODAL EDITAR */}
+
         </div>
       );
     }

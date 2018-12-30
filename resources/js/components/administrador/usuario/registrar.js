@@ -21,7 +21,10 @@ class Registro extends React.Component {
                 tipoPersona:[
                 ],
                 hidePass:false,
+                isSubmitDisabled:true,
+                msjPass:''
       }
+      
 //      recuperar tipos de personas para el select 
         axios.get('tipoPersona')
         .then(data => {
@@ -35,26 +38,54 @@ class Registro extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    fillForm(e){
+        console.log(e);
+        axios.get(`/getPersona/${e.dni}`)
+        .then(data => {
+            this.setState({persona: data.data.p});
+            // this.setState({claves: data.data.u});
+        }).catch(error => {
+            console.error(error);
+        });
+    }
     handleChange(event) {
         const nombre=   event.target.name;
         const valor =   event.target.value;
-        if(nombre=="tipoP" && valor!="5"){
-            this.setState({
-                hidePass:false
-            });
-        }else{
-            this.setState({
-                hidePass:true
-            });
+        if(nombre=="tipoP"){
+            if(valor!="5"){
+                this.setState({
+                    hidePass:false,
+                    isSubmitDisabled:true
+                });
+            }else{
+                this.setState({
+                    hidePass:true,
+                    isSubmitDisabled:false
+                });
+            }
         }
-      this.setState(
-          prevState=>({
-          persona:{
-            ...prevState.persona,
-            [nombre]: valor
-          }
-        })
-        );
+        if(nombre=="dni"){
+            if(!isNaN(valor)){
+                this.setState(
+                    prevState=>({
+                    persona:{
+                      ...prevState.persona,
+                      [nombre]: valor
+                    }
+                  })
+                  ); 
+            }
+        }else{
+            this.setState(
+                prevState=>({
+                persona:{
+                  ...prevState.persona,
+                  [nombre]: valor
+                }
+              })
+              );
+        }
+      
     }
     handleChangePass(event) {
         const nombre=   event.target.name;
@@ -67,6 +98,24 @@ class Registro extends React.Component {
           }
         })
         );
+        if(valor==this.state.claves.repassword || this.state.claves.password==valor){
+            if(valor!=''){
+                this.setState({
+                    isSubmitDisabled:false,
+                    msjPass:'Contraseñas correctas!'
+                   }); 
+            }else{
+                this.setState({
+                    isSubmitDisabled:true,
+                    msjPass:''
+                   }); 
+            }
+         }else{
+             this.setState({
+                 isSubmitDisabled:true,
+                 msjPass:'Contraseñas no coinciden!'
+                }); 
+         }
     }
   
     handleSubmit(event) {
@@ -93,7 +142,7 @@ class Registro extends React.Component {
                     Swal({
                         position: 'top-end',
                         type: 'error',
-                        title: 'No se pudo agregar',
+                        title: 'No se pudo agregar, comuníquese con el Administrador',
                         showConfirmButton: false,
                         timer: 2000
                     });
@@ -102,7 +151,7 @@ class Registro extends React.Component {
                 Swal({
                     position: 'top-end',
                     type: 'error',
-                    title: 'Sucedió un error, comuníquese con el Administrador',
+                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
                     showConfirmButton: false,
                     timer: 2000
                 });
@@ -130,27 +179,27 @@ class Registro extends React.Component {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label htmlFor="nombre">Nombres</label>
-                                            <input type="text" className="form-control" id="nombre" name="nombre" value={this.state.persona.nombre} onChange={this.handleChange} placeholder="Nombres"/>
+                                            <input type="text" className="form-control" id="nombre" name="nombre" value={this.state.persona.nombre} onChange={this.handleChange} placeholder="Nombres" required/>
                                             <small className="form-text text-muted">Ingrese nombre de la persona.</small>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="apellidos">Apellidos</label>
-                                            <input type="text" className="form-control" id="apellidos" name="apellidos" value={this.state.persona.apellidos} onChange={this.handleChange} placeholder="Apellidos"/>
+                                            <input type="text" className="form-control" id="apellidos" name="apellidos" value={this.state.persona.apellidos} onChange={this.handleChange} placeholder="Apellidos" required/>
                                             <small className="form-text text-muted">Ingrese apellido completo de la persona.</small>
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="direccion">Dirección</label>
-                                            <input type="text" className="form-control" id="direccion" name="direccion" value={this.state.persona.direccion} onChange={this.handleChange} placeholder="Dirección"/>
+                                            <input type="text" className="form-control" id="direccion" name="direccion" value={this.state.persona.direccion} onChange={this.handleChange} placeholder="Dirección" required/>
                                             <small className="form-text text-muted">Ingrese la dirección de la persona.</small>
                                         </div>
                                         <div className="form-group" style={this.state.hidePass?{display:'none'}:{}} >
-                                        <label>Contraseña</label>
-                                            <input className="form-control" id="password" name="password" type="password" value={this.state.claves.password} onChange={this.handleChangePass} placeholder="Contraseña"/>
+                                        <label>Contraseña</label> <small style={this.state.isSubmitDisabled?{color:'red'}:{color:'green'}}><strong>{this.state.msjPass}</strong></small> 
+                                            <input className="form-control" id="password" name="password" type="password" value={this.state.claves.password} onChange={this.handleChangePass} placeholder="Contraseña" required={this.state.hidePass?false:true} />
                                             <small className="form-text text-muted">Ingrese contraseña para el usuario.</small>
                                         </div>
                                         <div className="form-group" style={this.state.hidePass?{display:'none'}:{}} >
                                         <label>Verifica Contraseña</label>
-                                            <input className="form-control" id="repassword" name="repassword" type="password" value={this.state.claves.repassword} onChange={this.handleChangePass} placeholder="Contraseña"/>
+                                            <input className="form-control" id="repassword" name="repassword" type="password" value={this.state.claves.repassword} onChange={this.handleChangePass} placeholder="Contraseña" required={this.state.hidePass?false:true}/>
                                             <small className="form-text text-muted">Escriba la contraseña nuevamente.</small>
                                         </div>
                                     </div>
@@ -158,12 +207,12 @@ class Registro extends React.Component {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label htmlFor="dni">Número de Documento</label>
-                                            <input type="text" id="dni" name="dni" value={this.state.persona.dni} onChange={this.handleChange} className="form-control" placeholder="Número de documento"/>
+                                            <input type="text" pattern="^-?[0-9]\d*\.?\d*$" id="dni" name="dni" value={this.state.persona.dni} onChange={this.handleChange} className="form-control" placeholder="Número de documento" required maxLength="8"/>
                                             <small className="form-text text-muted">Ingrese el dni de la persona.</small>
                                         </div>
                                         <div className="form-group">
                                         <label>Correo electrónico</label>
-                                            <input className="form-control" id="email" name="email" type="text" value={this.state.persona.email} onChange={this.handleChange} placeholder="Correo electrónico"/>
+                                            <input className="form-control" id="email" name="email" type="email" value={this.state.persona.email} onChange={this.handleChange} placeholder="Correo electrónico"/>
                                             <small className="form-text text-muted">Ingrese correo electrónico.</small>
                                         </div>
                                         <div className="form-group">

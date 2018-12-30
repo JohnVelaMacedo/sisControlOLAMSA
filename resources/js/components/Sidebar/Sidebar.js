@@ -10,9 +10,10 @@ class Sidebar extends Component {
 		switch (tipo) {
 			case 1:
 				aside = (
-					<li className="nav-item has-treeview">
+					<div>
+						<li className="nav-item has-treeview">
 						<a href="#" className="nav-link">
-							<i className="nav-icon fa fa-folder"></i>
+							<i className="nav-icon fa fa-user-circle-o"></i>
 							<p>
 								Usuarios
                                 <i className="fa fa-angle-right right"></i>
@@ -34,6 +35,55 @@ class Sidebar extends Component {
 							
 						</ul>
 					</li>
+					<li className="nav-item has-treeview">
+						<a href="#" className="nav-link">
+							<i className="nav-icon fa fa-car"></i>
+							<p>
+								Tipo de Vehículo
+                                <i className="fa fa-angle-right right"></i>
+							</p>
+						</a>
+						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+							<li className="nav-item">
+								<Link to="/adminRegTipoVehiculo" className="nav-link">
+								<i className="fa fa-plus-square nav-icon"></i>
+									<p>Agregar</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/listaTipoV" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Lista de tipos de vehículos</p>
+								</Link>
+							</li>
+							
+						</ul>
+					</li>
+					<li className="nav-item has-treeview">
+						<a href="#" className="nav-link">
+							<i className="nav-icon fa fa-users"></i>
+							<p>
+								Proveedor
+                                <i className="fa fa-angle-right right"></i>
+							</p>
+						</a>
+						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+							<li className="nav-item">
+								<Link to="/adminRegProv" className="nav-link">
+								<i className="fa fa-plus-square nav-icon"></i>
+									<p>Agregar</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/listaProv" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Lista de Proveedores</p>
+								</Link>
+							</li>
+							
+						</ul>
+					</li>
+					</div>
 				);
 				break;
 			case 2:

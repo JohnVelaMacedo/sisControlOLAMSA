@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Swal from 'sweetalert2';
 
-class Registro extends React.Component {
+class RegistrarPersona extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -52,15 +52,33 @@ class Registro extends React.Component {
         const nombre=   event.target.name;
         const valor =   event.target.value;
         if(nombre=="tipoP"){
-            if(valor!="5"){
-                this.setState({
-                    hidePass:false,
-                    isSubmitDisabled:true
-                });
-            }else{
+            if(valor=="5"){
                 this.setState({
                     hidePass:true,
-                    isSubmitDisabled:false
+                    isSubmitDisabled:false,
+                    claves:{
+                        password:'',
+                        repassword:''
+                    },
+                    msjPass:''
+                });
+            }
+            if(valor=="1" || valor=="2" || valor=="3" || valor=="4" ){
+                if(this.state.isSubmitDisabled || this.state.hidePass){
+                    this.setState({
+                        hidePass:false,
+                        isSubmitDisabled:true
+                    });
+                }
+            }
+            if(valor=="0"){
+                this.setState({
+                    isSubmitDisabled:true,
+                    claves:{
+                        password:'',
+                        repassword:''
+                    },
+                    msjPass:''
                 });
             }
         }
@@ -163,7 +181,7 @@ class Registro extends React.Component {
       return (
           <section className="content">
               <div className="container-fluid">
-                <div className="card card-info">
+                <div className="card card-primary">
                     <div className="card-header">
                         <h3 className="card-title">Agregar Nueva Persona</h3>
                         <div className="card-tools">
@@ -207,7 +225,7 @@ class Registro extends React.Component {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label htmlFor="dni">Número de Documento</label>
-                                            <input type="text" pattern="^-?[0-9]\d*\.?\d*$" id="dni" name="dni" value={this.state.persona.dni} onChange={this.handleChange} className="form-control" placeholder="Número de documento" required maxLength="8"/>
+                                            <input type="text" id="dni" name="dni" value={this.state.persona.dni} onChange={this.handleChange} className="form-control" placeholder="Número de documento" required maxLength="8"/>
                                             <small className="form-text text-muted">Ingrese el dni de la persona.</small>
                                         </div>
                                         <div className="form-group">
@@ -238,5 +256,4 @@ class Registro extends React.Component {
       );
     }
   }
-
-  export default Registro;
+  export default RegistrarPersona;

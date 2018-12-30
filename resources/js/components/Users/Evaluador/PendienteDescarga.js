@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
+import ReactTable from "react-table";
+import swal from "sweetalert2";
+import $ from "jquery";
 import './PendienteDescarga.css';
 
 class PendienteDescarga extends Component {
@@ -25,7 +28,43 @@ class PendienteDescarga extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
+        axios.post('fecha_hora_descarga', {
+            fecha_hora_descarga: this.state.fecha_hora_descarga_datos
+        }).then(data => {
+            if (data.data === 'bien') {
+                swal({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Datos agregados correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'No se pudo agregar los datos',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            setTimeout(() => {
+                $('#exampleModal').modal('hide');
+            }, 1800);
+        }).catch(error => {
+            swal({
+                position: 'top-end',
+                type: 'error',
+                title: 'Fallo externo. Comuníquese con el administrador',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setTimeout(() => {
+                $('#exampleModal').modal('hide');
+            }, 1800);
+        });
     }
 
     handleChange(e) {
@@ -80,6 +119,41 @@ class PendienteDescarga extends Component {
                     <option>No hay datos disponibles</option>
                 </select>
             );
+        
+        // React Table
+        const data = [{
+            name: 'Tanner Linsley',
+            age: 26,
+            friend: {
+                name: 'Jason Maurer',
+                age: 23
+            }
+        }, {
+            name: 'Tinna Turner',
+            age: 28,
+            friend: {
+                name: 'Jacob Kowalski',
+                age: 21
+            }
+        }];
+
+        const columns = [{
+            Header: 'PLACA'
+        }, {
+            Header: 'TRANSPORTISTA'
+        }, {
+            Header: 'TIPO DE VEHICULO'
+        }, {
+            Header: 'OBSERVACIONES'
+        }, {
+            Header: 'FECHA/HORA (INICIO)'
+        }, {
+            Header: 'FECHA/HORA (FIN)'
+        }, {
+            Header: 'ESTADO'
+        },{
+            Header: 'ACCIONES'
+        }]
 
         return (
             <div className="card">
@@ -93,25 +167,18 @@ class PendienteDescarga extends Component {
                     </h3>
                 </div>
                 <div className="card-body">
-                    <div className="table-responsive">
-                        <table className="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>PLACA</th>
-                                    <th>TRANSPORTISTA</th>
-                                    <th>TIPO DE VEHICULO</th>
-                                    <th>OBSERVACIONES</th>
-                                    <th>FECHA/HORA (INICIO)</th>
-                                    <th>FECHA/HORA (FIN)</th>
-                                    <th>ESTADO</th>
-                                    <th>ACCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    </div>
+                    <ReactTable 
+                        data={data} 
+                        columns={columns} 
+                        loadingText="Cargando..."
+                        noDataText="No hay filas encontradas"
+                        previousText='Anterior'
+                        nextText='Siguiente'
+                        pageText='Página'
+                        ofText="de"
+                        rowsText="filas" 
+                    />
+                    
                     {/* MODAL AGREGAR */}
                     <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">

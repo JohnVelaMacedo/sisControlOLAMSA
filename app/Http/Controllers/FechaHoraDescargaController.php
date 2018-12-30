@@ -43,7 +43,21 @@ class FechaHoraDescargaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pendiente_descarga = PendienteDescarga::create([
+            'tipoVehiculo' => $request->fecha_hora_descarga['tipoVehiculo'],
+            'transportista' => $request->fecha_hora_descarga['transportista'],
+            'checkInicioFin' => 1,
+            'placa' => $request->fecha_hora_descarga['placa']
+        ]);
+
+        $fecha_hora_descarga = FechaHoraDescarga::create([
+            'id_pendienteDescarga' => $pendiente_descarga->id,
+            'observaciones' => $request->fecha_hora_descarga['observaciones'],
+            'fechaReg' => $request->fecha_hora_descarga['fechaReg'],
+            'horaReg' => $request->fecha_hora_descarga['horaReg']
+        ]);
+
+        return $fecha_hora_descarga && $pendiente_descarga ? "bien" : "error";
     }
 
     /**

@@ -25,6 +25,8 @@ Route::resource('/fecha_hora_descarga', 'FechaHoraDescargaController', [
     'except' => ['create', 'show', 'edit']
 ])->middleware('auth');
 
+Route::post('/addPendienteDescargaFin', 'FechaHoraDescargaController@addPendiente')->middleware('auth');
+
 // rutas tipo persona
 Route::resource('/tipoPersona', 'TipoPersonaController');
 

@@ -24,7 +24,7 @@ class FechaHoraDescargaController extends Controller
                             ->join('pendientedescarga_inicio_fin', 'fechahoradescarga.id_pendienteDescarga', '=', 'pendientedescarga_inicio_fin.id')
                             ->join('tipovehiculo', 'pendientedescarga_inicio_fin.tipoVehiculo', '=', 'tipovehiculo.id')
                             ->join('persona', 'pendientedescarga_inicio_fin.transportista', '=', 'persona.dni')
-                            ->select('fechahoradescarga.id', 'fechahoradescarga.id_pendienteDescarga', 'fechahoradescarga.observaciones',
+                            ->select('fechahoradescarga.id', 'fechahoradescarga.id_pendienteDescarga',
                             'fechahoradescarga.fechaReg', 'fechahoradescarga.horaReg', 'fechahoradescarga.fechafinReg', 
                             'fechahoradescarga.horafinReg', 'pendientedescarga_inicio_fin.tipoVehiculo', 'tipovehiculo.descripcion', 
                             'pendientedescarga_inicio_fin.transportista','pendientedescarga_inicio_fin.checkInicioFin', 
@@ -57,6 +57,25 @@ class FechaHoraDescargaController extends Controller
         ]);
 
         return $fecha_hora_descarga && $pendiente_descarga ? "bien" : "error";
+    }
+
+    public function addPendiente(Request $request)
+    {
+        $id = $request->pdf['id_pendienteDescarga'];
+        $fecha_hora_descarga = FechaHoraDescarga::where('id_pendienteDescarga', $id)->first();
+        $create_fecha_hora_descarga = FechaHoraDescarga::create([
+            'id_pendienteDescarga' => $id,
+            'observaciones' => $request->pdf['observaciones'],
+            'fechaReg' => $fecha_hora_descarga->fechaReg,
+            'horaReg' => $fecha_hora_descarga->horaReg,
+            'fechafinReg' => $request->pdf['fechafinReg'],
+            'horafinReg' => $request->pdf['horafinReg']
+        ]);
+
+        $pendiente_descarga = PendienteDescarga::where('id', $id)
+                            ->update(['checkInicioFin' => 0]);
+
+        return $create_fecha_hora_descarga && $pendiente_descarga ? "bien" : "error";
     }
 
     /**

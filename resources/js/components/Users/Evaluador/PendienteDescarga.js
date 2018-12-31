@@ -9,13 +9,16 @@ class PendienteDescarga extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeEdit = this.handleChangeEdit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleEditPendiente = this.handleEditPendiente.bind(this);
         this.state = {
             tipo_vehiculo: [],
             fecha_hora_descarga: [],
             persona: [],
+            id_pendienteDescargas: null,
             fecha_hora_descarga_datos: { 
                 observaciones: null,
                 fechaReg: null,
@@ -24,13 +27,53 @@ class PendienteDescarga extends Component {
                 tipoVehiculo: null,
                 placa: null
             },
+            fecha_hora_descarga_fin_datos: {
+                id_pendienteDescarga: null,
+                fechafinReg: null,
+                horafinReg: null,
+                observaciones: null,
+            },
             errorPlaca: ""
         };
     }
 
+    handleSubmitEdit(e) {
+        e.preventDefault();
+        var pedefi = this.state.fecha_hora_descarga_fin_datos;
+
+        axios.post('addPendienteDescargaFin', {
+            pdf: pedefi
+        }).then(data => console.log(data))
+        .catch(error => console.error(error));
+    }
+
+    handleChangeEdit(e) {
+        var id = this.state.id_pendienteDescargas;
+        const name = e.target.id;
+        const value = e.target.value;
+        
+        this.setState(prevState => ({
+            fecha_hora_descarga_fin_datos: {
+                ...prevState.fecha_hora_descarga_fin_datos,
+                [name]: value
+            }
+        }));
+
+        this.setState(prevState => ({
+            fecha_hora_descarga_fin_datos: {
+                ...prevState.fecha_hora_descarga_fin_datos,
+                id_pendienteDescarga: id
+            }
+        }));
+    }
+
     handleEditPendiente(data) {
-        console.log(data);
+        this.setState({id_pendienteDescargas: data});
         $('#editModal').modal('show');
+        var hide = $('#editModal').modal('hide');
+        var editModal = document.getElementById('formEditSubmit');
+
+        if (hide) editModal.reset();
     }
 
     handleBlur(e) {
@@ -124,7 +167,7 @@ class PendienteDescarga extends Component {
                     fecha_hora_descarga: data.data.fecha_hora_descarga
                 });
             }).catch(error => console.error(error));
-        }
+    }
         
     render() {
         const { tipo_vehiculo, persona, fecha_hora_descarga } = this.state;
@@ -179,9 +222,6 @@ class PendienteDescarga extends Component {
                     accessor: 'descripcion'
                 }
             ]
-        }, {
-            Header: 'OBSERVACIONES',
-            accessor: 'observaciones'
         }, {
             Header: 'FECHA/HORA (INICIO)',
             columns: [
@@ -334,25 +374,25 @@ class PendienteDescarga extends Component {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <form onSubmit={this.handleSubmit} id="formEditSubmit">
+                                    <form onSubmit={this.handleSubmitEdit} id="formEditSubmit">
                                         <div className="form-group row">
                                             <label className="col-sm-4 col-form-label">Fecha de Descarga (Fin):</label>
                                             <div className="col-md-8">
-                                                <input type="date" className="form-control" id="fechaFinReg" min="2018-12-29" required 
-                                                    onChange={this.handleChange} />
+                                                <input type="date" className="form-control" id="fechafinReg" min="2018-12-29" required 
+                                                    onChange={this.handleChangeEdit} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-sm-4 col-form-label">Hora de Descarga (Fin):</label>
                                             <div className="col-md-8">
-                                                <input type="time" className="form-control" min="00:00" required onChange={this.handleChange}
-                                                    id="horaFinReg" />
+                                                <input type="time" className="form-control" min="00:00" required onChange={this.handleChangeEdit}
+                                                    id="horafinReg" />
                                             </div>
                                         </div>
                                         <div className="form-group">
                                             <label>Observaciones</label>
                                             <textarea className="form-control" id="observaciones" placeholder="Ingrese una observación"
-                                                onChange={this.handleChange} maxLength={50} >
+                                                onChange={this.handleChangeEdit} maxLength={50} >
                                             </textarea>
                                         </div>
                                         <div className="form-group text-right">

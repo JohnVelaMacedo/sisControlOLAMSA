@@ -72011,13 +72011,16 @@ var PendienteDescarga = function (_Component) {
         var _this = _possibleConstructorReturn(this, (PendienteDescarga.__proto__ || Object.getPrototypeOf(PendienteDescarga)).call(this, props));
 
         _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleChangeEdit = _this.handleChangeEdit.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.handleSubmitEdit = _this.handleSubmitEdit.bind(_this);
         _this.handleBlur = _this.handleBlur.bind(_this);
         _this.handleEditPendiente = _this.handleEditPendiente.bind(_this);
         _this.state = {
             tipo_vehiculo: [],
             fecha_hora_descarga: [],
             persona: [],
+            id_pendienteDescargas: null,
             fecha_hora_descarga_datos: {
                 observaciones: null,
                 fechaReg: null,
@@ -72026,16 +72029,61 @@ var PendienteDescarga = function (_Component) {
                 tipoVehiculo: null,
                 placa: null
             },
+            fecha_hora_descarga_fin_datos: {
+                id_pendienteDescarga: null,
+                fechafinReg: null,
+                horafinReg: null,
+                observaciones: null
+            },
             errorPlaca: ""
         };
         return _this;
     }
 
     _createClass(PendienteDescarga, [{
+        key: "handleSubmitEdit",
+        value: function handleSubmitEdit(e) {
+            e.preventDefault();
+            var pedefi = this.state.fecha_hora_descarga_fin_datos;
+
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('addPendienteDescargaFin', {
+                pdf: pedefi
+            }).then(function (data) {
+                return console.log(data);
+            }).catch(function (error) {
+                return console.error(error);
+            });
+        }
+    }, {
+        key: "handleChangeEdit",
+        value: function handleChangeEdit(e) {
+            var id = this.state.id_pendienteDescargas;
+            var name = e.target.id;
+            var value = e.target.value;
+
+            this.setState(function (prevState) {
+                return {
+                    fecha_hora_descarga_fin_datos: _extends({}, prevState.fecha_hora_descarga_fin_datos, _defineProperty({}, name, value))
+                };
+            });
+
+            this.setState(function (prevState) {
+                return {
+                    fecha_hora_descarga_fin_datos: _extends({}, prevState.fecha_hora_descarga_fin_datos, {
+                        id_pendienteDescarga: id
+                    })
+                };
+            });
+        }
+    }, {
         key: "handleEditPendiente",
         value: function handleEditPendiente(data) {
-            console.log(data);
+            this.setState({ id_pendienteDescargas: data });
             __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#editModal').modal('show');
+            var hide = __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#editModal').modal('hide');
+            var editModal = document.getElementById('formEditSubmit');
+
+            if (hide) editModal.reset();
         }
     }, {
         key: "handleBlur",
@@ -72223,9 +72271,6 @@ var PendienteDescarga = function (_Component) {
                     Header: 'Tipo',
                     accessor: 'descripcion'
                 }]
-            }, {
-                Header: 'OBSERVACIONES',
-                accessor: 'observaciones'
             }, {
                 Header: 'FECHA/HORA (INICIO)',
                 columns: [{
@@ -72487,7 +72532,7 @@ var PendienteDescarga = function (_Component) {
                                     { className: "modal-body" },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         "form",
-                                        { onSubmit: this.handleSubmit, id: "formEditSubmit" },
+                                        { onSubmit: this.handleSubmitEdit, id: "formEditSubmit" },
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             "div",
                                             { className: "form-group row" },
@@ -72499,8 +72544,8 @@ var PendienteDescarga = function (_Component) {
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 "div",
                                                 { className: "col-md-8" },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "date", className: "form-control", id: "fechaFinReg", min: "2018-12-29", required: true,
-                                                    onChange: this.handleChange })
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "date", className: "form-control", id: "fechafinReg", min: "2018-12-29", required: true,
+                                                    onChange: this.handleChangeEdit })
                                             )
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -72514,8 +72559,8 @@ var PendienteDescarga = function (_Component) {
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 "div",
                                                 { className: "col-md-8" },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "time", className: "form-control", min: "00:00", required: true, onChange: this.handleChange,
-                                                    id: "horaFinReg" })
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "time", className: "form-control", min: "00:00", required: true, onChange: this.handleChangeEdit,
+                                                    id: "horafinReg" })
                                             )
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -72527,7 +72572,7 @@ var PendienteDescarga = function (_Component) {
                                                 "Observaciones"
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { className: "form-control", id: "observaciones", placeholder: "Ingrese una observaci\xF3n",
-                                                onChange: this.handleChange, maxLength: 50 })
+                                                onChange: this.handleChangeEdit, maxLength: 50 })
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             "div",

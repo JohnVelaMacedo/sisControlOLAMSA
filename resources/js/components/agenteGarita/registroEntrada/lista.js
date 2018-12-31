@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Swal from 'sweetalert2';
-import RegistroPendiente from './registrar'
+import RegistroPendiente from './registro'
 
 class ListaRegistroEntrada extends React.Component {
     constructor() {
@@ -14,13 +14,16 @@ class ListaRegistroEntrada extends React.Component {
         id:''
       };
 
-      axios.get('/listaRegistroEntrada')
+      this.getDataTable();
+    }
+
+    getDataTable(){
+        axios.get('/listaRegistroEntrada')
         .then(data => {
             this.setState({data: [...data.data.regEn]});
         }).catch(error => {
             console.error(error);
         });
-
     }
     editarRE(e){
         this.setState({
@@ -51,7 +54,8 @@ class ListaRegistroEntrada extends React.Component {
                          'success'
                             );
                         setTimeout(() => {
-                            location.reload();
+                            // location.reload();
+                            this.getDataTable();
                         }, 1500);
                     }else{
                       Swal({

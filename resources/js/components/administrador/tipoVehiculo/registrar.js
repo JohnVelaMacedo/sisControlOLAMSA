@@ -15,6 +15,14 @@ class RegistrarTipoVehiculo extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    limpiar(){
+        this.setState({
+            tipoVehiculo:{
+                id:'',
+                descripcion:   ''
+            }
+        });
+    }
     fillForm(e){
         axios.get(`/getTipoVehiculo/${e.id}`)
         .then(data => {
@@ -40,41 +48,42 @@ class RegistrarTipoVehiculo extends React.Component {
   
     handleSubmit(event) {
     event.preventDefault();
-    axios.post('/agregarTipoVehiculo', {
-                tipoVehiculo: this.state.tipoVehiculo
-            })
-            .then(data => {
-                console.log(data);
-                if (data.data == 'OK') {
-                    Swal({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'Datos ingresados correctamente',
-                        showConfirmButton: false,
-                        timer: 2000
+            axios.post('/agregarTipoVehiculo', {
+                        tipoVehiculo: this.state.tipoVehiculo
+                    })
+                    .then(data => {
+                        console.log(data);
+                        if (data.data == 'OK') {
+                            Swal({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Datos ingresados correctamente',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            setTimeout(() => {
+                                // location.reload();
+                                this.limpiar();
+                            }, 1500);
+                        } else {
+                            Swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'No se pudo agregar, comuníquese con el Administrador',
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    }).catch(error => {
+                        Swal({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        console.log(`Error: ${error}`);
                     });
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                } else {
-                    Swal({
-                        position: 'top-end',
-                        type: 'error',
-                        title: 'No se pudo agregar, comuníquese con el Administrador',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
-            }).catch(error => {
-                Swal({
-                    position: 'top-end',
-                    type: 'error',
-                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-                console.log(`Error: ${error}`);
-            });
     }
 
     render() {

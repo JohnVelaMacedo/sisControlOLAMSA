@@ -4,7 +4,7 @@ import PendienteDescarga from "../Users/Evaluador/PendienteDescarga";
 import Home from "../Home";
 
 import RegistroPendiente from "../agenteGarita/registroEntrada/registro";
-import ListaRegistroEntrada from "../agenteGarita/registroEntrada/lista";
+import ListaRegistroEntrada from "../agenteGarita/registroEntrada/lista"; 
 
 import RegistrarPersona from "../administrador/usuario/registrar";
 import ListaPersona from "../administrador/usuario/lista";

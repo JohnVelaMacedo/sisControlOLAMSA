@@ -14,6 +14,11 @@ class ListaPersona extends React.Component {
         dniEdit:'primer'
       };
 
+      this.getData();
+
+    }
+
+    getData(){
       axios.get('listaPersona')
         .then(data => {
             //console.log(data);
@@ -21,7 +26,6 @@ class ListaPersona extends React.Component {
         }).catch(error => {
             console.error(error);
         });
-
     }
     editarP(e){
         // console.log(e);
@@ -53,7 +57,8 @@ class ListaPersona extends React.Component {
                          'success'
                             );
                         setTimeout(() => {
-                            location.reload();
+                            // location.reload();
+                            this.getData();
                         }, 1500);
                     }else{
                       Swal({

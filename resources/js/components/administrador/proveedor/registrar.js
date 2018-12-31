@@ -18,6 +18,18 @@ class RegistrarProveedor extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    limpiar(){
+        this.setState({
+            proveedor:{
+                id:'',
+                nombre:'',
+                descripcion:   '',
+                direccion:'',
+                telefono:''
+            }
+        });
+    }
+
     fillForm(e){
         axios.get(`/getProveedor/${e.id}`)
         .then(data => {
@@ -42,41 +54,42 @@ class RegistrarProveedor extends React.Component {
 
     handleSubmit(event) {
     event.preventDefault();
-    axios.post('/agregarProveedor', {
-                proveedor: this.state.proveedor
-            })
-            .then(data => {
-                console.log(data);
-                if (data.data == 'OK') {
-                    Swal({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'Datos ingresados correctamente',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                } else {
+        axios.post('/agregarProveedor', {
+                    proveedor: this.state.proveedor
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.data == 'OK') {
+                        Swal({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Datos ingresados correctamente',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            // location.reload();
+                            this.limpiar();
+                        }, 1500);
+                    } else {
+                        Swal({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'No se pudo agregar, comuníquese con el Administrador',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                }).catch(error => {
                     Swal({
                         position: 'top-end',
                         type: 'error',
-                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
                         showConfirmButton: false,
                         timer: 2000
                     });
-                }
-            }).catch(error => {
-                Swal({
-                    position: 'top-end',
-                    type: 'error',
-                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
-                    showConfirmButton: false,
-                    timer: 2000
+                    console.log(`Error: ${error}`);
                 });
-                console.log(`Error: ${error}`);
-            });
     }
 
     render() {

@@ -23189,11 +23189,7 @@ var RegistrarPersona = function (_React$Component) {
             msjPass: ''
 
             //      recuperar tipos de personas para el select 
-        };axios.get('tipoPersona').then(function (data) {
-            _this.setState({ tipoPersona: [].concat(_toConsumableArray(data.data.tipoPersona)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
+        };_this.getDatosSelect();
 
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleChangePass = _this.handleChangePass.bind(_this);
@@ -23202,13 +23198,45 @@ var RegistrarPersona = function (_React$Component) {
     }
 
     _createClass(RegistrarPersona, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                persona: {
+                    id: '',
+                    nombre: '',
+                    apellidos: '',
+                    dni: '',
+                    email: '',
+                    direccion: '',
+                    tipoP: ''
+                },
+                claves: {
+                    password: '',
+                    repassword: ''
+                },
+                isSubmitDisabled: true,
+                msjPass: ''
+            });
+        }
+    }, {
+        key: 'getDatosSelect',
+        value: function getDatosSelect() {
+            var _this2 = this;
+
+            axios.get('tipoPersona').then(function (data) {
+                _this2.setState({ tipoPersona: [].concat(_toConsumableArray(data.data.tipoPersona)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
         key: 'fillForm',
         value: function fillForm(e) {
-            var _this2 = this;
+            var _this3 = this;
 
             console.log(e);
             axios.get('/getPersona/' + e.dni).then(function (data) {
-                _this2.setState({ persona: data.data.p });
+                _this3.setState({ persona: data.data.p });
                 // this.setState({claves: data.data.u});
             }).catch(function (error) {
                 console.error(error);
@@ -23298,8 +23326,9 @@ var RegistrarPersona = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
-            event.preventDefault();
+            var _this4 = this;
 
+            event.preventDefault();
             axios.post('/agregarPersona', {
                 persona: this.state.persona,
                 password: this.state.claves
@@ -23314,7 +23343,8 @@ var RegistrarPersona = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this4.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -23601,6 +23631,16 @@ var RegistrarTipoVehiculo = function (_React$Component) {
     }
 
     _createClass(RegistrarTipoVehiculo, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                tipoVehiculo: {
+                    id: '',
+                    descripcion: ''
+                }
+            });
+        }
+    }, {
         key: 'fillForm',
         value: function fillForm(e) {
             var _this2 = this;
@@ -23626,6 +23666,8 @@ var RegistrarTipoVehiculo = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
+            var _this3 = this;
+
             event.preventDefault();
             axios.post('/agregarTipoVehiculo', {
                 tipoVehiculo: this.state.tipoVehiculo
@@ -23640,7 +23682,8 @@ var RegistrarTipoVehiculo = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this3.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -23796,6 +23839,19 @@ var RegistrarProveedor = function (_React$Component) {
     }
 
     _createClass(RegistrarProveedor, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                proveedor: {
+                    id: '',
+                    nombre: '',
+                    descripcion: '',
+                    direccion: '',
+                    telefono: ''
+                }
+            });
+        }
+    }, {
         key: 'fillForm',
         value: function fillForm(e) {
             var _this2 = this;
@@ -23820,6 +23876,8 @@ var RegistrarProveedor = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
+            var _this3 = this;
+
             event.preventDefault();
             axios.post('/agregarProveedor', {
                 proveedor: this.state.proveedor
@@ -23834,7 +23892,8 @@ var RegistrarProveedor = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this3.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -24046,6 +24105,17 @@ var RegistrarComite = function (_React$Component) {
     }
 
     _createClass(RegistrarComite, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                comite: {
+                    id: '',
+                    nombre: '',
+                    descripcion: ''
+                }
+            });
+        }
+    }, {
         key: 'fillForm',
         value: function fillForm(e) {
             var _this2 = this;
@@ -24070,6 +24140,8 @@ var RegistrarComite = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
+            var _this3 = this;
+
             event.preventDefault();
             axios.post('/agregarComite', {
                 comite: this.state.comite
@@ -24084,7 +24156,8 @@ var RegistrarComite = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this3.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -74738,28 +74811,11 @@ var RegistroPendiente = function (_React$Component) {
             comite: [],
             proveedor: [],
             isSubmitDisabled: true,
-            tags: [
-                // { id: "Thailand", text: "Thailand" },
-                // { id: "India", text: "India" }
-            ],
+            tags: [],
             suggestions: []
         };
 
-        axios.get('/listaComite').then(function (data) {
-            _this.setState({ comite: [].concat(_toConsumableArray(data.data.comite)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
-        axios.get('/listaProveedor').then(function (data) {
-            _this.setState({ proveedor: [].concat(_toConsumableArray(data.data.proveedor)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
-        axios.get('/listaTipoVehiculo').then(function (data) {
-            _this.setState({ tipoVehiculo: [].concat(_toConsumableArray(data.data.tv)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
+        _this.getDatos();
 
         _this.handleDelete = _this.handleDelete.bind(_this);
         _this.handleAddition = _this.handleAddition.bind(_this);
@@ -74773,6 +74829,42 @@ var RegistroPendiente = function (_React$Component) {
     }
 
     _createClass(RegistroPendiente, [{
+        key: 'getDatos',
+        value: function getDatos() {
+            var _this2 = this;
+
+            axios.get('/listaComite').then(function (data) {
+                _this2.setState({ comite: [].concat(_toConsumableArray(data.data.comite)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+            axios.get('/listaProveedor').then(function (data) {
+                _this2.setState({ proveedor: [].concat(_toConsumableArray(data.data.proveedor)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+            axios.get('/listaTipoVehiculo').then(function (data) {
+                _this2.setState({ tipoVehiculo: [].concat(_toConsumableArray(data.data.tv)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: 'fillForm',
+        value: function fillForm(e) {
+            var _this3 = this;
+
+            axios.get('/getRegEntrada/' + e.id).then(function (data) {
+                console.log(data.data.t);
+                _this3.setState({
+                    registro: data.data.p,
+                    tags: data.data.t
+                });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
         key: 'handleDelete',
         value: function handleDelete(i) {
             var tags = this.state.tags;
@@ -74789,7 +74881,6 @@ var RegistroPendiente = function (_React$Component) {
     }, {
         key: 'handleAddition',
         value: function handleAddition(tag) {
-            // console.log(tag);
             if (this.state.tags.length < 1) {
                 this.setState(function (state) {
                     return {
@@ -74811,13 +74902,11 @@ var RegistroPendiente = function (_React$Component) {
     }, {
         key: 'handleInputChange',
         value: function handleInputChange(e) {
-            var _this2 = this;
+            var _this4 = this;
 
             if (e != '') {
                 axios.get('/getTransportistas/' + e).then(function (data) {
-                    //console.log(data.data.showT);
-                    _this2.setState({ suggestions: [].concat(_toConsumableArray(data.data.showT)) });
-                    // console.log(this.state.suggestions);
+                    _this4.setState({ suggestions: [].concat(_toConsumableArray(data.data.showT)) });
                 }).catch(function (error) {
                     console.error(error);
                 });
@@ -74828,10 +74917,8 @@ var RegistroPendiente = function (_React$Component) {
         value: function handleDrag(tag, currPos, newPos) {
             var tags = [].concat(_toConsumableArray(this.state.tags));
             var newTags = tags.slice();
-
             newTags.splice(currPos, 1);
             newTags.splice(newPos, 0, tag);
-
             // re-render
             this.setState({ tags: newTags });
         }
@@ -74868,11 +74955,29 @@ var RegistroPendiente = function (_React$Component) {
             });
         }
     }, {
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                registro: {
+                    id: '',
+                    tipoVehiculo: '',
+                    numPlaca: '',
+                    transportista: '',
+                    numPesas: '',
+                    comite: '',
+                    proveedor: '',
+                    observaciones: ''
+                },
+                tags: [],
+                isSubmitDisabled: true
+            });
+        }
+    }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
-            //   alert('A name was submitted: ' + this.state.value);
-            event.preventDefault();
+            var _this5 = this;
 
+            event.preventDefault();
             axios.post('/agregarRegistroEntrada', {
                 registro: this.state.registro
             }).then(function (data) {
@@ -74886,7 +74991,8 @@ var RegistroPendiente = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this5.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -103255,17 +103361,24 @@ var ListaPersona = function (_React$Component) {
       dniEdit: 'primer'
     };
 
-    axios.get('listaPersona').then(function (data) {
-      //console.log(data);
-      _this.setState({ data: [].concat(_toConsumableArray(data.data.Personas)) });
-    }).catch(function (error) {
-      console.error(error);
-    });
+    _this.getData();
 
     return _this;
   }
 
   _createClass(ListaPersona, [{
+    key: "getData",
+    value: function getData() {
+      var _this2 = this;
+
+      axios.get('listaPersona').then(function (data) {
+        //console.log(data);
+        _this2.setState({ data: [].concat(_toConsumableArray(data.data.Personas)) });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
     key: "editarP",
     value: function editarP(e) {
       // console.log(e);
@@ -103277,7 +103390,7 @@ var ListaPersona = function (_React$Component) {
   }, {
     key: "eliminarP",
     value: function eliminarP(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       // console.log(e);
       __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -103296,7 +103409,8 @@ var ListaPersona = function (_React$Component) {
             if (data.data == "OK") {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El sector ha sido eliminado.', 'success');
               setTimeout(function () {
-                location.reload();
+                // location.reload();
+                _this3.getData();
               }, 1500);
             } else {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -103308,7 +103422,7 @@ var ListaPersona = function (_React$Component) {
             }
           }).catch(function (error) {
             console.log('Ocurrio un error ' + error);
-            _this2.$Progress.fail();
+            _this3.$Progress.fail();
           });
         }
       });
@@ -103316,7 +103430,7 @@ var ListaPersona = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var data = this.state.data;
 
@@ -103388,7 +103502,7 @@ var ListaPersona = function (_React$Component) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "button",
                       { className: "form-control btn btn-danger", onClick: function onClick() {
-                          return _this3.eliminarP(row.row);
+                          return _this4.eliminarP(row.row);
                         } },
                       "Eliminar"
                     );
@@ -103401,7 +103515,7 @@ var ListaPersona = function (_React$Component) {
                       "button",
                       { className: "form-control btn btn-primary", "data-toggle": "modal",
                         "data-target": "#exampleModal", onClick: function onClick() {
-                          return _this3.editarP(row.row);
+                          return _this4.editarP(row.row);
                         } },
                       "Editar"
                     );
@@ -103517,16 +103631,23 @@ var ListaTipoVehiculo = function (_React$Component) {
             id: ''
         };
 
-        axios.get('listaTipoVehiculo').then(function (data) {
-            _this.setState({ data: [].concat(_toConsumableArray(data.data.tv)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
+        _this.getDatos();
 
         return _this;
     }
 
     _createClass(ListaTipoVehiculo, [{
+        key: "getDatos",
+        value: function getDatos() {
+            var _this2 = this;
+
+            axios.get('listaTipoVehiculo').then(function (data) {
+                _this2.setState({ data: [].concat(_toConsumableArray(data.data.tv)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
         key: "editarTV",
         value: function editarTV(e) {
             this.setState({
@@ -103537,7 +103658,7 @@ var ListaTipoVehiculo = function (_React$Component) {
     }, {
         key: "eliminarTV",
         value: function eliminarTV(e) {
-            var _this2 = this;
+            var _this3 = this;
 
             console.log(e);
             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -103556,7 +103677,8 @@ var ListaTipoVehiculo = function (_React$Component) {
                         if (data.data == "OK") {
                             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El tipo de vehículo ha sido eliminado.', 'success');
                             setTimeout(function () {
-                                location.reload();
+                                // location.reload();
+                                _this3.getDatos();
                             }, 1500);
                         } else {
                             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -103568,7 +103690,7 @@ var ListaTipoVehiculo = function (_React$Component) {
                         }
                     }).catch(function (error) {
                         console.log('Ocurrio un error ' + error);
-                        _this2.$Progress.fail();
+                        _this3.$Progress.fail();
                     });
                 }
             });
@@ -103576,7 +103698,7 @@ var ListaTipoVehiculo = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             var data = this.state.data;
 
@@ -103628,7 +103750,7 @@ var ListaTipoVehiculo = function (_React$Component) {
                                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             "button",
                                             { className: "form-control btn btn-danger", onClick: function onClick() {
-                                                    return _this3.eliminarTV(row.row);
+                                                    return _this4.eliminarTV(row.row);
                                                 } },
                                             "Eliminar"
                                         );
@@ -103642,7 +103764,7 @@ var ListaTipoVehiculo = function (_React$Component) {
                                             "button",
                                             { className: "form-control btn btn-primary", "data-toggle": "modal",
                                                 "data-target": "#exampleModal", onClick: function onClick() {
-                                                    return _this3.editarTV(row.row);
+                                                    return _this4.editarTV(row.row);
                                                 } },
                                             "Editar"
                                         );
@@ -103744,16 +103866,23 @@ var ListaProveedor = function (_React$Component) {
       id: ''
     };
 
-    axios.get('/listaProveedor').then(function (data) {
-      _this.setState({ data: [].concat(_toConsumableArray(data.data.proveedor)) });
-    }).catch(function (error) {
-      console.error(error);
-    });
+    _this.getDatos();
 
     return _this;
   }
 
   _createClass(ListaProveedor, [{
+    key: "getDatos",
+    value: function getDatos() {
+      var _this2 = this;
+
+      axios.get('/listaProveedor').then(function (data) {
+        _this2.setState({ data: [].concat(_toConsumableArray(data.data.proveedor)) });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
     key: "editarPr",
     value: function editarPr(e) {
       this.setState({
@@ -103764,7 +103893,7 @@ var ListaProveedor = function (_React$Component) {
   }, {
     key: "eliminarPr",
     value: function eliminarPr(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       // console.log(e);
       __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -103783,7 +103912,8 @@ var ListaProveedor = function (_React$Component) {
             if (data.data == "OK") {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El proveedor ha sido eliminado.', 'success');
               setTimeout(function () {
-                location.reload();
+                // location.reload();
+                _this3.getDatos();
               }, 1500);
             } else {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -103795,7 +103925,7 @@ var ListaProveedor = function (_React$Component) {
             }
           }).catch(function (error) {
             console.log('Ocurrio un error ' + error);
-            _this2.$Progress.fail();
+            _this3.$Progress.fail();
           });
         }
       });
@@ -103803,7 +103933,7 @@ var ListaProveedor = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var data = this.state.data;
 
@@ -103867,7 +103997,7 @@ var ListaProveedor = function (_React$Component) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "button",
                       { className: "form-control btn btn-danger", onClick: function onClick() {
-                          return _this3.eliminarPr(row.row);
+                          return _this4.eliminarPr(row.row);
                         } },
                       "Eliminar"
                     );
@@ -103881,7 +104011,7 @@ var ListaProveedor = function (_React$Component) {
                       "button",
                       { className: "form-control btn btn-primary", "data-toggle": "modal",
                         "data-target": "#exampleModal", onClick: function onClick() {
-                          return _this3.editarPr(row.row);
+                          return _this4.editarPr(row.row);
                         } },
                       "Editar"
                     );
@@ -103970,200 +104100,207 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var ListaComite = function (_React$Component) {
-  _inherits(ListaComite, _React$Component);
+    _inherits(ListaComite, _React$Component);
 
-  function ListaComite() {
-    _classCallCheck(this, ListaComite);
+    function ListaComite() {
+        _classCallCheck(this, ListaComite);
 
-    var _this = _possibleConstructorReturn(this, (ListaComite.__proto__ || Object.getPrototypeOf(ListaComite)).call(this));
+        var _this = _possibleConstructorReturn(this, (ListaComite.__proto__ || Object.getPrototypeOf(ListaComite)).call(this));
 
-    _this.RegistrarComite = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
-    _this.state = {
-      data: [],
-      id: ''
-    };
+        _this.RegistrarComite = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
+        _this.state = {
+            data: [],
+            id: ''
+        };
+        _this.getDatos();
 
-    axios.get('/listaComite').then(function (data) {
-      _this.setState({ data: [].concat(_toConsumableArray(data.data.comite)) });
-    }).catch(function (error) {
-      console.error(error);
-    });
-
-    return _this;
-  }
-
-  _createClass(ListaComite, [{
-    key: "editarC",
-    value: function editarC(e) {
-      this.setState({
-        id: e
-      });
-      this.RegistrarComite.current.fillForm(e);
+        return _this;
     }
-  }, {
-    key: "eliminarC",
-    value: function eliminarC(e) {
-      var _this2 = this;
 
-      // console.log(e);
-      __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
-        title: "Deseas eliminar este comite: " + e.nombre + "?",
-        text: "No será posible revertir esta acción!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, elíminalo!',
-        cancelButtonText: 'No, cancelar!'
-      }).then(function (result) {
-        if (result.value) {
-          axios.get("/eliminarComite/" + e.id).then(function (data) {
-            console.log(data.data);
-            if (data.data == "OK") {
-              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El comite ha sido eliminado.', 'success');
-              setTimeout(function () {
-                location.reload();
-              }, 1500);
-            } else {
-              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
-                type: 'error',
-                title: 'Oops...',
-                text: 'Algo fue mal!',
-                footer: 'Consulte con el administrador sobre este problema.'
-              });
-            }
-          }).catch(function (error) {
-            console.log('Ocurrio un error ' + error);
-            _this2.$Progress.fail();
-          });
+    _createClass(ListaComite, [{
+        key: "getDatos",
+        value: function getDatos() {
+            var _this2 = this;
+
+            axios.get('/listaComite').then(function (data) {
+                _this2.setState({ data: [].concat(_toConsumableArray(data.data.comite)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
         }
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
+    }, {
+        key: "editarC",
+        value: function editarC(e) {
+            this.setState({
+                id: e
+            });
+            this.RegistrarComite.current.fillForm(e);
+        }
+    }, {
+        key: "eliminarC",
+        value: function eliminarC(e) {
+            var _this3 = this;
 
-      var data = this.state.data;
+            // console.log(e);
+            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+                title: "Deseas eliminar este comite: " + e.nombre + "?",
+                text: "No será posible revertir esta acción!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, elíminalo!',
+                cancelButtonText: 'No, cancelar!'
+            }).then(function (result) {
+                if (result.value) {
+                    axios.get("/eliminarComite/" + e.id).then(function (data) {
+                        console.log(data.data);
+                        if (data.data == "OK") {
+                            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El comite ha sido eliminado.', 'success');
+                            setTimeout(function () {
+                                // location.reload();
+                                _this3.getDatos();
+                            }, 1500);
+                        } else {
+                            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Algo fue mal!',
+                                footer: 'Consulte con el administrador sobre este problema.'
+                            });
+                        }
+                    }).catch(function (error) {
+                        console.log('Ocurrio un error ' + error);
+                        _this3.$Progress.fail();
+                    });
+                }
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this4 = this;
 
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        { className: "col-md-12" },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          "div",
-          { className: "card card-info" },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "div",
-            { className: "card-header" },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              "h3",
-              { className: "card-title" },
-              "Lista de comites"
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "div",
-            { className: "card-body" },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
-              data: data,
-              columns: [{
-                Header: "Código",
-                columns: [{
-                  Header: "ID",
-                  filterable: true,
-                  maxWidth: 50,
-                  id: "id",
-                  accessor: function accessor(d) {
-                    return d.id;
-                  }
-                }]
-              }, {
-                Header: "Información",
-                columns: [{
-                  Header: "Nombre",
-                  accessor: "nombre",
-                  filterable: true
-                }, {
-                  Header: "Descipción",
-                  accessor: "descripcion",
-                  filterable: true
-                }]
-              }, {
-                Header: 'Acciones',
-                columns: [{
-                  Header: "Eliminar",
-                  accessor: "tipo",
-                  maxWidth: 100,
-                  Cell: function Cell(row) {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      "button",
-                      { className: "form-control btn btn-danger", onClick: function onClick() {
-                          return _this3.eliminarC(row.row);
-                        } },
-                      "Eliminar"
-                    );
-                  }
-                }, {
-                  Header: "Editar",
-                  accessor: "tipo",
-                  maxWidth: 100,
-                  Cell: function Cell(row) {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      "button",
-                      { className: "form-control btn btn-primary", "data-toggle": "modal",
-                        "data-target": "#exampleModal", onClick: function onClick() {
-                          return _this3.editarC(row.row);
-                        } },
-                      "Editar"
-                    );
-                  }
-                }]
-              }],
-              defaultPageSize: 5,
-              className: "-striped -highlight"
-            }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              "div",
-              { className: "modal fade", id: "exampleModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "exampleModalLabel", "aria-hidden": "true" },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            var data = this.state.data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "div",
-                { className: "modal-dialog modal-lg", role: "document" },
+                { className: "col-md-12" },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  "div",
-                  { className: "modal-content" },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "div",
-                    { className: "modal-header" },
+                    { className: "card card-info" },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      "h5",
-                      { className: "modal-title", id: "exampleModalLabel" },
-                      "Editar comite"
+                        "div",
+                        { className: "card-header" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "h3",
+                            { className: "card-title" },
+                            "Lista de comites"
+                        )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                      "button",
-                      { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
-                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "span",
-                        { "aria-hidden": "true" },
-                        "\xD7"
-                      )
+                        "div",
+                        { className: "card-body" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
+                            data: data,
+                            columns: [{
+                                Header: "Código",
+                                columns: [{
+                                    Header: "ID",
+                                    filterable: true,
+                                    maxWidth: 50,
+                                    id: "id",
+                                    accessor: function accessor(d) {
+                                        return d.id;
+                                    }
+                                }]
+                            }, {
+                                Header: "Información",
+                                columns: [{
+                                    Header: "Nombre",
+                                    accessor: "nombre",
+                                    filterable: true
+                                }, {
+                                    Header: "Descipción",
+                                    accessor: "descripcion",
+                                    filterable: true
+                                }]
+                            }, {
+                                Header: 'Acciones',
+                                columns: [{
+                                    Header: "Eliminar",
+                                    accessor: "tipo",
+                                    maxWidth: 100,
+                                    Cell: function Cell(row) {
+                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "button",
+                                            { className: "form-control btn btn-danger", onClick: function onClick() {
+                                                    return _this4.eliminarC(row.row);
+                                                } },
+                                            "Eliminar"
+                                        );
+                                    }
+                                }, {
+                                    Header: "Editar",
+                                    accessor: "tipo",
+                                    maxWidth: 100,
+                                    Cell: function Cell(row) {
+                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "button",
+                                            { className: "form-control btn btn-primary", "data-toggle": "modal",
+                                                "data-target": "#exampleModal", onClick: function onClick() {
+                                                    return _this4.editarC(row.row);
+                                                } },
+                                            "Editar"
+                                        );
+                                    }
+                                }]
+                            }],
+                            defaultPageSize: 5,
+                            className: "-striped -highlight"
+                        }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "modal fade", id: "exampleModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "exampleModalLabel", "aria-hidden": "true" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "modal-dialog modal-lg", role: "document" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-content" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "modal-header" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "h5",
+                                            { className: "modal-title", id: "exampleModalLabel" },
+                                            "Editar comite"
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "button",
+                                            { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "span",
+                                                { "aria-hidden": "true" },
+                                                "\xD7"
+                                            )
+                                        )
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "modal-body" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registrar__["a" /* default */], { ref: this.RegistrarComite })
+                                    )
+                                )
+                            )
+                        )
                     )
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "modal-body" },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registrar__["a" /* default */], { ref: this.RegistrarComite })
-                  )
                 )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
+            );
+        }
+    }]);
 
-  return ListaComite;
+    return ListaComite;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["a"] = (ListaComite);
@@ -104196,7 +104333,7 @@ var ListaComite = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_sweetalert2__);
-throw new Error("Cannot find module \"./registrar\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__registro__ = __webpack_require__(201);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -104228,16 +104365,22 @@ var ListaRegistroEntrada = function (_React$Component) {
       id: ''
     };
 
-    axios.get('/listaRegistroEntrada').then(function (data) {
-      _this.setState({ data: [].concat(_toConsumableArray(data.data.regEn)) });
-    }).catch(function (error) {
-      console.error(error);
-    });
-
+    _this.getDataTable();
     return _this;
   }
 
   _createClass(ListaRegistroEntrada, [{
+    key: "getDataTable",
+    value: function getDataTable() {
+      var _this2 = this;
+
+      axios.get('/listaRegistroEntrada').then(function (data) {
+        _this2.setState({ data: [].concat(_toConsumableArray(data.data.regEn)) });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
     key: "editarRE",
     value: function editarRE(e) {
       this.setState({
@@ -104248,7 +104391,7 @@ var ListaRegistroEntrada = function (_React$Component) {
   }, {
     key: "eliminarRE",
     value: function eliminarRE(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       // console.log(e);
       __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -104267,7 +104410,8 @@ var ListaRegistroEntrada = function (_React$Component) {
             if (data.data == "OK") {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El registro ha sido eliminado.', 'success');
               setTimeout(function () {
-                location.reload();
+                // location.reload();
+                _this3.getDataTable();
               }, 1500);
             } else {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -104279,7 +104423,7 @@ var ListaRegistroEntrada = function (_React$Component) {
             }
           }).catch(function (error) {
             console.log('Ocurrio un error ' + error);
-            _this2.$Progress.fail();
+            _this3.$Progress.fail();
           });
         }
       });
@@ -104287,7 +104431,7 @@ var ListaRegistroEntrada = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var data = this.state.data;
 
@@ -104363,7 +104507,7 @@ var ListaRegistroEntrada = function (_React$Component) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "button",
                       { className: "form-control btn btn-danger", onClick: function onClick() {
-                          return _this3.eliminarRE(row.row);
+                          return _this4.eliminarRE(row.row);
                         } },
                       "Eliminar"
                     );
@@ -104377,7 +104521,7 @@ var ListaRegistroEntrada = function (_React$Component) {
                       "button",
                       { className: "form-control btn btn-primary", "data-toggle": "modal",
                         "data-target": "#exampleModal", onClick: function onClick() {
-                          return _this3.editarRE(row.row);
+                          return _this4.editarRE(row.row);
                         } },
                       "Editar"
                     );
@@ -104417,7 +104561,7 @@ var ListaRegistroEntrada = function (_React$Component) {
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "div",
                     { className: "modal-body" },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registrar___default.a, { ref: this.RegistroPendiente })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registro__["a" /* default */], { ref: this.RegistroPendiente })
                   )
                 )
               )

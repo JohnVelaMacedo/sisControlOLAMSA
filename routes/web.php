@@ -53,6 +53,7 @@ Route::get('/eliminarComite/{dni}','ComiteController@destroy')->name('eliminarCo
 
 //ruta para registro-entrada
 Route::get('/getTransportistas/{id}','RegistroEntradaController@showTransporista')->name('transportistaShow');
+Route::get('/getRegEntrada/{id}','RegistroEntradaController@edit')->name('editarRegEntrada');
 Route::post('/agregarRegistroEntrada','RegistroEntradaController@store')->name('agregarRegEntrada');
 Route::resource('/listaRegistroEntrada','RegistroEntradaController');
 Route::get('/eliminarRegEntrada/{dni}','RegistroEntradaController@destroy')->name('eliminarRE');

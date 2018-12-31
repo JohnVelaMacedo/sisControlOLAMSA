@@ -26,16 +26,40 @@ class RegistrarPersona extends React.Component {
       }
       
 //      recuperar tipos de personas para el select 
+        this.getDatosSelect();
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChangePass = this.handleChangePass.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    limpiar(){
+        this.setState({
+            persona:{
+                id:'',
+                nombre: '',
+                apellidos:  '',
+                dni:    '',
+                email:  '',
+                direccion:  '',
+                tipoP:   ''
+            },
+            claves:{
+                password:   '',
+                repassword: ''
+            },
+            isSubmitDisabled:true,
+                msjPass:''
+        });
+    }
+
+    getDatosSelect(){
         axios.get('tipoPersona')
         .then(data => {
             this.setState({tipoPersona: [...data.data.tipoPersona]});
         }).catch(error => {
             console.error(error);
         });
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleChangePass = this.handleChangePass.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     fillForm(e){
@@ -138,43 +162,43 @@ class RegistrarPersona extends React.Component {
   
     handleSubmit(event) {
       event.preventDefault();
-
-    axios.post('/agregarPersona', {
-                persona: this.state.persona,
-                password:this.state.claves
-            })
-            .then(data => {
-                console.log(data);
-                if (data.data == 'OK') {
-                    Swal({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'Datos ingresados correctamente',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                } else {
+        axios.post('/agregarPersona', {
+                    persona: this.state.persona,
+                    password:this.state.claves
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.data == 'OK') {
+                        Swal({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Datos ingresados correctamente',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            // location.reload();
+                            this.limpiar();
+                        }, 1500);
+                    } else {
+                        Swal({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'No se pudo agregar, comuníquese con el Administrador',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                }).catch(error => {
                     Swal({
                         position: 'top-end',
                         type: 'error',
-                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
                         showConfirmButton: false,
                         timer: 2000
                     });
-                }
-            }).catch(error => {
-                Swal({
-                    position: 'top-end',
-                    type: 'error',
-                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
-                    showConfirmButton: false,
-                    timer: 2000
+                    console.log(`Error: ${error}`);
                 });
-                console.log(`Error: ${error}`);
-            });
     }
 
     render() {

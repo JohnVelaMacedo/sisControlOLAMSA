@@ -81,7 +81,9 @@ class RegistroEntradaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $p =\DB::table('registroentrada')->where('id', $id)->first();
+        $t =\DB::select("SELECT dni as id, concat(nombre,' ',apellidos) as text from persona where dni=$p->transportista");
+        return compact('p','t');
     }
 
     /**

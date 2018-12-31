@@ -16,26 +16,37 @@ class RegistroPendiente extends React.Component {
       super(props);
       this.state = {
           registro:{
-            id:               '',
-            tipoVehiculo:     '',
-            numPlaca:         '',
-            transportista:    '',
-            numPesas:         '',
-            comite:           '',
-            proveedor:        '',
-            observaciones:    '',
-          },
-          tipoVehiculo:[],
-          comite:[],
-          proveedor:[],
-          isSubmitDisabled: true,
-        tags: [
-            // { id: "Thailand", text: "Thailand" },
-            // { id: "India", text: "India" }
-         ],
-        suggestions: []
+                    id:               '',
+                    tipoVehiculo:     '',
+                    numPlaca:         '',
+                    transportista:    '',
+                    numPesas:         '',
+                    comite:           '',
+                    proveedor:        '',
+                    observaciones:    '',
+                    },
+            tipoVehiculo:[],
+            comite:[],
+            proveedor:[],
+            isSubmitDisabled: true,
+            tags: [
+            ],
+            suggestions: []
         };
 
+        this.getDatos();
+
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    getDatos(){
         axios.get('/listaComite')
         .then(data => {
             this.setState({comite: [...data.data.comite]});
@@ -54,17 +65,21 @@ class RegistroPendiente extends React.Component {
         }).catch(error => {
             console.error(error);
         });
-
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleAddition = this.handleAddition.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
     }
   
+    fillForm(e){
+        axios.get(`/getRegEntrada/${e.id}`)
+        .then(data => {
+            console.log(data.data.t);
+            this.setState({
+                registro: data.data.p,
+                tags:data.data.t
+            });
+        }).catch(error => {
+            console.error(error);
+        });
+    }
+
     handleDelete(i) {
         const { tags } = this.state;
         this.setState({
@@ -76,7 +91,6 @@ class RegistroPendiente extends React.Component {
     }
  
     handleAddition(tag) {
-        // console.log(tag);
         if(this.state.tags.length<1){
             this.setState(state => ({ 
                 tags: [...state.tags, tag]
@@ -99,9 +113,7 @@ class RegistroPendiente extends React.Component {
         if(e!=''){
             axios.get('/getTransportistas/'+e)
         .then(data => {
-            //console.log(data.data.showT);
             this.setState({suggestions: [...data.data.showT]});
-            // console.log(this.state.suggestions);
         }).catch(error => {
             console.error(error);
         });
@@ -111,10 +123,8 @@ class RegistroPendiente extends React.Component {
     handleDrag(tag, currPos, newPos) {
         const tags = [...this.state.tags];
         const newTags = tags.slice();
- 
         newTags.splice(currPos, 1);
         newTags.splice(newPos, 0, tag);
- 
         // re-render
         this.setState({ tags: newTags });
     }
@@ -152,45 +162,60 @@ class RegistroPendiente extends React.Component {
             );
     }
   
+    limpiar(){
+        this.setState({
+            registro:{
+                id:               '',
+                tipoVehiculo:     '',
+                numPlaca:         '',
+                transportista:    '',
+                numPesas:         '',
+                comite:           '',
+                proveedor:        '',
+                observaciones:    '',
+                },
+            tags:[],
+            isSubmitDisabled:true
+        });
+    }
     handleSubmit(event) {
-    //   alert('A name was submitted: ' + this.state.value);
       event.preventDefault();
-
       axios.post('/agregarRegistroEntrada', {
         registro: this.state.registro
-    })
-    .then(data => {
-        // console.log(data);
-        if (data.data == 'OK') {
-            Swal({
-                position: 'top-end',
-                type: 'success',
-                title: 'Datos ingresados correctamente',
-                showConfirmButton: false,
-                timer: 2000
-            });
-            setTimeout(() => {
-                location.reload();
-            }, 1500);
-        } else {
+        })
+        .then(data => {
+            // console.log(data);
+            if (data.data == 'OK') {
+                Swal({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Datos ingresados correctamente',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                setTimeout(() => {
+                    // location.reload();
+                    this.limpiar();
+                }, 1500);
+            } else {
+                Swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'No se pudo agregar, comuníquese con el Administrador',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            }
+        }).catch(error => {
             Swal({
                 position: 'top-end',
                 type: 'error',
-                title: 'No se pudo agregar, comuníquese con el Administrador',
+                title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
                 showConfirmButton: false,
                 timer: 2000
             });
-        }
-    }).catch(error => {
-        Swal({
-            position: 'top-end',
-            type: 'error',
-            title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
-            showConfirmButton: false,
-            timer: 2000
+            console.log(`Error: ${error}`);
         });
-        console.log(`Error: ${error}`);
-    });
 
     }
 

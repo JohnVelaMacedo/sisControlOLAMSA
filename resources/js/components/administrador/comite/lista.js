@@ -13,15 +13,19 @@ class ListaComite extends React.Component {
         data: [],
         id:''
       };
+      this.getDatos();      
 
+    }
+
+    getDatos(){
       axios.get('/listaComite')
         .then(data => {
             this.setState({data: [...data.data.comite]});
         }).catch(error => {
             console.error(error);
         });
-
     }
+
     editarC(e){
         this.setState({
           id: e
@@ -51,7 +55,8 @@ class ListaComite extends React.Component {
                          'success'
                             );
                         setTimeout(() => {
-                            location.reload();
+                            // location.reload();
+                            this.getDatos();
                         }, 1500);
                     }else{
                       Swal({

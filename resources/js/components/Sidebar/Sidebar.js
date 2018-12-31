@@ -156,9 +156,9 @@ class Sidebar extends Component {
 								</Link>
 							</li>
 							<li className="nav-item">
-								<Link to="/" className="nav-link">
+								<Link to="/listaAgenteReg" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Lista de Comités</p>
+									<p>Lista de Registros</p>
 								</Link>
 							</li>
 							
@@ -182,7 +182,7 @@ class Sidebar extends Component {
 							<li className="nav-item">
 								<Link to="/" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Lista de Comités</p>
+									<p>Lista</p>
 								</Link>
 							</li>
 							
@@ -206,7 +206,7 @@ class Sidebar extends Component {
 							<li className="nav-item">
 								<Link to="/" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Lista de Comités</p>
+									<p>Lista</p>
 								</Link>
 							</li>
 							

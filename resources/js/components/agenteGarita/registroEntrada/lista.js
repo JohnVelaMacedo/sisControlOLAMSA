@@ -3,35 +3,35 @@ import { render } from "react-dom";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Swal from 'sweetalert2';
-import RegistrarComite from './registrar'
+import RegistroPendiente from './registrar'
 
-class ListaComite extends React.Component {
+class ListaRegistroEntrada extends React.Component {
     constructor() {
       super();
-      this.RegistrarComite = React.createRef();
+      this.RegistroPendiente = React.createRef();
       this.state = {
         data: [],
         id:''
       };
 
-      axios.get('/listaComite')
+      axios.get('/listaRegistroEntrada')
         .then(data => {
-            this.setState({data: [...data.data.comite]});
+            this.setState({data: [...data.data.regEn]});
         }).catch(error => {
             console.error(error);
         });
 
     }
-    editarC(e){
+    editarRE(e){
         this.setState({
           id: e
         });
-        this.RegistrarComite.current.fillForm(e);
+        this.RegistroPendiente.current.fillForm(e);
     }
-    eliminarC(e){
+    eliminarRE(e){
         // console.log(e);
         Swal({
-            title: `Deseas eliminar este comite: ${e.nombre}?`,
+            title: `Deseas eliminar este registro: ${e.id}?`,
             text: "No será posible revertir esta acción!",
             type: 'warning',
             showCancelButton: true,
@@ -41,13 +41,13 @@ class ListaComite extends React.Component {
             cancelButtonText: 'No, cancelar!',
         }).then((result) => {
             if (result.value) {
-                axios.get(`/eliminarComite/${e.id}`)
+                axios.get(`/eliminarRegEntrada/${e.id}`)
                     .then(data => {
                       console.log(data.data);
                     if(data.data=="OK"){
                         Swal(
                         'Eliminado!',
-                         'El comite ha sido eliminado.',
+                         'El registro ha sido eliminado.',
                          'success'
                             );
                         setTimeout(() => {
@@ -74,7 +74,7 @@ class ListaComite extends React.Component {
         <div className="col-md-12">
             <div className="card card-info">
                 <div className="card-header">
-                    <h3 className="card-title">Lista de comites</h3>
+                    <h3 className="card-title">Lista de Registros</h3>
                 </div>
                 <div className="card-body">
           <ReactTable
@@ -96,15 +96,40 @@ class ListaComite extends React.Component {
                 Header: "Información",
                 columns: [
                   {
-                    Header: "Nombre",
-                    accessor: "nombre",
+                    Header: "Vehículo",
+                    accessor: "vehiculo",
                     filterable:true
                   },
                   {
-                    Header: "Descipción",
-                    accessor: "descripcion",
+                    Header: "Placa",
+                    accessor: "placa",
                     filterable:true
-                  }
+                  },
+                  {
+                    Header: "Transportista",
+                    accessor: "transportista",
+                    filterable:true
+                  },
+                  {
+                    Header: "Pesas",
+                    accessor: "pesas",
+                    filterable:true
+                  },
+                  {
+                    Header: "Comite",
+                    accessor: "comite",
+                    filterable:true
+                  },
+                  {
+                    Header: "Proveedor",
+                    accessor: "proveedor",
+                    filterable:true
+                  },
+                  {
+                    Header: "Observaciones",
+                    accessor: "observaciones",
+                    filterable:true
+                  },
                 ]
               },
               {
@@ -115,7 +140,7 @@ class ListaComite extends React.Component {
                     accessor: "tipo",
                     maxWidth: 100,
                     Cell: row =>(
-                        <button className="form-control btn btn-danger" onClick={()=>this.eliminarC(row.row)}>Eliminar</button>
+                        <button className="form-control btn btn-danger" onClick={()=>this.eliminarRE(row.row)}>Eliminar</button>
                     )
                   },
                   {
@@ -124,7 +149,7 @@ class ListaComite extends React.Component {
                     maxWidth: 100,
                     Cell: row =>(
                         <button className="form-control btn btn-primary" data-toggle="modal" 
-                        data-target="#exampleModal" onClick={()=>this.editarC(row.row)}>Editar</button>
+                        data-target="#exampleModal" onClick={()=>this.editarRE(row.row)}>Editar</button>
                     )
                   }
                 ]
@@ -139,23 +164,22 @@ class ListaComite extends React.Component {
                         <div className="modal-dialog modal-lg" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalLabel">Editar comite</h5>
+                                    <h5 className="modal-title" id="exampleModalLabel">Editar Registro</h5>
                                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <RegistrarComite ref={this.RegistrarComite} />
+                                    <RegistroPendiente ref={this.RegistroPendiente} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     {/* MODAL EDITAR */}
-
                 </div>
             </div>
         </div>
       );
     }
   }
-  export default ListaComite;
+  export default ListaRegistroEntrada;

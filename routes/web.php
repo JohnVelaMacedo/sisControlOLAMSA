@@ -54,6 +54,8 @@ Route::get('/eliminarComite/{dni}','ComiteController@destroy')->name('eliminarCo
 //ruta para registro-entrada
 Route::get('/getTransportistas/{id}','RegistroEntradaController@showTransporista')->name('transportistaShow');
 Route::post('/agregarRegistroEntrada','RegistroEntradaController@store')->name('agregarRegEntrada');
+Route::resource('/listaRegistroEntrada','RegistroEntradaController');
+Route::get('/eliminarRegEntrada/{dni}','RegistroEntradaController@destroy')->name('eliminarRE');
 // rutas tipo persona
 Route::resource('/tipoPersona', 'TipoPersonaController');
 

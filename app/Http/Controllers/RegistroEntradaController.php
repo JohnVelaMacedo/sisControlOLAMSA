@@ -14,7 +14,13 @@ class RegistroEntradaController extends Controller
      */
     public function index()
     {
-        $regEn=RegistroEntrada::all();
+        $regEn=\DB::select("SELECT re.id, v.descripcion as vehiculo, re.numPlaca as placa, 
+        t.nombre as transportista, re.numPesas as pesas, c.nombre as comite, p.nombre as proveedor,
+        re.observaciones from registroentrada re 
+        INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
+        INNER JOIN persona t ON re.transportista=t.dni 
+        INNER JOIN comite c ON re.comite=c.id 
+        INNER JOIN proveedor p on re.proveedor=p.id");
         return compact('regEn');
     }
 
@@ -98,7 +104,7 @@ class RegistroEntradaController extends Controller
      */
     public function destroy($id)
     {
-        $eliminarP=TipoVehiculo::where('id',$id)->delete();
+        $eliminarP=RegistroEntrada::where('id',$id)->delete();
         if($eliminarP){
             return "OK";
         }else{

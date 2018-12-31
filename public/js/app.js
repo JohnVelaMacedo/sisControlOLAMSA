@@ -23239,7 +23239,7 @@ var RegistrarPersona = function (_React$Component) {
                         });
                     }
                 }
-                if (valor == "0") {
+                if (valor == "") {
                     this.setState({
                         isSubmitDisabled: true,
                         claves: {
@@ -23518,10 +23518,10 @@ var RegistrarPersona = function (_React$Component) {
                                                     ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'select',
-                                                        { className: 'form-control', id: 'tipoP', name: 'tipoP', value: this.state.persona.tipoP, onChange: this.handleChange },
+                                                        { className: 'form-control', id: 'tipoP', name: 'tipoP', value: this.state.persona.tipoP, onChange: this.handleChange, required: true },
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                             'option',
-                                                            { value: '0' },
+                                                            { value: '' },
                                                             ' ------ '
                                                         ),
                                                         this.state.tipoPersona.map(function (e, key) {
@@ -71526,7 +71526,7 @@ var Sidebar = function (_Component) {
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 								"a",
 								{ href: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-users" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-database" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
@@ -71562,6 +71562,53 @@ var Sidebar = function (_Component) {
 											"p",
 											null,
 											"Lista de Proveedores"
+										)
+									)
+								)
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							"li",
+							{ className: "nav-item has-treeview" },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-users" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"p",
+									null,
+									"Comite",
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/adminRegComite", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/listaCom", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista de Comit\xE9s"
 										)
 									)
 								)
@@ -71626,14 +71673,46 @@ var Sidebar = function (_Component) {
 							"li",
 							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-								{ to: "agenteRegistro", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-sign-in" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
-									"Registro",
+									"Registro Entrada",
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/agenteRegistro", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista de Comit\xE9s"
+										)
+									)
 								)
 							)
 						),
@@ -71641,14 +71720,46 @@ var Sidebar = function (_Component) {
 							"li",
 							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-								{ to: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-arrow-circle-right" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
-									"Pendiente Ingreso",
+									"Pendiente Entrada",
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/agenteRegistro", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista de Comit\xE9s"
+										)
+									)
 								)
 							)
 						),
@@ -71656,14 +71767,46 @@ var Sidebar = function (_Component) {
 							"li",
 							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-								{ to: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-arrow-circle-left" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
 									"Pendiente Salida",
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/agenteRegistro", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista de Comit\xE9s"
+										)
+									)
 								)
 							)
 						)
@@ -71906,6 +72049,8 @@ module.exports = "/images/olamsa.png?bfed32b63900c698f622359f19d6ced6";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__administrador_tipoVehiculo_lista__ = __webpack_require__(368);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__administrador_proveedor_registrar__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_lista__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__administrador_comite_registrar__ = __webpack_require__(379);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__administrador_comite_lista__ = __webpack_require__(380);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -71913,6 +72058,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
 
 
 
@@ -71955,7 +72102,9 @@ var Content = function (_Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegTipoVehiculo", component: __WEBPACK_IMPORTED_MODULE_7__administrador_tipoVehiculo_registrar__["a" /* default */] }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaTipoV", component: __WEBPACK_IMPORTED_MODULE_8__administrador_tipoVehiculo_lista__["a" /* default */] }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegProv", component: __WEBPACK_IMPORTED_MODULE_9__administrador_proveedor_registrar__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaProv", component: __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_lista__["a" /* default */] })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaProv", component: __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_lista__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegComite", component: __WEBPACK_IMPORTED_MODULE_11__administrador_comite_registrar__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaCom", component: __WEBPACK_IMPORTED_MODULE_12__administrador_comite_lista__["a" /* default */] })
                     )
                 )
             );
@@ -74094,10 +74243,14 @@ var Home = function (_Component) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_tag_input__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_tag_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_tag_input__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tagsInputStyles_css__ = __webpack_require__(364);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tagsInputStyles_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__tagsInputStyles_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_tag_input__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_tag_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_tag_input__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tagsInputStyles_css__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tagsInputStyles_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__tagsInputStyles_css__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -74132,23 +74285,48 @@ var RegistroPendiente = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (RegistroPendiente.__proto__ || Object.getPrototypeOf(RegistroPendiente)).call(this, props));
 
         _this.state = {
-            tipoVehiculo: '',
-            numPlaca: '',
-            transportista: '',
-            numPesas: '',
-            comite: '',
-            proveedor: '',
-            observaciones: '',
-            isSubmitDisabled: false,
+            registro: {
+                id: '',
+                tipoVehiculo: '',
+                numPlaca: '',
+                transportista: '',
+                numPesas: '',
+                comite: '',
+                proveedor: '',
+                observaciones: ''
+            },
+            tipoVehiculo: [],
+            comite: [],
+            proveedor: [],
+            isSubmitDisabled: true,
             tags: [
                 // { id: "Thailand", text: "Thailand" },
                 // { id: "India", text: "India" }
             ],
-            suggestions: [{ id: 'USA', text: 'USA' }, { id: 'Germany', text: 'Germany' }, { id: 'Austria', text: 'Austria' }, { id: 'Costa Rica', text: 'Costa Rica' }, { id: 'Sri Lanka', text: 'Sri Lanka' }, { id: 'Thailand', text: 'Thailand' }]
+            suggestions: []
         };
+
+        axios.get('/listaComite').then(function (data) {
+            _this.setState({ comite: [].concat(_toConsumableArray(data.data.comite)) });
+        }).catch(function (error) {
+            console.error(error);
+        });
+        axios.get('/listaProveedor').then(function (data) {
+            _this.setState({ proveedor: [].concat(_toConsumableArray(data.data.proveedor)) });
+        }).catch(function (error) {
+            console.error(error);
+        });
+        axios.get('/listaTipoVehiculo').then(function (data) {
+            _this.setState({ tipoVehiculo: [].concat(_toConsumableArray(data.data.tv)) });
+        }).catch(function (error) {
+            console.error(error);
+        });
+
         _this.handleDelete = _this.handleDelete.bind(_this);
         _this.handleAddition = _this.handleAddition.bind(_this);
         _this.handleDrag = _this.handleDrag.bind(_this);
+        _this.handleInputChange = _this.handleInputChange.bind(_this);
+        _this.handleBlur = _this.handleBlur.bind(_this);
 
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -74165,22 +74343,47 @@ var RegistroPendiente = function (_React$Component) {
                     return index !== i;
                 })
             });
+            this.setState({
+                isSubmitDisabled: true
+            });
         }
     }, {
         key: 'handleAddition',
         value: function handleAddition(tag) {
-            this.setState(function (state) {
-                return {
-                    tags: [].concat(_toConsumableArray(state.tags), [tag])
-                };
-            });
-            this.setState({
-                transportista: tag.id
-            });
+            // console.log(tag);
+            if (this.state.tags.length < 1) {
+                this.setState(function (state) {
+                    return {
+                        tags: [].concat(_toConsumableArray(state.tags), [tag])
+                    };
+                });
+                this.setState(function (prevState) {
+                    return {
+                        registro: _extends({}, prevState.registro, {
+                            transportista: tag.id
+                        })
+                    };
+                });
+                this.setState({
+                    isSubmitDisabled: false
+                });
+            }
         }
     }, {
         key: 'handleInputChange',
-        value: function handleInputChange(e) {}
+        value: function handleInputChange(e) {
+            var _this2 = this;
+
+            if (e != '') {
+                axios.get('/getTransportistas/' + e).then(function (data) {
+                    //console.log(data.data.showT);
+                    _this2.setState({ suggestions: [].concat(_toConsumableArray(data.data.showT)) });
+                    // console.log(this.state.suggestions);
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
+        }
     }, {
         key: 'handleDrag',
         value: function handleDrag(tag, currPos, newPos) {
@@ -74194,27 +74397,84 @@ var RegistroPendiente = function (_React$Component) {
             this.setState({ tags: newTags });
         }
     }, {
+        key: 'handleBlur',
+        value: function handleBlur(e) {
+            // const valor = e.target.value;
+            // const nombre=e.target.name;
+            // // const rule = /^(([A-Z]{3,3})\-([0-9]{3,4}))$/;
+            // // const valid = rule.test(valor);
+            // // console.log(nombre);
+            //     if(nombre=="tipoVehiculo" || nombre=="proveedor" || nombre=="comite"){
+            //         if(this.state.registro.tipoVehiculo=='' || this.state.registro.proveedor=='' || this.state.registro.comite=='' || this.state.tags.length==0){
+            //             this.setState({
+            //                 isSubmitDisabled:true
+            //             });
+            //         }else{
+            //             this.setState({
+            //                 isSubmitDisabled:false
+            //             });
+            //         }
+            //     }
+
+        }
+    }, {
         key: 'handleChange',
         value: function handleChange(event) {
             var nombre = event.target.name;
             var valor = event.target.value;
-            this.setState(_defineProperty({}, nombre, valor));
+            this.setState(function (prevState) {
+                return {
+                    registro: _extends({}, prevState.registro, _defineProperty({}, nombre, valor))
+                };
+            });
         }
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
             //   alert('A name was submitted: ' + this.state.value);
             event.preventDefault();
-            console.log(this.state);
+
+            axios.post('/agregarRegistroEntrada', {
+                registro: this.state.registro
+            }).then(function (data) {
+                // console.log(data);
+                if (data.data == 'OK') {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Datos ingresados correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }).catch(function (error) {
+                __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                console.log('Error: ' + error);
+            });
         }
     }, {
         key: 'render',
         value: function render() {
             var _React$createElement;
 
-            var _state = this.state,
-                tags = _state.tags,
-                suggestions = _state.suggestions;
+            var tags = this.state.tags;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'section',
@@ -74224,7 +74484,7 @@ var RegistroPendiente = function (_React$Component) {
                     { className: 'container-fluid' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
-                        { className: 'card card-info' },
+                        { className: 'card card-primary' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'card-header' },
@@ -74276,32 +74536,19 @@ var RegistroPendiente = function (_React$Component) {
                                                     ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'select',
-                                                        { className: 'form-control', id: 'tipoVehiculo', name: 'tipoVehiculo', value: this.state.tipoVehiculo, onChange: this.handleChange },
+                                                        { className: 'form-control', id: 'tipoVehiculo', name: 'tipoVehiculo', value: this.state.registro.tipoVehiculo, onChange: this.handleChange, required: true },
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                             'option',
-                                                            { value: '1' },
-                                                            'option 1'
+                                                            { value: '' },
+                                                            ' --- '
                                                         ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '2' },
-                                                            'option 2'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '3' },
-                                                            'option 3'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '4' },
-                                                            'option 4'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '5' },
-                                                            'option 5'
-                                                        )
+                                                        this.state.tipoVehiculo.map(function (e, key) {
+                                                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'option',
+                                                                { key: key + 1, value: e.id },
+                                                                e.descripcion
+                                                            );
+                                                        })
                                                     ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
@@ -74317,7 +74564,7 @@ var RegistroPendiente = function (_React$Component) {
                                                         { htmlFor: 'numPesas' },
                                                         'N\xFAmero de Pesas'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', className: 'form-control', id: 'numPesas', name: 'numPesas', value: this.state.numPesas, onChange: this.handleChange, placeholder: 'N\xFAmero de Pesas' }),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', className: 'form-control', id: 'numPesas', name: 'numPesas', value: this.state.registro.numPesas, onChange: this.handleChange, placeholder: 'N\xFAmero de Pesas', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
                                                         { className: 'form-text text-muted' },
@@ -74332,15 +74579,16 @@ var RegistroPendiente = function (_React$Component) {
                                                         null,
                                                         'Transportista'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tag_input__["WithContext"], { tags: tags,
-                                                        suggestions: suggestions,
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_tag_input__["WithContext"], { tags: tags,
+                                                        suggestions: this.state.suggestions,
                                                         handleDelete: this.handleDelete,
                                                         handleAddition: this.handleAddition,
                                                         handleDrag: this.handleDrag,
                                                         handleInputChange: this.handleInputChange,
                                                         placeholder: 'Agregar Transportista',
                                                         inline: true,
-                                                        delimiters: delimiters }),
+                                                        delimiters: delimiters
+                                                    }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
                                                         { className: 'form-text text-muted' },
@@ -74359,7 +74607,7 @@ var RegistroPendiente = function (_React$Component) {
                                                         { htmlFor: 'numPesas' },
                                                         'N\xFAmero de Placa'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', (_React$createElement = { type: 'text', id: 'numPlaca', name: 'numPlaca', value: this.state.numPlaca, onChange: this.handleChange, className: 'form-control' }, _defineProperty(_React$createElement, 'id', 'numPesas'), _defineProperty(_React$createElement, 'placeholder', 'N\xFAmero de Placa'), _React$createElement)),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', (_React$createElement = { type: 'text', id: 'numPlaca', name: 'numPlaca', value: this.state.registro.numPlaca, onChange: this.handleChange, className: 'form-control' }, _defineProperty(_React$createElement, 'id', 'numPesas'), _defineProperty(_React$createElement, 'maxLength', '9'), _defineProperty(_React$createElement, 'placeholder', 'N\xFAmero de Placa'), _defineProperty(_React$createElement, 'required', true), _React$createElement)),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
                                                         { className: 'form-text text-muted' },
@@ -74376,32 +74624,19 @@ var RegistroPendiente = function (_React$Component) {
                                                     ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'select',
-                                                        { className: 'form-control', id: 'comite', name: 'comite', value: this.state.comite, onChange: this.handleChange },
+                                                        { className: 'form-control', id: 'comite', name: 'comite', value: this.state.registro.comite, onChange: this.handleChange, required: true },
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                             'option',
-                                                            { value: '1' },
-                                                            'option 1'
+                                                            { value: '' },
+                                                            '  ---  '
                                                         ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '2' },
-                                                            'option 2'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '3' },
-                                                            'option 3'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '4' },
-                                                            'option 4'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '5' },
-                                                            'option 5'
-                                                        )
+                                                        this.state.comite.map(function (e, key) {
+                                                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'option',
+                                                                { key: key + 1, value: e.id },
+                                                                e.nombre
+                                                            );
+                                                        })
                                                     ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
@@ -74417,11 +74652,26 @@ var RegistroPendiente = function (_React$Component) {
                                                         null,
                                                         'Proveedor '
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'proveedor', name: 'proveedor', type: 'text', value: this.state.proveedor, onChange: this.handleChange }),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'select',
+                                                        { className: 'form-control', id: 'proveedor', name: 'proveedor', value: this.state.registro.proveedor, onChange: this.handleChange, required: true },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'option',
+                                                            { value: '' },
+                                                            '  ---  '
+                                                        ),
+                                                        this.state.proveedor.map(function (e, key) {
+                                                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'option',
+                                                                { key: key + 1, value: e.id },
+                                                                e.nombre
+                                                            );
+                                                        })
+                                                    ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
                                                         { className: 'form-text text-muted' },
-                                                        'Ingrese proveedor.'
+                                                        'Seleccione un proveedor.'
                                                     )
                                                 )
                                             ),
@@ -74436,7 +74686,7 @@ var RegistroPendiente = function (_React$Component) {
                                                         null,
                                                         'Observaciones'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'observaciones', name: 'observaciones', type: 'text', value: this.state.observaciones, onChange: this.handleChange }),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'observaciones', name: 'observaciones', type: 'text', value: this.state.registro.observaciones, onChange: this.handleChange }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
                                                         { id: 'emailHelp', className: 'form-text text-muted' },
@@ -103253,6 +103503,452 @@ var ListaProveedor = function (_React$Component) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var RegistrarComite = function (_React$Component) {
+    _inherits(RegistrarComite, _React$Component);
+
+    function RegistrarComite(props) {
+        _classCallCheck(this, RegistrarComite);
+
+        var _this = _possibleConstructorReturn(this, (RegistrarComite.__proto__ || Object.getPrototypeOf(RegistrarComite)).call(this, props));
+
+        _this.state = {
+            comite: {
+                id: '',
+                nombre: '',
+                descripcion: ''
+            }
+        };
+
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(RegistrarComite, [{
+        key: 'fillForm',
+        value: function fillForm(e) {
+            var _this2 = this;
+
+            axios.get('/getComite/' + e.id).then(function (data) {
+                _this2.setState({ comite: data.data.p });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            var nombre = event.target.name;
+            var valor = event.target.value;
+            this.setState(function (prev) {
+                return {
+                    comite: _extends({}, prev.comite, _defineProperty({}, nombre, valor))
+                };
+            });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            event.preventDefault();
+            axios.post('/agregarComite', {
+                comite: this.state.comite
+            }).then(function (data) {
+                console.log(data);
+                if (data.data == 'OK') {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Datos ingresados correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }).catch(function (error) {
+                __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                console.log('Error: ' + error);
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'section',
+                { className: 'content' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'container-fluid' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'card card-primary' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'card-header' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'h3',
+                                { className: 'card-title' },
+                                'Agregar Nuevo Comite'
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'card-tools' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'collapse' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-minus' })
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'remove' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-remove' })
+                                )
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'card-body' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'row ' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'col-md-8 mx-auto' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'form',
+                                        { onSubmit: this.handleSubmit },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { className: 'row' },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'col-md-10 mx-auto' },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'nombre' },
+                                                        'Nombre'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'nombre', name: 'nombre', value: this.state.comite.nombre, onChange: this.handleChange, placeholder: 'Nombre del Comite', required: true }),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'small',
+                                                        { className: 'form-text text-muted' },
+                                                        'Ingrese nombre del comite.'
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'descripcion' },
+                                                        'Descripci\xF3n'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'descripcion', name: 'descripcion', value: this.state.comite.descripcion, onChange: this.handleChange, placeholder: 'Descripci\xF3n del Comite', required: true }),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'small',
+                                                        { className: 'form-text text-muted' },
+                                                        'Ingrese descripcion del comite.'
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control btn btn-primary', type: 'submit', value: 'Registrar', disabled: this.state.isSubmitDisabled })
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return RegistrarComite;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (RegistrarComite);
+
+/***/ }),
+/* 380 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_table__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__registrar__ = __webpack_require__(379);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+var ListaComite = function (_React$Component) {
+  _inherits(ListaComite, _React$Component);
+
+  function ListaComite() {
+    _classCallCheck(this, ListaComite);
+
+    var _this = _possibleConstructorReturn(this, (ListaComite.__proto__ || Object.getPrototypeOf(ListaComite)).call(this));
+
+    _this.RegistrarComite = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
+    _this.state = {
+      data: [],
+      id: ''
+    };
+
+    axios.get('/listaComite').then(function (data) {
+      _this.setState({ data: [].concat(_toConsumableArray(data.data.comite)) });
+    }).catch(function (error) {
+      console.error(error);
+    });
+
+    return _this;
+  }
+
+  _createClass(ListaComite, [{
+    key: "editarC",
+    value: function editarC(e) {
+      this.setState({
+        id: e
+      });
+      this.RegistrarComite.current.fillForm(e);
+    }
+  }, {
+    key: "eliminarC",
+    value: function eliminarC(e) {
+      var _this2 = this;
+
+      // console.log(e);
+      __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+        title: "Deseas eliminar este comite: " + e.nombre + "?",
+        text: "No será posible revertir esta acción!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, elíminalo!',
+        cancelButtonText: 'No, cancelar!'
+      }).then(function (result) {
+        if (result.value) {
+          axios.get("/eliminarcomite/" + e.id).then(function (data) {
+            console.log(data.data);
+            if (data.data == "OK") {
+              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El comite ha sido eliminado.', 'success');
+              setTimeout(function () {
+                location.reload();
+              }, 1500);
+            } else {
+              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Algo fue mal!',
+                footer: 'Consulte con el administrador sobre este problema.'
+              });
+            }
+          }).catch(function (error) {
+            console.log('Ocurrio un error ' + error);
+            _this2.$Progress.fail();
+          });
+        }
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      var data = this.state.data;
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "col-md-12" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "card card-info" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "card-header" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "h3",
+              { className: "card-title" },
+              "Lista de comites"
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "card-body" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
+              data: data,
+              columns: [{
+                Header: "Código",
+                columns: [{
+                  Header: "ID",
+                  filterable: true,
+                  maxWidth: 50,
+                  id: "id",
+                  accessor: function accessor(d) {
+                    return d.id;
+                  }
+                }]
+              }, {
+                Header: "Información",
+                columns: [{
+                  Header: "Nombre",
+                  accessor: "nombre",
+                  filterable: true
+                }, {
+                  Header: "Descipción",
+                  accessor: "descripcion",
+                  filterable: true
+                }]
+              }, {
+                Header: 'Acciones',
+                columns: [{
+                  Header: "Eliminar",
+                  accessor: "tipo",
+                  maxWidth: 100,
+                  Cell: function Cell(row) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { className: "form-control btn btn-danger", onClick: function onClick() {
+                          return _this3.eliminarC(row.row);
+                        } },
+                      "Eliminar"
+                    );
+                  }
+                }, {
+                  Header: "Editar",
+                  accessor: "tipo",
+                  maxWidth: 100,
+                  Cell: function Cell(row) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { className: "form-control btn btn-primary", "data-toggle": "modal",
+                        "data-target": "#exampleModal", onClick: function onClick() {
+                          return _this3.editarC(row.row);
+                        } },
+                      "Editar"
+                    );
+                  }
+                }]
+              }],
+              defaultPageSize: 5,
+              className: "-striped -highlight"
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "div",
+              { className: "modal fade", id: "exampleModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "exampleModalLabel", "aria-hidden": "true" },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "modal-dialog modal-lg", role: "document" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  "div",
+                  { className: "modal-content" },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "modal-header" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "h5",
+                      { className: "modal-title", id: "exampleModalLabel" },
+                      "Editar comite"
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { "aria-hidden": "true" },
+                        "\xD7"
+                      )
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "modal-body" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registrar__["a" /* default */], { ref: this.RegistrarComite })
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ListaComite;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (ListaComite);
 
 /***/ })
 /******/ ]);

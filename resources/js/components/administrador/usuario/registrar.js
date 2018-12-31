@@ -71,7 +71,7 @@ class RegistrarPersona extends React.Component {
                     });
                 }
             }
-            if(valor=="0"){
+            if(valor==""){
                 this.setState({
                     isSubmitDisabled:true,
                     claves:{
@@ -235,8 +235,8 @@ class RegistrarPersona extends React.Component {
                                         </div>
                                         <div className="form-group">
                                             <label>Tipo Persona</label>
-                                            <select className="form-control" id="tipoP" name="tipoP" value={this.state.persona.tipoP} onChange={this.handleChange}>
-                                            <option value='0'> ------ </option>
+                                            <select className="form-control" id="tipoP" name="tipoP" value={this.state.persona.tipoP} onChange={this.handleChange} required>
+                                            <option value=''> ------ </option>
                                             {this.state.tipoPersona.map((e, key) => {
                                             return <option key={key+1} value={e.id}>{e.descripcion}</option>;
                                             })}

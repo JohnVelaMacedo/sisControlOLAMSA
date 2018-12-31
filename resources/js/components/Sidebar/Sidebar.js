@@ -61,7 +61,7 @@ class Sidebar extends Component {
 					</li>
 					<li className="nav-item has-treeview">
 						<a href="#" className="nav-link">
-							<i className="nav-icon fa fa-users"></i>
+							<i className="nav-icon fa fa-database"></i>
 							<p>
 								Proveedor
                                 <i className="fa fa-angle-right right"></i>
@@ -78,6 +78,30 @@ class Sidebar extends Component {
 								<Link to="/listaProv" className="nav-link">
 									<i className="fa fa-list-ol nav-icon"></i>
 									<p>Lista de Proveedores</p>
+								</Link>
+							</li>
+							
+						</ul>
+					</li>
+					<li className="nav-item has-treeview">
+						<a href="#" className="nav-link">
+							<i className="nav-icon fa fa-users"></i>
+							<p>
+								Comite
+                                <i className="fa fa-angle-right right"></i>
+							</p>
+						</a>
+						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+							<li className="nav-item">
+								<Link to="/adminRegComite" className="nav-link">
+								<i className="fa fa-plus-square nav-icon"></i>
+									<p>Agregar</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/listaCom" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Lista de Comités</p>
 								</Link>
 							</li>
 							
@@ -117,31 +141,76 @@ class Sidebar extends Component {
 				aside = (
 					<div>
 						<li className="nav-item has-treeview">
-						<Link to="agenteRegistro" className="nav-link">
-							<i className="nav-icon fa fa-folder"></i>
+						<a href="#" className="nav-link">
+							<i className="nav-icon fa fa-sign-in"></i>
 							<p>
-								Registro
+								Registro Entrada
                                 <i className="fa fa-angle-right right"></i>
 							</p>
-						</Link>
+						</a>
+						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+							<li className="nav-item">
+								<Link to="/agenteRegistro" className="nav-link">
+								<i className="fa fa-plus-square nav-icon"></i>
+									<p>Agregar</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Lista de Comités</p>
+								</Link>
+							</li>
+							
+						</ul>
 					</li>
 					<li className="nav-item has-treeview">
-						<Link to="#" className="nav-link">
-							<i className="nav-icon fa fa-folder"></i>
+						<a href="#" className="nav-link">
+							<i className="nav-icon fa fa-arrow-circle-right"></i>
 							<p>
-								Pendiente Ingreso
+								Pendiente Entrada
                                 <i className="fa fa-angle-right right"></i>
 							</p>
-						</Link>
+						</a>
+						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+							<li className="nav-item">
+								<Link to="/agenteRegistro" className="nav-link">
+								<i className="fa fa-plus-square nav-icon"></i>
+									<p>Agregar</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Lista de Comités</p>
+								</Link>
+							</li>
+							
+						</ul>
 					</li>
 					<li className="nav-item has-treeview">
-						<Link to="#" className="nav-link">
-							<i className="nav-icon fa fa-folder"></i>
+						<a href="#" className="nav-link">
+							<i className="nav-icon fa fa-arrow-circle-left"></i>
 							<p>
 								Pendiente Salida
                                 <i className="fa fa-angle-right right"></i>
 							</p>
-						</Link>
+						</a>
+						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+							<li className="nav-item">
+								<Link to="/agenteRegistro" className="nav-link">
+								<i className="fa fa-plus-square nav-icon"></i>
+									<p>Agregar</p>
+								</Link>
+							</li>
+							<li className="nav-item">
+								<Link to="/" className="nav-link">
+									<i className="fa fa-list-ol nav-icon"></i>
+									<p>Lista de Comités</p>
+								</Link>
+							</li>
+							
+						</ul>
 					</li>
 					</div>
 				);

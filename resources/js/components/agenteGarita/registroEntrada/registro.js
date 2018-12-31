@@ -1,0 +1,306 @@
+import React, {Component} from 'react';
+import Swal from 'sweetalert2';
+import { WithContext as ReactTags } from 'react-tag-input';
+import './tagsInputStyles.css'
+
+//para el tag input: al presionar enter o coma agregue el tag
+const KeyCodes = {
+    comma: 188,
+    enter: 13,
+  };
+  const delimiters = [KeyCodes.comma, KeyCodes.enter];
+//-------------------
+
+class RegistroPendiente extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+          registro:{
+            id:               '',
+            tipoVehiculo:     '',
+            numPlaca:         '',
+            transportista:    '',
+            numPesas:         '',
+            comite:           '',
+            proveedor:        '',
+            observaciones:    '',
+          },
+          tipoVehiculo:[],
+          comite:[],
+          proveedor:[],
+          isSubmitDisabled: true,
+        tags: [
+            // { id: "Thailand", text: "Thailand" },
+            // { id: "India", text: "India" }
+         ],
+        suggestions: []
+        };
+
+        axios.get('/listaComite')
+        .then(data => {
+            this.setState({comite: [...data.data.comite]});
+        }).catch(error => {
+            console.error(error);
+        });
+        axios.get('/listaProveedor')
+        .then(data => {
+            this.setState({proveedor: [...data.data.proveedor]});
+        }).catch(error => {
+            console.error(error);
+        });
+        axios.get('/listaTipoVehiculo')
+        .then(data => {
+            this.setState({tipoVehiculo: [...data.data.tv]});
+        }).catch(error => {
+            console.error(error);
+        });
+
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleAddition = this.handleAddition.bind(this);
+        this.handleDrag = this.handleDrag.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    }
+  
+    handleDelete(i) {
+        const { tags } = this.state;
+        this.setState({
+         tags: tags.filter((tag, index) => index !== i),
+        });
+        this.setState({
+            isSubmitDisabled:true
+        });
+    }
+ 
+    handleAddition(tag) {
+        // console.log(tag);
+        if(this.state.tags.length<1){
+            this.setState(state => ({ 
+                tags: [...state.tags, tag]
+             }));
+             this.setState(
+                prevState=>({
+                    registro:{
+                      ...prevState.registro,
+                      transportista: tag.id
+                    }
+                  })
+                );
+             this.setState({
+                                isSubmitDisabled:false
+                            });
+        }
+    }
+
+    handleInputChange(e){
+        if(e!=''){
+            axios.get('/getTransportistas/'+e)
+        .then(data => {
+            //console.log(data.data.showT);
+            this.setState({suggestions: [...data.data.showT]});
+            // console.log(this.state.suggestions);
+        }).catch(error => {
+            console.error(error);
+        });
+        }
+    }
+ 
+    handleDrag(tag, currPos, newPos) {
+        const tags = [...this.state.tags];
+        const newTags = tags.slice();
+ 
+        newTags.splice(currPos, 1);
+        newTags.splice(newPos, 0, tag);
+ 
+        // re-render
+        this.setState({ tags: newTags });
+    }
+
+    handleBlur(e) {
+        // const valor = e.target.value;
+        // const nombre=e.target.name;
+        // // const rule = /^(([A-Z]{3,3})\-([0-9]{3,4}))$/;
+        // // const valid = rule.test(valor);
+        // // console.log(nombre);
+        //     if(nombre=="tipoVehiculo" || nombre=="proveedor" || nombre=="comite"){
+        //         if(this.state.registro.tipoVehiculo=='' || this.state.registro.proveedor=='' || this.state.registro.comite=='' || this.state.tags.length==0){
+        //             this.setState({
+        //                 isSubmitDisabled:true
+        //             });
+        //         }else{
+        //             this.setState({
+        //                 isSubmitDisabled:false
+        //             });
+        //         }
+        //     }
+        
+    }
+
+    handleChange(event) {
+        const nombre=   event.target.name;
+        const valor =   event.target.value;
+        this.setState(
+            prevState=>({
+                registro:{
+                  ...prevState.registro,
+                  [nombre]: valor
+                }
+              })
+            );
+    }
+  
+    handleSubmit(event) {
+    //   alert('A name was submitted: ' + this.state.value);
+      event.preventDefault();
+
+      axios.post('/agregarRegistroEntrada', {
+        registro: this.state.registro
+    })
+    .then(data => {
+        // console.log(data);
+        if (data.data == 'OK') {
+            Swal({
+                position: 'top-end',
+                type: 'success',
+                title: 'Datos ingresados correctamente',
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } else {
+            Swal({
+                position: 'top-end',
+                type: 'error',
+                title: 'No se pudo agregar, comuníquese con el Administrador',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    }).catch(error => {
+        Swal({
+            position: 'top-end',
+            type: 'error',
+            title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
+            showConfirmButton: false,
+            timer: 2000
+        });
+        console.log(`Error: ${error}`);
+    });
+
+    }
+
+    
+  
+    render() {
+        const { tags } = this.state;
+      return (
+          <section className="content">
+              <div className="container-fluid">
+                <div className="card card-primary">
+                    <div className="card-header">
+                        <h3 className="card-title">Registro</h3>
+                        <div className="card-tools">
+                        <button type="button" className="btn btn-tool" data-widget="collapse"><i className="fa fa-minus"></i></button>
+                        <button type="button" className="btn btn-tool" data-widget="remove"><i className="fa fa-remove"></i></button>
+                        </div>
+                    </div>
+                    <div className="card-body">
+                        <div className="row ">
+                            <div className="col-md-12">
+                                <form onSubmit={this.handleSubmit}>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <div className="form-group">
+                                        <label>Tipo de Vehículo</label>
+                                        <select className="form-control" id="tipoVehiculo" name="tipoVehiculo" value={this.state.registro.tipoVehiculo} onChange={this.handleChange} required>
+                                        <option value=''> --- </option>
+                                        {this.state.tipoVehiculo.map((e, key) => {
+                                            return <option key={key+1} value={e.id}>{e.descripcion}</option>;
+                                            })}
+                                        </select>
+                                        <small className="form-text text-muted">Seleccione un tipo de vehículo.</small>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="numPesas">Número de Pesas</label>
+                                            <input type="number" className="form-control" id="numPesas" name="numPesas" value={this.state.registro.numPesas} onChange={this.handleChange}  placeholder="Número de Pesas" required/>
+                                            <small className="form-text text-muted">Ingrese el número de pesas.</small>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label>Transportista</label>
+                                                <ReactTags tags={tags}
+                                                    suggestions={this.state.suggestions}
+                                                    handleDelete={this.handleDelete}
+                                                    handleAddition={this.handleAddition}
+                                                    handleDrag={this.handleDrag}
+                                                    handleInputChange={this.handleInputChange}
+                                                    placeholder="Agregar Transportista"
+                                                    inline={true}
+                                                    delimiters={delimiters} 
+                                                    />
+                                                <small className="form-text text-muted">Ingrese el nombre del Transportista y selecceione en las sugerencias.</small>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="col-md-6">
+                                    
+                                        <div className="form-group">
+                                            <label htmlFor="numPesas">Número de Placa</label>
+                                            <input type="text" id="numPlaca" name="numPlaca" value={this.state.registro.numPlaca} onChange={this.handleChange} className="form-control" id="numPesas" maxLength="9" placeholder="Número de Placa" required/>
+                                            <small className="form-text text-muted">Ingrese la place del vehículo.</small>
+                                        </div>
+                                    
+                                        <div className="form-group">
+                                            <label>Comité</label>
+                                            <select className="form-control" id="comite" name="comite" value={this.state.registro.comite} onChange={this.handleChange} required >
+                                            <option value=''>  ---  </option>
+                                            {this.state.comite.map((e, key) => {
+                                            return <option key={key+1} value={e.id}>{e.nombre}</option>;
+                                            })}
+                                            </select>
+                                            <small className="form-text text-muted">Seleccione Comité.</small>
+                                        </div>
+                                    
+                                        <div className="form-group">
+                                        <label>Proveedor </label>
+                                        <select className="form-control" id="proveedor" name="proveedor" value={this.state.registro.proveedor} onChange={this.handleChange} required>
+                                            <option value=''>  ---  </option>
+                                            {this.state.proveedor.map((e, key) => {
+                                            return <option key={key+1} value={e.id}>{e.nombre}</option>;
+                                            })}
+                                            </select>
+                                            <small className="form-text text-muted">Seleccione un proveedor.</small>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="col-md-12">
+                                        <div className="form-group">
+                                        <label>Observaciones</label>
+                                            <input className="form-control" id="observaciones" name="observaciones" type="text" value={this.state.registro.observaciones} onChange={this.handleChange} />
+                                            <small id="emailHelp" className="form-text text-muted">Registre alguna observación.</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                    <input className="form-control btn btn-primary" type="submit" value="Registrar" disabled={this.state.isSubmitDisabled}/>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </section>
+        
+      );
+    }
+  }
+
+  export default RegistroPendiente;

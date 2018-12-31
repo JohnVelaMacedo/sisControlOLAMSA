@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PendienteDescarga from "../Users/Evaluador/PendienteDescarga";
 import Home from "../Home";
-import RegistroPendiente from "../agenteGarita/pendienteIngreso/registro";
+import RegistroPendiente from "../agenteGarita/registroEntrada/registro";
 import RegistrarPersona from "../administrador/usuario/registrar";
 import ListaPersona from "../administrador/usuario/lista";
 import RegistrarTipoVehiculo from "../administrador/tipoVehiculo/registrar";
 import ListaTipoVehiculo from "../administrador/tipoVehiculo/lista";
 import RegistrarProveedor from "../administrador/proveedor/registrar";
 import ListaProveedor from "../administrador/proveedor/lista";
+import RegistrarComite from "../administrador/comite/registrar";
+import ListaComite from "../administrador/comite/lista";
 
 class Content extends Component {
     render() {
@@ -26,6 +28,8 @@ class Content extends Component {
                         <Route path="/listaTipoV" component={ListaTipoVehiculo} />
                         <Route path="/adminRegProv" component={RegistrarProveedor} />
                         <Route path="/listaProv" component={ListaProveedor} />
+                        <Route path="/adminRegComite" component={RegistrarComite} />
+                        <Route path="/listaCom" component={ListaComite} />
                     </Switch>
                 </section>
             </div>

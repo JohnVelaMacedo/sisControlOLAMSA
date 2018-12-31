@@ -219,7 +219,7 @@ class Sidebar extends Component {
 				aside = (
 						<li className="nav-item has-treeview">
 							<a href="#" className="nav-link">
-								<i className="nav-icon fa fa-folder"></i>
+								<i className="fa fa-car" aria-hidden="true"></i>
 								<p>
 									Pendiente Descarga
                                     <i className="fa fa-angle-right right"></i>

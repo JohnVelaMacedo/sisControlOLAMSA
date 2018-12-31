@@ -3,37 +3,35 @@ import { render } from "react-dom";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import Swal from 'sweetalert2';
-import RegistrarPersona from './registrar'
+import RegistrarTipoVehiculo from './registrar'
 
-class ListaPersona extends React.Component {
+class ListaTipoVehiculo extends React.Component {
     constructor() {
       super();
-      this.RegistrarPersona = React.createRef();
+      this.RegistrarTipoVehiculo = React.createRef();
       this.state = {
         data: [],
-        dniEdit:'primer'
+        id:''
       };
 
-      axios.get('listaPersona')
+      axios.get('listaTipoVehiculo')
         .then(data => {
-            //console.log(data);
-            this.setState({data: [...data.data.Personas]});
+            this.setState({data: [...data.data.tv]});
         }).catch(error => {
             console.error(error);
         });
 
     }
-    editarP(e){
-        // console.log(e);
+    editarTV(e){
         this.setState({
-          dniEdit: e
+          id: e
         });
-        this.RegistrarPersona.current.fillForm(e);
+        this.RegistrarTipoVehiculo.current.fillForm(e);
     }
-    eliminarP(e){
-        // console.log(e);
+    eliminarTV(e){
+        console.log(e);
         Swal({
-            title: `Deseas eliminar esta persona: ${e.nombre} ${e.apellidos} ?`,
+            title: `Deseas eliminar este tipo de vehículo: ${e.descripcion}?`,
             text: "No será posible revertir esta acción!",
             type: 'warning',
             showCancelButton: true,
@@ -43,13 +41,13 @@ class ListaPersona extends React.Component {
             cancelButtonText: 'No, cancelar!',
         }).then((result) => {
             if (result.value) {
-                axios.get(`/eliminarPersona/${e.dni}`)
+                axios.get(`/eliminarTipoVehiculo/${e.id}`)
                     .then(data => {
                       console.log(data.data);
                     if(data.data=="OK"){
                         Swal(
                         'Eliminado!',
-                         'El sector ha sido eliminado.',
+                         'El tipo de vehículo ha sido eliminado.',
                          'success'
                             );
                         setTimeout(() => {
@@ -73,28 +71,24 @@ class ListaPersona extends React.Component {
     render() {
       const { data } = this.state;
       return (
-        <div>
-          <div className="card card-info">
+        <div className="col-md-8 mx-auto">
+            <div className="card card-info">
                 <div className="card-header">
-                    <h3 className="card-title">Lista de Personas</h3>
+                    <h3 className="card-title">Lista de Tipos de Vehículos</h3>
                 </div>
                 <div className="card-body">
           <ReactTable
             data={data}
             columns={[
               {
-                Header: "Nombre Completo",
+                Header: "Código",
                 columns: [
                   {
-                    Header: "Nombres",
-                    accessor: "nombre",
-                    filterable:true
-                  },
-                  {
-                    Header: "Apellidos",
+                    Header: "ID",
                     filterable:true,
-                    id: "apellidos",
-                    accessor: d => d.apellidos
+                    maxWidth: 50,
+                    id: "id",
+                    accessor: d => d.id
                   }
                 ]
               },
@@ -102,35 +96,9 @@ class ListaPersona extends React.Component {
                 Header: "Información",
                 columns: [
                   {
-                    Header: "DNI",
-                    accessor: "dni",
+                    Header: "Descipción",
+                    accessor: "descripcion",
                     filterable:true
-                  },
-                  {
-                    Header: "E-mail",
-                    accessor: "email",
-                    filterable:true
-                  },
-                  {
-                    Header: "Dirección",
-                    accessor: "direccion",
-                    filterable:true
-                  }
-                ]
-              },
-              {
-                Header: 'Persona',
-                columns: [
-                  {
-                    Header: "Tipo",
-                    filterable:true,
-                    accessor: "tipo",
-                    Cell:row=>(
-                        row.row.tipo==1?'ADMINISTRADOR':
-                        row.row.tipo==2?'SUPERVISOR':
-                        row.row.tipo==3?'AGENTE GARITA':
-                        row.row.tipo==4?'EVALUADOR RR.HH.':'TRANSPORTISTA'
-                    ) 
                   }
                 ]
               },
@@ -139,23 +107,25 @@ class ListaPersona extends React.Component {
                 columns: [
                   {
                     Header: "Eliminar",
+                    accessor: "tipo",
                     maxWidth: 100,
                     Cell: row =>(
-                        <button className="form-control btn btn-danger" onClick={()=>this.eliminarP(row.row)}>Eliminar</button>
+                        <button className="form-control btn btn-danger" onClick={()=>this.eliminarTV(row.row)}>Eliminar</button>
                     )
-                  },   
+                  },
                   {
                     Header: "Editar",
+                    accessor: "tipo",
                     maxWidth: 100,
                     Cell: row =>(
                         <button className="form-control btn btn-primary" data-toggle="modal" 
-                        data-target="#exampleModal" onClick={()=>this.editarP(row.row)}>Editar</button>
+                        data-target="#exampleModal" onClick={()=>this.editarTV(row.row)}>Editar</button>
                     )
                   }
                 ]
               }
             ]}
-            defaultPageSize={10}
+            defaultPageSize={5}
             className="-striped -highlight"
           />
           
@@ -164,22 +134,23 @@ class ListaPersona extends React.Component {
                         <div className="modal-dialog modal-lg" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalLabel">Editar Persona</h5>
+                                    <h5 className="modal-title" id="exampleModalLabel">Editar Tipo Vehiculo</h5>
                                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <RegistrarPersona ref={this.RegistrarPersona} />
+                                    <RegistrarTipoVehiculo ref={this.RegistrarTipoVehiculo} />
                                 </div>
                             </div>
                         </div>
                     </div>
                     {/* MODAL EDITAR */}
-                    </div>
+
+                </div>
             </div>
         </div>
       );
     }
   }
-  export default ListaPersona;
+  export default ListaTipoVehiculo;

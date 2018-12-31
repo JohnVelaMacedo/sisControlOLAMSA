@@ -11,7 +11,7 @@ const KeyCodes = {
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
 //-------------------
 
-class Registro extends React.Component {
+class RegistroPendiente extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -195,4 +195,4 @@ class Registro extends React.Component {
     }
   }
 
-  export default Registro;
+  export default RegistroPendiente;

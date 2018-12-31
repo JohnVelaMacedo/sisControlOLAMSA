@@ -34,6 +34,18 @@ Route::get('/eliminarPersona/{dni}','PersonaController@destroy')->name('eliminar
 Route::get('/getPersona/{dni}','PersonaController@edit')->name('editarPersona');
 Route::resource('/listaPersona','PersonaController');
 
+//rutas tipos de vehiculos
+Route::post('/agregarTipoVehiculo','TipoVehiculoController@store')->name('agregartipoVehiculo');
+Route::get('/getTipoVehiculo/{id}','TipoVehiculoController@edit')->name('editarTipoVehiculo');
+Route::resource('/listaTipoVehiculo','TipoVehiculoController');
+Route::get('/eliminarTipoVehiculo/{dni}','TipoVehiculoController@destroy')->name('eliminarProveedor');
+
+//rutas proveedor
+Route::post('/agregarProveedor','ProveedorController@store')->name('agregarProveedor');
+Route::get('/getProveedor/{id}','ProveedorController@edit')->name('editarProveedor');
+Route::resource('/listaProveedor','ProveedorController');
+Route::get('/eliminarProveedor/{dni}','ProveedorController@destroy')->name('eliminarProveedor');
+
 // Rutas alternas
 // Route::view('/{path?}', 'app');
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');

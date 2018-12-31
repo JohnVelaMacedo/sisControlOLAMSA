@@ -71085,7 +71085,7 @@ var Sidebar = function (_Component) {
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							"a",
 							{ href: "#", className: "nav-link" },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-car", "aria-hidden": "true" }),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 								"p",
 								null,
@@ -71409,10 +71409,11 @@ var PendienteDescarga = function (_Component) {
 
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.handleBlur = _this.handleBlur.bind(_this);
+        _this.handleEditPendiente = _this.handleEditPendiente.bind(_this);
         _this.state = {
             tipo_vehiculo: [],
             fecha_hora_descarga: [],
-            pendiente_descarga: [],
             persona: [],
             fecha_hora_descarga_datos: {
                 observaciones: null,
@@ -71421,15 +71422,42 @@ var PendienteDescarga = function (_Component) {
                 transportista: null,
                 tipoVehiculo: null,
                 placa: null
-            }
+            },
+            errorPlaca: ""
         };
         return _this;
     }
 
     _createClass(PendienteDescarga, [{
+        key: "handleEditPendiente",
+        value: function handleEditPendiente(data) {
+            console.log(data);
+            __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#editModal').modal('show');
+        }
+    }, {
+        key: "handleBlur",
+        value: function handleBlur(e) {
+            var value = e.target.value;
+            var rule = /^(([A-Z]{3,3})\-([0-9]{3,4}))$/;
+            var valid = rule.test(value);
+
+            if (valid) {
+                __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#button_submit').prop('disabled', false);
+                this.setState({ errorPlaca: "" });
+            } else {
+                __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#button_submit').prop('disabled', true);
+                __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#errorPlaca').css("color", "red");
+                this.setState({ errorPlaca: "Asegurese de cumplir el formato indicado(XXX-123)" });
+            }
+        }
+    }, {
         key: "handleSubmit",
         value: function handleSubmit(e) {
+            var _this2 = this;
+
             e.preventDefault();
+            var formSubmit = document.getElementById('formSubmit');
+
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('fecha_hora_descarga', {
                 fecha_hora_descarga: this.state.fecha_hora_descarga_datos
             }).then(function (data) {
@@ -71453,6 +71481,19 @@ var PendienteDescarga = function (_Component) {
 
                 setTimeout(function () {
                     __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#exampleModal').modal('hide');
+                    formSubmit.reset();
+                    _this2.setState(function (prevState) {
+                        return {
+                            fecha_hora_descarga_datos: {
+                                observaciones: null,
+                                fechaReg: null,
+                                horaReg: null,
+                                transportista: null,
+                                tipoVehiculo: null,
+                                placa: null
+                            }
+                        };
+                    });
                 }, 1800);
             }).catch(function (error) {
                 __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
@@ -71483,14 +71524,13 @@ var PendienteDescarga = function (_Component) {
     }, {
         key: "componentDidMount",
         value: function componentDidMount() {
-            var _this2 = this;
+            var _this3 = this;
 
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('fecha_hora_descarga').then(function (data) {
-                _this2.setState({
+                _this3.setState({
                     tipo_vehiculo: data.data.tipo_vehiculo,
-                    pendiente_descarga: data.data.pendiente_descarga,
-                    fecha_hora_descarga: data.data.fecha_hora_descarga,
-                    persona: data.data.persona
+                    persona: data.data.persona,
+                    fecha_hora_descarga: data.data.fecha_hora_descarga
                 });
             }).catch(function (error) {
                 return console.error(error);
@@ -71499,11 +71539,12 @@ var PendienteDescarga = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var _this4 = this;
+
             var _state = this.state,
                 tipo_vehiculo = _state.tipo_vehiculo,
-                pendiente_descarga = _state.pendiente_descarga,
-                fecha_hora_descarga = _state.fecha_hora_descarga,
-                persona = _state.persona;
+                persona = _state.persona,
+                fecha_hora_descarga = _state.fecha_hora_descarga;
 
             // Lista de Tipos de Vehículos
 
@@ -71561,38 +71602,79 @@ var PendienteDescarga = function (_Component) {
             );
 
             // React Table
-            var data = [{
-                name: 'Tanner Linsley',
-                age: 26,
-                friend: {
-                    name: 'Jason Maurer',
-                    age: 23
-                }
-            }, {
-                name: 'Tinna Turner',
-                age: 28,
-                friend: {
-                    name: 'Jacob Kowalski',
-                    age: 21
-                }
-            }];
-
             var columns = [{
-                Header: 'PLACA'
+                Header: 'PLACA',
+                accessor: 'placa'
             }, {
-                Header: 'TRANSPORTISTA'
+                Header: 'TRANSPORTISTA',
+                columns: [{
+                    Header: 'DNI',
+                    accessor: 'transportista'
+                }, {
+                    Header: 'Nombres Completos',
+                    accessor: 'full_name'
+                }]
             }, {
-                Header: 'TIPO DE VEHICULO'
+                Header: 'VEHICULO',
+                columns: [{
+                    Header: 'Tipo',
+                    accessor: 'descripcion'
+                }]
             }, {
-                Header: 'OBSERVACIONES'
+                Header: 'OBSERVACIONES',
+                accessor: 'observaciones'
             }, {
-                Header: 'FECHA/HORA (INICIO)'
+                Header: 'FECHA/HORA (INICIO)',
+                columns: [{
+                    Header: 'Fecha',
+                    accessor: 'fechaReg'
+                }, {
+                    Header: 'Hora',
+                    accessor: 'horaReg'
+                }]
             }, {
-                Header: 'FECHA/HORA (FIN)'
+                Header: 'FECHA/HORA (FIN)',
+                columns: [{
+                    Header: 'Fecha',
+                    accessor: 'fechafinReg',
+                    Cell: function Cell(props) {
+                        return props.value ? props.value : "Datos faltantes";
+                    }
+                }, {
+                    Header: 'Hora',
+                    accessor: 'horafinReg',
+                    Cell: function Cell(props) {
+                        return props.value ? props.value : "Datos faltantes";
+                    }
+                }]
             }, {
-                Header: 'ESTADO'
+                Header: 'ESTADO',
+                accessor: 'checkInicioFin',
+                Cell: function Cell(props) {
+                    return props.value === 1 ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "p",
+                        null,
+                        "Iniciado",
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-circle", style: { color: 'green', marginLeft: '5px' }, "aria-hidden": "true" })
+                    ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "p",
+                        null,
+                        "Terminado",
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-circle", style: { color: 'red', marginLeft: '5px' }, "aria-hidden": "true" })
+                    );
+                }
             }, {
-                Header: 'ACCIONES'
+                Header: 'ACCIONES',
+                accessor: 'id_pendienteDescarga',
+                Cell: function Cell(props) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "a",
+                        { style: { cursor: 'pointer', color: 'green' }, onClick: function onClick() {
+                                return _this4.handleEditPendiente(props.value);
+                            } },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-pencil-square-o", "aria-hidden": "true" })
+                    );
+                }
             }];
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -71617,7 +71699,7 @@ var PendienteDescarga = function (_Component) {
                     "div",
                     { className: "card-body" },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
-                        data: data,
+                        data: fecha_hora_descarga,
                         columns: columns,
                         loadingText: "Cargando...",
                         noDataText: "No hay filas encontradas",
@@ -71625,7 +71707,8 @@ var PendienteDescarga = function (_Component) {
                         nextText: "Siguiente",
                         pageText: "P\xE1gina",
                         ofText: "de",
-                        rowsText: "filas"
+                        rowsText: "filas",
+                        defaultPageSize: 5
                     }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "div",
@@ -71659,7 +71742,7 @@ var PendienteDescarga = function (_Component) {
                                     { className: "modal-body" },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         "form",
-                                        { onSubmit: this.handleSubmit },
+                                        { onSubmit: this.handleSubmit, id: "formSubmit" },
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             "div",
                                             { className: "form-group row" },
@@ -71672,7 +71755,13 @@ var PendienteDescarga = function (_Component) {
                                                 "div",
                                                 { className: "col-sm-8" },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", className: "form-control", name: "", id: "placa", onChange: this.handleChange,
-                                                    required: true, placeholder: "Ingrese el n\xFAmero de la placa" })
+                                                    required: true, placeholder: "Ingrese el n\xFAmero de la placa", minLength: 6,
+                                                    maxLength: 7, onBlur: this.handleBlur }),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "small",
+                                                    { id: "errorPlaca" },
+                                                    this.state.errorPlaca
+                                                )
                                             )
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -71742,19 +71831,112 @@ var PendienteDescarga = function (_Component) {
                                                 "Observaciones"
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { className: "form-control", id: "observaciones", placeholder: "Ingrese una observaci\xF3n",
-                                                onChange: this.handleChange })
+                                                onChange: this.handleChange, maxLength: 50 })
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             "div",
                                             { className: "form-group text-right" },
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 "button",
-                                                { type: "button", className: "btn btn-secondary", "data-dismiss": "modal" },
+                                                { type: "button", className: "btn btn-danger", "data-dismiss": "modal" },
                                                 "Cerrar"
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 "button",
-                                                { type: "submit", className: "btn btn-primary ml-2" },
+                                                { type: "submit", id: "button_submit", className: "btn btn-primary ml-2" },
+                                                "Guardar cambios"
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "modal fade", id: "editModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "editModalLabel", "aria-hidden": "true" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "modal-dialog", role: "document" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "modal-content" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-header" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "h5",
+                                        { className: "modal-title", id: "editModalLabel" },
+                                        "Agregar Pendiente de Fin de Descarga"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "button",
+                                        { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "span",
+                                            { "aria-hidden": "true" },
+                                            "\xD7"
+                                        )
+                                    )
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-body" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "form",
+                                        { onSubmit: this.handleSubmit, id: "formEditSubmit" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Fecha de Descarga (Fin):"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-md-8" },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "date", className: "form-control", id: "fechaFinReg", min: "2018-12-29", required: true,
+                                                    onChange: this.handleChange })
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group row" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                { className: "col-sm-4 col-form-label" },
+                                                "Hora de Descarga (Fin):"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "div",
+                                                { className: "col-md-8" },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "time", className: "form-control", min: "00:00", required: true, onChange: this.handleChange,
+                                                    id: "horaFinReg" })
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "label",
+                                                null,
+                                                "Observaciones"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { className: "form-control", id: "observaciones", placeholder: "Ingrese una observaci\xF3n",
+                                                onChange: this.handleChange, maxLength: 50 })
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "div",
+                                            { className: "form-group text-right" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "button",
+                                                { type: "button", className: "btn btn-danger", "data-dismiss": "modal" },
+                                                "Cerrar"
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "button",
+                                                { type: "submit", id: "button_edit_submit", className: "btn btn-primary ml-2" },
                                                 "Guardar cambios"
                                             )
                                         )

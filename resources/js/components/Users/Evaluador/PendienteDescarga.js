@@ -10,10 +10,11 @@ class PendienteDescarga extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+        this.handleEditPendiente = this.handleEditPendiente.bind(this);
         this.state = {
             tipo_vehiculo: [],
             fecha_hora_descarga: [],
-            pendiente_descarga: [],
             persona: [],
             fecha_hora_descarga_datos: { 
                 observaciones: null,
@@ -22,12 +23,35 @@ class PendienteDescarga extends Component {
                 transportista: null,
                 tipoVehiculo: null,
                 placa: null
-            }
+            },
+            errorPlaca: ""
         };
+    }
+
+    handleEditPendiente(data) {
+        console.log(data);
+        $('#editModal').modal('show');
+    }
+
+    handleBlur(e) {
+        var value = e.target.value;
+        const rule = /^(([A-Z]{3,3})\-([0-9]{3,4}))$/;
+        const valid = rule.test(value);
+
+        if (valid) {
+            $('#button_submit').prop('disabled', false);
+            this.setState({errorPlaca: ""});
+        } else {
+            $('#button_submit').prop('disabled', true);
+            $('#errorPlaca').css("color", "red");
+            this.setState({errorPlaca: "Asegurese de cumplir el formato indicado(XXX-123)"});
+        }
     }
 
     handleSubmit(e) {
         e.preventDefault();
+        var formSubmit = document.getElementById('formSubmit');
+
         axios.post('fecha_hora_descarga', {
             fecha_hora_descarga: this.state.fecha_hora_descarga_datos
         }).then(data => {
@@ -51,7 +75,19 @@ class PendienteDescarga extends Component {
 
             setTimeout(() => {
                 $('#exampleModal').modal('hide');
+                formSubmit.reset();
+                this.setState(prevState => ({
+                    fecha_hora_descarga_datos: {
+                        observaciones: null,
+                        fechaReg: null,
+                        horaReg: null,
+                        transportista: null,
+                        tipoVehiculo: null,
+                        placa: null
+                    }
+                }));
             }, 1800);
+
         }).catch(error => {
             swal({
                 position: 'top-end',
@@ -84,16 +120,15 @@ class PendienteDescarga extends Component {
             .then(data => {
                 this.setState({ 
                     tipo_vehiculo: data.data.tipo_vehiculo,
-                    pendiente_descarga: data.data.pendiente_descarga,
-                    fecha_hora_descarga: data.data.fecha_hora_descarga,
                     persona: data.data.persona,
+                    fecha_hora_descarga: data.data.fecha_hora_descarga
                 });
             }).catch(error => console.error(error));
-    }
-
-    render() {
-        const { tipo_vehiculo, pendiente_descarga, fecha_hora_descarga, persona } = this.state;
+        }
         
+    render() {
+        const { tipo_vehiculo, persona, fecha_hora_descarga } = this.state;
+
         // Lista de Tipos de Vehículos
         const lista_tipo_vehiculos = tipo_vehiculo.length ?
             (
@@ -121,38 +156,84 @@ class PendienteDescarga extends Component {
             );
         
         // React Table
-        const data = [{
-            name: 'Tanner Linsley',
-            age: 26,
-            friend: {
-                name: 'Jason Maurer',
-                age: 23
-            }
-        }, {
-            name: 'Tinna Turner',
-            age: 28,
-            friend: {
-                name: 'Jacob Kowalski',
-                age: 21
-            }
-        }];
-
         const columns = [{
-            Header: 'PLACA'
+            Header: 'PLACA',
+            accessor: 'placa'
         }, {
-            Header: 'TRANSPORTISTA'
+            Header: 'TRANSPORTISTA',
+            columns: [
+                {
+                    Header: 'DNI',
+                    accessor: 'transportista'
+                }, 
+                {
+                    Header: 'Nombres Completos',
+                    accessor: 'full_name'
+                }
+            ]
         }, {
-            Header: 'TIPO DE VEHICULO'
+            Header: 'VEHICULO',
+            columns: [
+                {
+                    Header: 'Tipo',
+                    accessor: 'descripcion'
+                }
+            ]
         }, {
-            Header: 'OBSERVACIONES'
+            Header: 'OBSERVACIONES',
+            accessor: 'observaciones'
         }, {
-            Header: 'FECHA/HORA (INICIO)'
+            Header: 'FECHA/HORA (INICIO)',
+            columns: [
+                {
+                    Header: 'Fecha',
+                    accessor: 'fechaReg'
+                }, 
+                {
+                    Header: 'Hora',
+                    accessor: 'horaReg'
+                }
+            ]
         }, {
-            Header: 'FECHA/HORA (FIN)'
+            Header: 'FECHA/HORA (FIN)',
+            columns: [
+                {
+                    Header: 'Fecha',
+                    accessor: 'fechafinReg',
+                    Cell: props => props.value ? props.value : "Datos faltantes"
+                }, 
+                {
+                    Header: 'Hora',
+                    accessor: 'horafinReg',
+                    Cell: props => props.value ? props.value : "Datos faltantes"
+                }
+            ]
         }, {
-            Header: 'ESTADO'
+            Header: 'ESTADO',
+            accessor: 'checkInicioFin',
+            Cell: props => {
+                return props.value === 1 ? (
+                    <p>
+                        Iniciado
+                        <i className="fa fa-circle" style={{color: 'green', marginLeft: '5px'}} aria-hidden="true"></i>
+                    </p>
+                ) : (
+                    <p>
+                        Terminado
+                        <i className="fa fa-circle" style={{color: 'red', marginLeft: '5px'}} aria-hidden="true"></i>
+                    </p>
+                );
+            }
         },{
-            Header: 'ACCIONES'
+            Header: 'ACCIONES',
+            accessor: 'id_pendienteDescarga',
+            Cell: props => {
+                return (
+                    <a style={{cursor: 'pointer', color: 'green'}} onClick={() => this.handleEditPendiente(props.value)}>
+                        <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                );
+            }
         }]
 
         return (
@@ -168,7 +249,7 @@ class PendienteDescarga extends Component {
                 </div>
                 <div className="card-body">
                     <ReactTable 
-                        data={data} 
+                        data={fecha_hora_descarga} 
                         columns={columns} 
                         loadingText="Cargando..."
                         noDataText="No hay filas encontradas"
@@ -177,6 +258,7 @@ class PendienteDescarga extends Component {
                         pageText='Página'
                         ofText="de"
                         rowsText="filas" 
+                        defaultPageSize={5}
                     />
                     
                     {/* MODAL AGREGAR */}
@@ -190,12 +272,14 @@ class PendienteDescarga extends Component {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <form onSubmit={this.handleSubmit}> 
+                                    <form onSubmit={this.handleSubmit} id="formSubmit"> 
                                         <div className="form-group row">
                                             <label className="col-sm-4 col-form-label">Placa de Vehículo:</label>
                                             <div className="col-sm-8">
                                                 <input type="text" className="form-control" name="" id="placa" onChange={this.handleChange} 
-                                                    required placeholder="Ingrese el número de la placa" />
+                                                    required placeholder="Ingrese el número de la placa" minLength={6}
+                                                    maxLength={7} onBlur={this.handleBlur} />
+                                                <small id="errorPlaca">{this.state.errorPlaca}</small>
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -227,12 +311,12 @@ class PendienteDescarga extends Component {
                                         <div className="form-group">
                                             <label>Observaciones</label>
                                             <textarea className="form-control" id="observaciones" placeholder="Ingrese una observación"
-                                                onChange={this.handleChange}>
+                                                onChange={this.handleChange} maxLength={50} >
                                             </textarea>
                                         </div>
                                         <div className="form-group text-right">
-                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            <button type="submit" className="btn btn-primary ml-2">Guardar cambios</button>
+                                            <button type="button" className="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" id="button_submit" className="btn btn-primary ml-2">Guardar cambios</button>
                                         </div>
                                     </form>
                                 </div>
@@ -240,6 +324,46 @@ class PendienteDescarga extends Component {
                         </div>
                     </div>
                     {/* MODAL EDITAR */}
+                    <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="editModalLabel">Agregar Pendiente de Fin de Descarga</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <form onSubmit={this.handleSubmit} id="formEditSubmit">
+                                        <div className="form-group row">
+                                            <label className="col-sm-4 col-form-label">Fecha de Descarga (Fin):</label>
+                                            <div className="col-md-8">
+                                                <input type="date" className="form-control" id="fechaFinReg" min="2018-12-29" required 
+                                                    onChange={this.handleChange} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-sm-4 col-form-label">Hora de Descarga (Fin):</label>
+                                            <div className="col-md-8">
+                                                <input type="time" className="form-control" min="00:00" required onChange={this.handleChange}
+                                                    id="horaFinReg" />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Observaciones</label>
+                                            <textarea className="form-control" id="observaciones" placeholder="Ingrese una observación"
+                                                onChange={this.handleChange} maxLength={50} >
+                                            </textarea>
+                                        </div>
+                                        <div className="form-group text-right">
+                                            <button type="button" className="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" id="button_edit_submit" className="btn btn-primary ml-2">Guardar cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

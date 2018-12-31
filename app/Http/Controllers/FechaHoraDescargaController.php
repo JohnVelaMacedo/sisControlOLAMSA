@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\TipoVehiculo;
 use App\FechaHoraDescarga;
 use App\PendienteDescarga;
@@ -18,21 +19,19 @@ class FechaHoraDescargaController extends Controller
     public function index()
     {
         $tipo_vehiculo = TipoVehiculo::all();
-        $pendiente_descarga = PendienteDescarga::all();
-        $fecha_hora_descarga = FechaHoraDescarga::all();
         $persona = Persona::all();
+        $fecha_hora_descarga = DB::table('fechahoradescarga')
+                            ->join('pendientedescarga_inicio_fin', 'fechahoradescarga.id_pendienteDescarga', '=', 'pendientedescarga_inicio_fin.id')
+                            ->join('tipovehiculo', 'pendientedescarga_inicio_fin.tipoVehiculo', '=', 'tipovehiculo.id')
+                            ->join('persona', 'pendientedescarga_inicio_fin.transportista', '=', 'persona.dni')
+                            ->select('fechahoradescarga.id', 'fechahoradescarga.id_pendienteDescarga', 'fechahoradescarga.observaciones',
+                            'fechahoradescarga.fechaReg', 'fechahoradescarga.horaReg', 'fechahoradescarga.fechafinReg', 
+                            'fechahoradescarga.horafinReg', 'pendientedescarga_inicio_fin.tipoVehiculo', 'tipovehiculo.descripcion', 
+                            'pendientedescarga_inicio_fin.transportista','pendientedescarga_inicio_fin.checkInicioFin', 
+                            'pendientedescarga_inicio_fin.placa', DB::raw("CONCAT(persona.nombre,' ', persona.apellidos) as full_name"))
+                            ->get();
 
-        return compact('tipo_vehiculo', 'pendiente_descarga', 'fecha_hora_descarga', 'persona');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return compact('tipo_vehiculo', 'fecha_hora_descarga', 'persona');
     }
 
     /**
@@ -52,34 +51,12 @@ class FechaHoraDescargaController extends Controller
 
         $fecha_hora_descarga = FechaHoraDescarga::create([
             'id_pendienteDescarga' => $pendiente_descarga->id,
-            'observaciones' => $request->fecha_hora_descarga['observaciones'],
+            'observaciones' => e($request->fecha_hora_descarga['observaciones']),
             'fechaReg' => $request->fecha_hora_descarga['fechaReg'],
             'horaReg' => $request->fecha_hora_descarga['horaReg']
         ]);
 
         return $fecha_hora_descarga && $pendiente_descarga ? "bien" : "error";
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

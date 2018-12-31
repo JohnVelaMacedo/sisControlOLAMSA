@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('auth.login');
-});
+})->middleware('guest');
 
 Auth::routes();
 
@@ -21,7 +21,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home_user', 'HomeController@getUser');
 
 // Rutas Evaluador
-Route::resource('/fecha_hora_descarga', 'FechaHoraDescargaController');
+Route::resource('/fecha_hora_descarga', 'FechaHoraDescargaController', [
+    'except' => ['create', 'show', 'edit']
+])->middleware('auth');
 
 // rutas tipo persona
 Route::resource('/tipoPersona', 'TipoPersonaController');

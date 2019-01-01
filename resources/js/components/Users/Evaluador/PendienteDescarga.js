@@ -161,6 +161,7 @@ class PendienteDescarga extends Component {
     componentDidMount() {
         axios.get('fecha_hora_descarga')
             .then(data => {
+                console.log(data);
                 this.setState({ 
                     tipo_vehiculo: data.data.tipo_vehiculo,
                     persona: data.data.persona,
@@ -171,6 +172,7 @@ class PendienteDescarga extends Component {
         
     render() {
         const { tipo_vehiculo, persona, fecha_hora_descarga } = this.state;
+        console.log(fecha_hora_descarga);
 
         // Lista de Tipos de Vehículos
         const lista_tipo_vehiculos = tipo_vehiculo.length ?

@@ -13,9 +13,6 @@ class RegistroEntrada extends Model
         'tipoVehiculo',
         'numPlaca',
         'transportista',
-        'numPesas',
-        'comite',
-        'proveedor',
         'observaciones'
     ];
 }

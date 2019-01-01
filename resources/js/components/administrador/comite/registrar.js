@@ -107,13 +107,23 @@ class RegistrarComite extends React.Component {
                                     <div className="col-md-10 mx-auto">
                                         <div className="form-group">
                                             <label htmlFor="nombre">Nombre</label>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-info"></i></span>
+                                            </div>
                                             <input type="text" className="form-control" id="nombre" name="nombre" value={this.state.comite.nombre} onChange={this.handleChange} placeholder="Nombre del Comite" required/>
-                                            <small className="form-text text-muted">Ingrese nombre del comite.</small>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese nombre del comite.</small> */}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="descripcion">Descripción</label>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-info"></i></span>
+                                            </div>
                                             <input type="text" className="form-control" id="descripcion" name="descripcion" value={this.state.comite.descripcion} onChange={this.handleChange} placeholder="Descripción del Comite" required/>
-                                            <small className="form-text text-muted">Ingrese descripcion del comite.</small>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese descripcion del comite.</small> */}
                                         </div>
                                         {/* <div className="form-group">
                                             <label htmlFor="telefono">Teléfono</label>

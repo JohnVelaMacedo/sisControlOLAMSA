@@ -44,8 +44,10 @@ class PersonaController extends Controller
                 'apellidos'     =>$request['persona']['apellidos'],
                 'dni'           =>$request['persona']['dni'],
                 'email'         =>$request['persona']['email'],
+                'telefono'         =>$request['persona']['telefono'],
                 'direccion'     =>$request['persona']['direccion'],
                 'tipo'          =>$request['persona']['tipoP'],
+                'licencia'          =>$request['persona']['licencia'],
             ]
         );
         if($request['persona']['tipoP']!="5"){
@@ -88,9 +90,9 @@ class PersonaController extends Controller
      */
     public function edit($dni)
     {
-        $p =\DB::table('persona')->where('dni', $dni)->first();
-        $u =\DB::table('user')->where('idPersona', $p->id)->first();
-        return compact('p','u');
+        $p =\DB::select("SELECT id,nombre, apellidos,dni,email,telefono,direccion,tipo as tipoP,licencia from persona where dni=$dni");
+        //$u =\DB::table('user')->where('idPersona', $p->id)->first();
+        return compact('p');
     }
 
     /**

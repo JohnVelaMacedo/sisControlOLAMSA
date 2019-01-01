@@ -7,7 +7,8 @@ class RegistrarTipoVehiculo extends React.Component {
       this.state = {
                 tipoVehiculo:{
                     id:'',
-                    descripcion:   ''
+                    descripcion:   '',
+                    tiempoEspera:''
                 }
       }
 
@@ -19,7 +20,8 @@ class RegistrarTipoVehiculo extends React.Component {
         this.setState({
             tipoVehiculo:{
                 id:'',
-                descripcion:   ''
+                descripcion:   '',
+                tiempoEspera:''
             }
         });
     }
@@ -103,11 +105,26 @@ class RegistrarTipoVehiculo extends React.Component {
                             <div className="col-md-12">
                                 <form onSubmit={this.handleSubmit}>
                                 <div className="row">
-                                    <div className="col-md-10 mx-auto">
+                                    <div className="col-md-8 mx-auto">
                                         <div className="form-group">
                                             <label htmlFor="descripcion">Descripción</label>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-info"></i></span>
+                                            </div>
                                             <input type="text" className="form-control" id="descripcion" name="descripcion" value={this.state.tipoVehiculo.descripcion} onChange={this.handleChange} placeholder="Descripción del Vehículo" required/>
-                                            <small className="form-text text-muted">Ingrese descripcion del vehículo.</small>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese descripcion del vehículo.</small> */}
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="tiempoEspera">Tiempo espera permitido</label><small><strong> (horas)</strong></small>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-clock-o"></i></span>
+                                            </div>
+                                            <input type="number" className="form-control" id="tiempoEspera" name="tiempoEspera" value={this.state.tipoVehiculo.tiempoEspera} onChange={this.handleChange} min="0" max="72" placeholder="Tiempo de espera permitido en cola" required/>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese descripcion del vehículo.</small> */}
                                         </div>
                                         <input className="form-control btn btn-primary" type="submit" value="Registrar" disabled={this.state.isSubmitDisabled}/>
                                     </div>

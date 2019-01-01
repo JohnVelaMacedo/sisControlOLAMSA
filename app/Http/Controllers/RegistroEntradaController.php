@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RegistroEntrada;
+use App\RegistroPesas;
 
 class RegistroEntradaController extends Controller
 {
@@ -15,12 +16,11 @@ class RegistroEntradaController extends Controller
     public function index()
     {
         $regEn=\DB::select("SELECT re.id, v.descripcion as vehiculo, re.numPlaca as placa, 
-        t.nombre as transportista, re.numPesas as pesas, c.nombre as comite, p.nombre as proveedor,
+        t.nombre as transportista,
         re.observaciones from registroentrada re 
         INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
-        INNER JOIN persona t ON re.transportista=t.dni 
-        INNER JOIN comite c ON re.comite=c.id 
-        INNER JOIN proveedor p on re.proveedor=p.id");
+        INNER JOIN persona t ON re.transportista=t.dni ");
+
         return compact('regEn');
     }
 
@@ -42,19 +42,28 @@ class RegistroEntradaController extends Controller
      */
     public function store(Request $request)
     {
-        $persona=RegistroEntrada::updateOrCreate(
+        $reg=RegistroEntrada::updateOrCreate(
             ['id'=>$request['registro']['id']],
             [
                 'tipoVehiculo'  =>$request['registro']['tipoVehiculo'],
                 'numPlaca'      =>$request['registro']['numPlaca'],
                 'transportista' =>$request['registro']['transportista'],
-                'numPesas'      =>$request['registro']['numPesas'],
-                'comite'        =>$request['registro']['comite'],
-                'proveedor'     =>$request['registro']['proveedor'],
                 'observaciones' =>$request['registro']['observaciones'],
             ]
         );
-        if($persona){
+        for($i=0;$i<count($request['pesas']);$i++){
+            $pesa=RegistroPesas::updateOrCreate(
+                ['id'=>$request['pesas'][$i]['id']],
+                [
+                    'idregistroentrada'      =>$reg->id,
+                    'numPesas'      =>$request['pesas'][$i]['numPesas'],
+                    'comite'        =>$request['pesas'][$i]['comite'],
+                    'proveedor'     =>$request['pesas'][$i]['proveedor']
+                ]
+            );
+        }
+
+        if($reg && $pesa){
             return "OK";
         }else{
             return "FAIL";
@@ -69,7 +78,7 @@ class RegistroEntradaController extends Controller
      */
     public function showTransporista($id)
     {
-        $showT=\DB::select("SELECT dni as id,concat(nombre,' ',apellidos) as text from persona where tipo='5' and nombre like '$id%'");
+        $showT=\DB::select("SELECT dni as id,concat(nombre,' ',apellidos,'-',dni) as text from persona where tipo='5' and nombre like '$id%'");
         return compact('showT');
     }
 
@@ -83,7 +92,14 @@ class RegistroEntradaController extends Controller
     {
         $p =\DB::table('registroentrada')->where('id', $id)->first();
         $t =\DB::select("SELECT dni as id, concat(nombre,' ',apellidos) as text from persona where dni=$p->transportista");
-        return compact('p','t');
+        $r=\DB::select("SELECT * from registropesas");
+        return compact('p','t','r');
+    }
+
+    public function verInfo($id)
+    {
+        $pesas=\DB::select("SELECT r.numPesas, c.nombre as comite, p.nombre as proveedor from registropesas r inner join comite c on r.comite=c.id inner join proveedor p on r.proveedor=p.id where idregistroentrada=$id");
+        return compact('pesas');
     }
 
     /**

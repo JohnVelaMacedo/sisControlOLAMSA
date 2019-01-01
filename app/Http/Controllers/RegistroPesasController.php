@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\TipoVehiculo;
 
-class TipoVehiculoController extends Controller
+class RegistroPesasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class TipoVehiculoController extends Controller
      */
     public function index()
     {
-        $tv=TipoVehiculo::all();
-        return compact('tv');
+        //
     }
 
     /**
@@ -36,18 +34,7 @@ class TipoVehiculoController extends Controller
      */
     public function store(Request $request)
     {
-        $persona=TipoVehiculo::updateOrCreate(
-            ['id'=>$request['tipoVehiculo']['id']],
-            [
-                'descripcion'   =>$request['tipoVehiculo']['descripcion'],
-                'tiempoEspera'  =>$request['tipoVehiculo']['tiempoEspera']      
-            ]
-        );
-        if($persona){
-            return "OK";
-        }else{
-            return "FAIL";
-        }
+        //
     }
 
     /**
@@ -69,8 +56,7 @@ class TipoVehiculoController extends Controller
      */
     public function edit($id)
     {
-        $p =\DB::table('tipovehiculo')->where('id', $id)->first();
-        return compact('p');
+        //
     }
 
     /**
@@ -93,11 +79,6 @@ class TipoVehiculoController extends Controller
      */
     public function destroy($id)
     {
-        $eliminarP=TipoVehiculo::where('id',$id)->delete();
-        if($eliminarP){
-            return "OK";
-        }else{
-            return "FAIL";
-        }
+        //
     }
 }

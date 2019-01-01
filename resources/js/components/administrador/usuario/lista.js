@@ -120,6 +120,11 @@ class ListaPersona extends React.Component {
                     Header: "Dirección",
                     accessor: "direccion",
                     filterable:true
+                  },
+                  {
+                    Header: "Telefono",
+                    accessor: "telefono",
+                    filterable:true
                   }
                 ]
               },

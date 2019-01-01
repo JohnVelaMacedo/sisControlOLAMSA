@@ -31,6 +31,24 @@ class ListaRegistroEntrada extends React.Component {
         });
         this.RegistroPendiente.current.fillForm(e);
     }
+    verInfo(e){
+      axios.get(`/verInfo/${e.id}`)
+        .then(data => {
+          let string=`<ul class="list-unstyled">`;
+          data.data.pesas.map((val)=>{
+                          string+=`<li><div class="callout callout-info"><p>Pesas: ${val.numPesas}</p><p>Comite: ${val.comite}</p><p>Proveedor: ${val.proveedor}</p></div></li>`
+                      });
+          string+=`</ul>`;
+          Swal({
+            title: '<h3><strong>Pesas Detalle</strong></h3>',
+            html:string,
+            showCloseButton: true,
+            focusConfirm: false,
+          })
+        }).catch(error => {
+            console.error(error);
+        });
+    }
     eliminarRE(e){
         // console.log(e);
         Swal({
@@ -115,21 +133,6 @@ class ListaRegistroEntrada extends React.Component {
                     filterable:true
                   },
                   {
-                    Header: "Pesas",
-                    accessor: "pesas",
-                    filterable:true
-                  },
-                  {
-                    Header: "Comite",
-                    accessor: "comite",
-                    filterable:true
-                  },
-                  {
-                    Header: "Proveedor",
-                    accessor: "proveedor",
-                    filterable:true
-                  },
-                  {
                     Header: "Observaciones",
                     accessor: "observaciones",
                     filterable:true
@@ -139,6 +142,14 @@ class ListaRegistroEntrada extends React.Component {
               {
                 Header: 'Acciones',
                 columns: [
+                  {
+                    Header: "Info",
+                    accessor: "tipo",
+                    maxWidth: 100,
+                    Cell: row =>(
+                        <button className="form-control btn btn-info" onClick={()=>this.verInfo(row.row)}><i className="fa fa-eye" aria-hidden="true"></i></button>
+                    )
+                  },
                   {
                     Header: "Eliminar",
                     accessor: "tipo",

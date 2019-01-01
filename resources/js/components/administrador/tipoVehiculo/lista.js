@@ -105,6 +105,12 @@ class ListaTipoVehiculo extends React.Component {
                     Header: "Descipción",
                     accessor: "descripcion",
                     filterable:true
+                  },
+                  {
+                    Header: <i class="fa fa-clock-o" aria-hidden="true">Espera</i>,
+                    accessor: "tiempoEspera",
+                    filterable:true,
+                    maxWidth: 100,
                   }
                 ]
               },

@@ -23,9 +23,6 @@ Route::get('/home_user', 'HomeController@getUser');
 // Rutas Evaluador
 Route::resource('/pendiente_descarga', 'PendienteDescargaController')->middleware('auth');
 
-// rutas tipo persona
-Route::resource('/tipoPersona', 'TipoPersonaController');
-
 //ruta Persona
 Route::post('/agregarPersona','PersonaController@store')->name('agregarPersona');
 Route::get('/eliminarPersona/{dni}','PersonaController@destroy')->name('eliminarPersona');
@@ -43,6 +40,23 @@ Route::post('/agregarProveedor','ProveedorController@store')->name('agregarProve
 Route::get('/getProveedor/{id}','ProveedorController@edit')->name('editarProveedor');
 Route::resource('/listaProveedor','ProveedorController');
 Route::get('/eliminarProveedor/{dni}','ProveedorController@destroy')->name('eliminarProveedor');
+
+//rutas comite
+Route::post('/agregarComite','ComiteController@store')->name('agregarComite');
+Route::get('/getComite/{id}','ComiteController@edit')->name('editarComite');
+Route::resource('/listaComite','ComiteController');
+Route::get('/eliminarComite/{dni}','ComiteController@destroy')->name('eliminarComite');
+
+//ruta para registro-entrada
+Route::get('/getTransportistas/{id}','RegistroEntradaController@showTransporista')->name('transportistaShow');
+Route::get('/getRegEntrada/{id}','RegistroEntradaController@edit')->name('editarRegEntrada');
+Route::post('/agregarRegistroEntrada','RegistroEntradaController@store')->name('agregarRegEntrada');
+Route::resource('/listaRegistroEntrada','RegistroEntradaController');
+Route::get('/eliminarRegEntrada/{dni}','RegistroEntradaController@destroy')->name('eliminarRE');
+Route::get('/verInfo/{dni}','RegistroEntradaController@verInfo')->name('verinfo');
+// rutas tipo persona
+Route::resource('/tipoPersona', 'TipoPersonaController');
+
 
 // Rutas alternas
 // Route::view('/{path?}', 'app');

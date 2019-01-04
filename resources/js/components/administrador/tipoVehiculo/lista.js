@@ -14,14 +14,19 @@ class ListaTipoVehiculo extends React.Component {
         id:''
       };
 
-      axios.get('listaTipoVehiculo')
+      this.getDatos();
+
+    }
+
+    getDatos(){
+        axios.get('listaTipoVehiculo')
         .then(data => {
             this.setState({data: [...data.data.tv]});
         }).catch(error => {
             console.error(error);
         });
-
     }
+
     editarTV(e){
         this.setState({
           id: e
@@ -51,7 +56,8 @@ class ListaTipoVehiculo extends React.Component {
                          'success'
                             );
                         setTimeout(() => {
-                            location.reload();
+                            // location.reload();
+                            this.getDatos();
                         }, 1500);
                     }else{
                       Swal({
@@ -99,6 +105,12 @@ class ListaTipoVehiculo extends React.Component {
                     Header: "Descipción",
                     accessor: "descripcion",
                     filterable:true
+                  },
+                  {
+                    Header: <i class="fa fa-clock-o" aria-hidden="true">Espera</i>,
+                    accessor: "tiempoEspera",
+                    filterable:true,
+                    maxWidth: 100,
                   }
                 ]
               },

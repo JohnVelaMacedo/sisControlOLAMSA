@@ -18,6 +18,18 @@ class RegistrarProveedor extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    limpiar(){
+        this.setState({
+            proveedor:{
+                id:'',
+                nombre:'',
+                descripcion:   '',
+                direccion:'',
+                telefono:''
+            }
+        });
+    }
+
     fillForm(e){
         axios.get(`/getProveedor/${e.id}`)
         .then(data => {
@@ -42,41 +54,42 @@ class RegistrarProveedor extends React.Component {
 
     handleSubmit(event) {
     event.preventDefault();
-    axios.post('/agregarProveedor', {
-                proveedor: this.state.proveedor
-            })
-            .then(data => {
-                console.log(data);
-                if (data.data == 'OK') {
-                    Swal({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'Datos ingresados correctamente',
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
-                } else {
+        axios.post('/agregarProveedor', {
+                    proveedor: this.state.proveedor
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.data == 'OK') {
+                        Swal({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Datos ingresados correctamente',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        setTimeout(() => {
+                            // location.reload();
+                            this.limpiar();
+                        }, 1500);
+                    } else {
+                        Swal({
+                            position: 'top-end',
+                            type: 'error',
+                            title: 'No se pudo agregar, comuníquese con el Administrador',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                }).catch(error => {
                     Swal({
                         position: 'top-end',
                         type: 'error',
-                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
                         showConfirmButton: false,
                         timer: 2000
                     });
-                }
-            }).catch(error => {
-                Swal({
-                    position: 'top-end',
-                    type: 'error',
-                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
-                    showConfirmButton: false,
-                    timer: 2000
+                    console.log(`Error: ${error}`);
                 });
-                console.log(`Error: ${error}`);
-            });
     }
 
     render() {
@@ -99,18 +112,33 @@ class RegistrarProveedor extends React.Component {
                                     <div className="col-md-10 mx-auto">
                                         <div className="form-group">
                                             <label htmlFor="nombre">Nombre</label>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-info"></i></span>
+                                            </div>
                                             <input type="text" className="form-control" id="nombre" name="nombre" value={this.state.proveedor.nombre} onChange={this.handleChange} placeholder="Nombre de Provedor" required/>
-                                            <small className="form-text text-muted">Ingrese nombre del proveedor.</small>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese nombre del proveedor.</small> */}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="descripcion">Descripción</label>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-info"></i></span>
+                                            </div>                                            
                                             <input type="text" className="form-control" id="descripcion" name="descripcion" value={this.state.proveedor.descripcion} onChange={this.handleChange} placeholder="Descripción de Provedor" required/>
-                                            <small className="form-text text-muted">Ingrese descripcion del proveedor.</small>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese descripcion del proveedor.</small> */}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="direccion">Dirección</label>
+                                            <div className="input-group">
+                                            <div className="input-group-prepend">
+                                            <span className="input-group-text"><i className="fa fa-address-card"></i></span>
+                                            </div>
                                             <input type="text" className="form-control" id="direccion" name="direccion" value={this.state.proveedor.direccion} onChange={this.handleChange} placeholder="Dirección de Provedor" required/>
-                                            <small className="form-text text-muted">Ingrese descripcion del proveedor.</small>
+                                            </div>
+                                            {/* <small className="form-text text-muted">Ingrese descripcion del proveedor.</small> */}
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="telefono">Teléfono</label>
@@ -120,7 +148,7 @@ class RegistrarProveedor extends React.Component {
                                                 </div>
                                                 <input type="text" className="form-control" data-inputmask={'"mask": "(999) 999-9999"'} data-mask id="telefono" name="telefono" value={this.state.proveedor.telefono} onChange={this.handleChange} placeholder="Descripción de Provedor"   required maxLength="9"/>
                                             </div>
-                                            <small className="form-text text-muted">Ingrese descripcion del proveedor.</small>
+                                            {/* <small className="form-text text-muted">Ingrese descripcion del proveedor.</small> */}
                                         </div>
 
                                         <input className="form-control btn btn-primary" type="submit" value="Registrar" disabled={this.state.isSubmitDisabled}/>

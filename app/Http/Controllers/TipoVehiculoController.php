@@ -39,7 +39,8 @@ class TipoVehiculoController extends Controller
         $persona=TipoVehiculo::updateOrCreate(
             ['id'=>$request['tipoVehiculo']['id']],
             [
-                'descripcion'        =>$request['tipoVehiculo']['descripcion']
+                'descripcion'   =>$request['tipoVehiculo']['descripcion'],
+                'tiempoEspera'  =>$request['tipoVehiculo']['tiempoEspera']      
             ]
         );
         if($persona){

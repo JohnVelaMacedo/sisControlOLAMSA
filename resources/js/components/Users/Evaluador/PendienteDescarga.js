@@ -33,7 +33,7 @@ class PendienteDescarga extends Component {
 
     handleChange(e) {
         const { id, value } = e.target;
-        
+
         this.setState(prevState => ({ 
             pendienteDescarga: {
                 ...prevState.pendienteDescarga,

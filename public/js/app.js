@@ -23176,8 +23176,10 @@ var RegistrarPersona = function (_React$Component) {
                 apellidos: '',
                 dni: '',
                 email: '',
+                telefono: '',
                 direccion: '',
-                tipoP: ''
+                tipoP: '',
+                licencia: ''
             },
             claves: {
                 password: '',
@@ -23187,14 +23189,9 @@ var RegistrarPersona = function (_React$Component) {
             hidePass: false,
             isSubmitDisabled: true,
             msjPass: ''
+        };
 
-            //      recuperar tipos de personas para el select 
-        };axios.get('tipoPersona').then(function (data) {
-            _this.setState({ tipoPersona: [].concat(_toConsumableArray(data.data.tipoPersona)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
-
+        _this.getDatosSelect();
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleChangePass = _this.handleChangePass.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
@@ -23202,13 +23199,54 @@ var RegistrarPersona = function (_React$Component) {
     }
 
     _createClass(RegistrarPersona, [{
-        key: 'fillForm',
-        value: function fillForm(e) {
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                persona: {
+                    id: '',
+                    nombre: '',
+                    apellidos: '',
+                    dni: '',
+                    email: '',
+                    telefono: '',
+                    direccion: '',
+                    tipoP: '',
+                    licencia: ''
+                },
+                claves: {
+                    password: '',
+                    repassword: ''
+                },
+                isSubmitDisabled: true,
+                msjPass: ''
+            });
+        }
+    }, {
+        key: 'getDatosSelect',
+        value: function getDatosSelect() {
             var _this2 = this;
 
-            console.log(e);
+            axios.get('tipoPersona').then(function (data) {
+                _this2.setState({ tipoPersona: [].concat(_toConsumableArray(data.data.tipoPersona)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: 'fillForm',
+        value: function fillForm(e) {
+            var _this3 = this;
+
+            //console.log(e);
             axios.get('/getPersona/' + e.dni).then(function (data) {
-                _this2.setState({ persona: data.data.p });
+                console.log(data.data.p[0]);
+                _this3.setState({ persona: data.data.p[0] });
+                if (data.data.p[0].tipoP == 5) {
+                    _this3.setState({
+                        hidePass: true,
+                        isSubmitDisabled: false
+                    });
+                }
                 // this.setState({claves: data.data.u});
             }).catch(function (error) {
                 console.error(error);
@@ -23239,7 +23277,7 @@ var RegistrarPersona = function (_React$Component) {
                         });
                     }
                 }
-                if (valor == "0") {
+                if (valor == "") {
                     this.setState({
                         isSubmitDisabled: true,
                         claves: {
@@ -23250,7 +23288,7 @@ var RegistrarPersona = function (_React$Component) {
                     });
                 }
             }
-            if (nombre == "dni") {
+            if (nombre == "dni" || nombre == 'telefono') {
                 if (!isNaN(valor)) {
                     this.setState(function (prevState) {
                         return {
@@ -23299,7 +23337,6 @@ var RegistrarPersona = function (_React$Component) {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
             event.preventDefault();
-
             axios.post('/agregarPersona', {
                 persona: this.state.persona,
                 password: this.state.claves
@@ -23315,6 +23352,7 @@ var RegistrarPersona = function (_React$Component) {
                     });
                     setTimeout(function () {
                         location.reload();
+                        // this.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -23397,11 +23435,19 @@ var RegistrarPersona = function (_React$Component) {
                                                         { htmlFor: 'nombre' },
                                                         'Nombres'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'nombre', name: 'nombre', value: this.state.persona.nombre, onChange: this.handleChange, placeholder: 'Nombres', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese nombre de la persona.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-user' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'nombre', name: 'nombre', value: this.state.persona.nombre, onChange: this.handleChange, placeholder: 'Nombres', required: true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -23412,11 +23458,19 @@ var RegistrarPersona = function (_React$Component) {
                                                         { htmlFor: 'apellidos' },
                                                         'Apellidos'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'apellidos', name: 'apellidos', value: this.state.persona.apellidos, onChange: this.handleChange, placeholder: 'Apellidos', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese apellido completo de la persona.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-user' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'apellidos', name: 'apellidos', value: this.state.persona.apellidos, onChange: this.handleChange, placeholder: 'Apellidos', required: true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -23427,13 +23481,146 @@ var RegistrarPersona = function (_React$Component) {
                                                         { htmlFor: 'direccion' },
                                                         'Direcci\xF3n'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'direccion', name: 'direccion', value: this.state.persona.direccion, onChange: this.handleChange, placeholder: 'Direcci\xF3n', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese la direcci\xF3n de la persona.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-address-card' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'direccion', name: 'direccion', value: this.state.persona.direccion, onChange: this.handleChange, placeholder: 'Direcci\xF3n', required: true })
                                                     )
                                                 ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        null,
+                                                        'Tipo Persona'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'select',
+                                                        { className: 'form-control', id: 'tipoP', name: 'tipoP', value: this.state.persona.tipoP, onChange: this.handleChange, required: true },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'option',
+                                                            { value: '' },
+                                                            ' ------ '
+                                                        ),
+                                                        this.state.tipoPersona.map(function (e, key) {
+                                                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'option',
+                                                                { key: key + 1, value: e.id },
+                                                                e.descripcion
+                                                            );
+                                                        })
+                                                    )
+                                                )
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'col-md-6' },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'dni' },
+                                                        'N\xFAmero de Documento'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-id-badge' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', id: 'dni', name: 'dni', value: this.state.persona.dni, onChange: this.handleChange, className: 'form-control', placeholder: 'DNI', required: true, maxLength: '8' })
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        null,
+                                                        'Correo electr\xF3nico'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-envelope' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'email', name: 'email', type: 'email', value: this.state.persona.email, onChange: this.handleChange, placeholder: 'Correo electr\xF3nico' })
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'telefono' },
+                                                        'Tel\xE9fono'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-phone' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', 'data-mask': true, id: 'telefono', name: 'telefono', value: this.state.persona.telefono, onChange: this.handleChange, placeholder: 'Telefono o Celular', required: true, maxLength: '9' })
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group', style: !this.state.hidePass ? { display: 'none' } : {} },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'licencia' },
+                                                        'Licencia'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-id-card' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', 'data-mask': true, id: 'licencia', name: 'licencia', value: this.state.persona.licencia, onChange: this.handleChange, placeholder: 'Licencia de conducir', maxLength: '10' })
+                                                    )
+                                                )
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'col-md-6' },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                     'div',
                                                     { className: 'form-group', style: this.state.hidePass ? { display: 'none' } : {} },
@@ -23452,11 +23639,19 @@ var RegistrarPersona = function (_React$Component) {
                                                             this.state.msjPass
                                                         )
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'password', name: 'password', type: 'password', value: this.state.claves.password, onChange: this.handleChangePass, placeholder: 'Contrase\xF1a', required: this.state.hidePass ? false : true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese contrase\xF1a para el usuario.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-key' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'password', name: 'password', type: 'password', value: this.state.claves.password, onChange: this.handleChangePass, placeholder: 'Contrase\xF1a', required: this.state.hidePass ? false : true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -23467,75 +23662,19 @@ var RegistrarPersona = function (_React$Component) {
                                                         null,
                                                         'Verifica Contrase\xF1a'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'repassword', name: 'repassword', type: 'password', value: this.state.claves.repassword, onChange: this.handleChangePass, placeholder: 'Contrase\xF1a', required: this.state.hidePass ? false : true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Escriba la contrase\xF1a nuevamente.'
-                                                    )
-                                                )
-                                            ),
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'div',
-                                                { className: 'col-md-6' },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        { htmlFor: 'dni' },
-                                                        'N\xFAmero de Documento'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', id: 'dni', name: 'dni', value: this.state.persona.dni, onChange: this.handleChange, className: 'form-control', placeholder: 'N\xFAmero de documento', required: true, maxLength: '8' }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese el dni de la persona.'
-                                                    )
-                                                ),
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Correo electr\xF3nico'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'email', name: 'email', type: 'email', value: this.state.persona.email, onChange: this.handleChange, placeholder: 'Correo electr\xF3nico' }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese correo electr\xF3nico.'
-                                                    )
-                                                ),
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Tipo Persona'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'select',
-                                                        { className: 'form-control', id: 'tipoP', name: 'tipoP', value: this.state.persona.tipoP, onChange: this.handleChange },
+                                                        'div',
+                                                        { className: 'input-group' },
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '0' },
-                                                            ' ------ '
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-key' })
+                                                            )
                                                         ),
-                                                        this.state.tipoPersona.map(function (e, key) {
-                                                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                                'option',
-                                                                { key: key + 1, value: e.id },
-                                                                e.descripcion
-                                                            );
-                                                        })
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Seleccione el tipo de persona que desea registrar.'
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'repassword', name: 'repassword', type: 'password', value: this.state.claves.repassword, onChange: this.handleChangePass, placeholder: 'Verifique Contrase\xF1a', required: this.state.hidePass ? false : true })
                                                     )
                                                 )
                                             )
@@ -23591,7 +23730,8 @@ var RegistrarTipoVehiculo = function (_React$Component) {
         _this.state = {
             tipoVehiculo: {
                 id: '',
-                descripcion: ''
+                descripcion: '',
+                tiempoEspera: ''
             }
         };
 
@@ -23601,6 +23741,17 @@ var RegistrarTipoVehiculo = function (_React$Component) {
     }
 
     _createClass(RegistrarTipoVehiculo, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                tipoVehiculo: {
+                    id: '',
+                    descripcion: '',
+                    tiempoEspera: ''
+                }
+            });
+        }
+    }, {
         key: 'fillForm',
         value: function fillForm(e) {
             var _this2 = this;
@@ -23626,6 +23777,8 @@ var RegistrarTipoVehiculo = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
+            var _this3 = this;
+
             event.preventDefault();
             axios.post('/agregarTipoVehiculo', {
                 tipoVehiculo: this.state.tipoVehiculo
@@ -23640,7 +23793,8 @@ var RegistrarTipoVehiculo = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this3.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -23714,7 +23868,7 @@ var RegistrarTipoVehiculo = function (_React$Component) {
                                             { className: 'row' },
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 'div',
-                                                { className: 'col-md-10 mx-auto' },
+                                                { className: 'col-md-8 mx-auto' },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                     'div',
                                                     { className: 'form-group' },
@@ -23723,11 +23877,51 @@ var RegistrarTipoVehiculo = function (_React$Component) {
                                                         { htmlFor: 'descripcion' },
                                                         'Descripci\xF3n'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'descripcion', name: 'descripcion', value: this.state.tipoVehiculo.descripcion, onChange: this.handleChange, placeholder: 'Descripci\xF3n del Veh\xEDculo', required: true }),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-info' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'descripcion', name: 'descripcion', value: this.state.tipoVehiculo.descripcion, onChange: this.handleChange, placeholder: 'Descripci\xF3n del Veh\xEDculo', required: true })
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'tiempoEspera' },
+                                                        'Tiempo espera permitido'
+                                                    ),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese descripcion del veh\xEDculo.'
+                                                        null,
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'strong',
+                                                            null,
+                                                            ' (horas)'
+                                                        )
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-clock-o' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', className: 'form-control', id: 'tiempoEspera', name: 'tiempoEspera', value: this.state.tipoVehiculo.tiempoEspera, onChange: this.handleChange, min: '0', max: '72', placeholder: 'Tiempo de espera permitido en cola', required: true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control btn btn-primary', type: 'submit', value: 'Registrar', disabled: this.state.isSubmitDisabled })
@@ -23796,6 +23990,19 @@ var RegistrarProveedor = function (_React$Component) {
     }
 
     _createClass(RegistrarProveedor, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                proveedor: {
+                    id: '',
+                    nombre: '',
+                    descripcion: '',
+                    direccion: '',
+                    telefono: ''
+                }
+            });
+        }
+    }, {
         key: 'fillForm',
         value: function fillForm(e) {
             var _this2 = this;
@@ -23820,6 +24027,8 @@ var RegistrarProveedor = function (_React$Component) {
     }, {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
+            var _this3 = this;
+
             event.preventDefault();
             axios.post('/agregarProveedor', {
                 proveedor: this.state.proveedor
@@ -23834,7 +24043,8 @@ var RegistrarProveedor = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        location.reload();
+                        // location.reload();
+                        _this3.limpiar();
                     }, 1500);
                 } else {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -23917,11 +24127,19 @@ var RegistrarProveedor = function (_React$Component) {
                                                         { htmlFor: 'nombre' },
                                                         'Nombre'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'nombre', name: 'nombre', value: this.state.proveedor.nombre, onChange: this.handleChange, placeholder: 'Nombre de Provedor', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese nombre del proveedor.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-info' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'nombre', name: 'nombre', value: this.state.proveedor.nombre, onChange: this.handleChange, placeholder: 'Nombre de Provedor', required: true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -23932,11 +24150,19 @@ var RegistrarProveedor = function (_React$Component) {
                                                         { htmlFor: 'descripcion' },
                                                         'Descripci\xF3n'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'descripcion', name: 'descripcion', value: this.state.proveedor.descripcion, onChange: this.handleChange, placeholder: 'Descripci\xF3n de Provedor', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese descripcion del proveedor.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-info' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'descripcion', name: 'descripcion', value: this.state.proveedor.descripcion, onChange: this.handleChange, placeholder: 'Descripci\xF3n de Provedor', required: true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -23947,11 +24173,19 @@ var RegistrarProveedor = function (_React$Component) {
                                                         { htmlFor: 'direccion' },
                                                         'Direcci\xF3n'
                                                     ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'direccion', name: 'direccion', value: this.state.proveedor.direccion, onChange: this.handleChange, placeholder: 'Direcci\xF3n de Provedor', required: true }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese descripcion del proveedor.'
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-address-card' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'direccion', name: 'direccion', value: this.state.proveedor.direccion, onChange: this.handleChange, placeholder: 'Direcci\xF3n de Provedor', required: true })
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -23975,11 +24209,6 @@ var RegistrarProveedor = function (_React$Component) {
                                                             )
                                                         ),
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', 'data-inputmask': '"mask": "(999) 999-9999"', 'data-mask': true, id: 'telefono', name: 'telefono', value: this.state.proveedor.telefono, onChange: this.handleChange, placeholder: 'Descripci\xF3n de Provedor', required: true, maxLength: '9' })
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese descripcion del proveedor.'
                                                     )
                                                 ),
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control btn btn-primary', type: 'submit', value: 'Registrar', disabled: this.state.isSubmitDisabled })
@@ -71526,7 +71755,7 @@ var Sidebar = function (_Component) {
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 								"a",
 								{ href: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-users" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-database" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
@@ -71562,6 +71791,53 @@ var Sidebar = function (_Component) {
 											"p",
 											null,
 											"Lista de Proveedores"
+										)
+									)
+								)
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							"li",
+							{ className: "nav-item has-treeview" },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-users" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"p",
+									null,
+									"Comite",
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/adminRegComite", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/listaCom", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista de Comit\xE9s"
 										)
 									)
 								)
@@ -71626,14 +71902,46 @@ var Sidebar = function (_Component) {
 							"li",
 							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-								{ to: "agenteRegistro", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-sign-in" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
-									"Registro",
+									"Registro Entrada",
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/agenteRegistro", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/listaAgenteReg", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista de Registros"
+										)
+									)
 								)
 							)
 						),
@@ -71641,14 +71949,46 @@ var Sidebar = function (_Component) {
 							"li",
 							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-								{ to: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-arrow-circle-right" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
-									"Pendiente Ingreso",
+									"Pendiente Entrada",
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/agenteRegistro", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista"
+										)
+									)
 								)
 							)
 						),
@@ -71656,14 +71996,46 @@ var Sidebar = function (_Component) {
 							"li",
 							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-								{ to: "#", className: "nav-link" },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+								"a",
+								{ href: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-arrow-circle-left" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 									"p",
 									null,
 									"Pendiente Salida",
 									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								)
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								"ul",
+								{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/agenteRegistro", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-plus-square nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Agregar"
+										)
+									)
+								),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"li",
+									{ className: "nav-item" },
+									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+										__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+										{ to: "/", className: "nav-link" },
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
+										__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+											"p",
+											null,
+											"Lista"
+										)
+									)
 								)
 							)
 						)
@@ -71899,13 +72271,16 @@ module.exports = "/images/olamsa.png?bfed32b63900c698f622359f19d6ced6";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Users_Evaluador_PendienteDescarga__ = __webpack_require__(191);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Home__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__agenteGarita_pendienteIngreso_registro__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__administrador_usuario_registrar__ = __webpack_require__(126);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__administrador_usuario_lista__ = __webpack_require__(366);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__administrador_tipoVehiculo_registrar__ = __webpack_require__(127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__administrador_tipoVehiculo_lista__ = __webpack_require__(368);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__administrador_proveedor_registrar__ = __webpack_require__(128);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_lista__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__agenteGarita_registroEntrada_registro__ = __webpack_require__(379);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__agenteGarita_registroEntrada_lista__ = __webpack_require__(383);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__administrador_usuario_registrar__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__administrador_usuario_lista__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__administrador_tipoVehiculo_registrar__ = __webpack_require__(127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__administrador_tipoVehiculo_lista__ = __webpack_require__(368);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_registrar__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__administrador_proveedor_lista__ = __webpack_require__(369);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__administrador_comite_registrar__ = __webpack_require__(380);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__administrador_comite_lista__ = __webpack_require__(384);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -71913,6 +72288,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
 
 
 
@@ -71949,13 +72329,16 @@ var Content = function (_Component) {
                         null,
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { exact: true, path: "/home", component: __WEBPACK_IMPORTED_MODULE_3__Home__["a" /* default */] }),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/pendiente-descarga", component: __WEBPACK_IMPORTED_MODULE_2__Users_Evaluador_PendienteDescarga__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/agenteRegistro", component: __WEBPACK_IMPORTED_MODULE_4__agenteGarita_pendienteIngreso_registro__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegUsu", component: __WEBPACK_IMPORTED_MODULE_5__administrador_usuario_registrar__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaUsu", component: __WEBPACK_IMPORTED_MODULE_6__administrador_usuario_lista__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegTipoVehiculo", component: __WEBPACK_IMPORTED_MODULE_7__administrador_tipoVehiculo_registrar__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaTipoV", component: __WEBPACK_IMPORTED_MODULE_8__administrador_tipoVehiculo_lista__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegProv", component: __WEBPACK_IMPORTED_MODULE_9__administrador_proveedor_registrar__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaProv", component: __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_lista__["a" /* default */] })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/agenteRegistro", component: __WEBPACK_IMPORTED_MODULE_4__agenteGarita_registroEntrada_registro__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaAgenteReg", component: __WEBPACK_IMPORTED_MODULE_5__agenteGarita_registroEntrada_lista__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegUsu", component: __WEBPACK_IMPORTED_MODULE_6__administrador_usuario_registrar__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaUsu", component: __WEBPACK_IMPORTED_MODULE_7__administrador_usuario_lista__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegTipoVehiculo", component: __WEBPACK_IMPORTED_MODULE_8__administrador_tipoVehiculo_registrar__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaTipoV", component: __WEBPACK_IMPORTED_MODULE_9__administrador_tipoVehiculo_lista__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegProv", component: __WEBPACK_IMPORTED_MODULE_10__administrador_proveedor_registrar__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaProv", component: __WEBPACK_IMPORTED_MODULE_11__administrador_proveedor_lista__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/adminRegComite", component: __WEBPACK_IMPORTED_MODULE_12__administrador_comite_registrar__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["c" /* Route */], { path: "/listaCom", component: __WEBPACK_IMPORTED_MODULE_13__administrador_comite_lista__["a" /* default */] })
                     )
                 )
             );
@@ -73929,380 +74312,7 @@ var Home = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (Home);
 
 /***/ }),
-/* 200 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_tag_input__ = __webpack_require__(201);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_tag_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_tag_input__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tagsInputStyles_css__ = __webpack_require__(364);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tagsInputStyles_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__tagsInputStyles_css__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-//para el tag input: al presionar enter o coma agregue el tag
-var KeyCodes = {
-    comma: 188,
-    enter: 13
-};
-var delimiters = [KeyCodes.comma, KeyCodes.enter];
-//-------------------
-
-var RegistroPendiente = function (_React$Component) {
-    _inherits(RegistroPendiente, _React$Component);
-
-    function RegistroPendiente(props) {
-        _classCallCheck(this, RegistroPendiente);
-
-        var _this = _possibleConstructorReturn(this, (RegistroPendiente.__proto__ || Object.getPrototypeOf(RegistroPendiente)).call(this, props));
-
-        _this.state = {
-            tipoVehiculo: '',
-            numPlaca: '',
-            transportista: '',
-            numPesas: '',
-            comite: '',
-            proveedor: '',
-            observaciones: '',
-            isSubmitDisabled: false,
-            tags: [
-                // { id: "Thailand", text: "Thailand" },
-                // { id: "India", text: "India" }
-            ],
-            suggestions: [{ id: 'USA', text: 'USA' }, { id: 'Germany', text: 'Germany' }, { id: 'Austria', text: 'Austria' }, { id: 'Costa Rica', text: 'Costa Rica' }, { id: 'Sri Lanka', text: 'Sri Lanka' }, { id: 'Thailand', text: 'Thailand' }]
-        };
-        _this.handleDelete = _this.handleDelete.bind(_this);
-        _this.handleAddition = _this.handleAddition.bind(_this);
-        _this.handleDrag = _this.handleDrag.bind(_this);
-
-        _this.handleChange = _this.handleChange.bind(_this);
-        _this.handleSubmit = _this.handleSubmit.bind(_this);
-        return _this;
-    }
-
-    _createClass(RegistroPendiente, [{
-        key: 'handleDelete',
-        value: function handleDelete(i) {
-            var tags = this.state.tags;
-
-            this.setState({
-                tags: tags.filter(function (tag, index) {
-                    return index !== i;
-                })
-            });
-        }
-    }, {
-        key: 'handleAddition',
-        value: function handleAddition(tag) {
-            this.setState(function (state) {
-                return {
-                    tags: [].concat(_toConsumableArray(state.tags), [tag])
-                };
-            });
-            this.setState({
-                transportista: tag.id
-            });
-        }
-    }, {
-        key: 'handleInputChange',
-        value: function handleInputChange(e) {}
-    }, {
-        key: 'handleDrag',
-        value: function handleDrag(tag, currPos, newPos) {
-            var tags = [].concat(_toConsumableArray(this.state.tags));
-            var newTags = tags.slice();
-
-            newTags.splice(currPos, 1);
-            newTags.splice(newPos, 0, tag);
-
-            // re-render
-            this.setState({ tags: newTags });
-        }
-    }, {
-        key: 'handleChange',
-        value: function handleChange(event) {
-            var nombre = event.target.name;
-            var valor = event.target.value;
-            this.setState(_defineProperty({}, nombre, valor));
-        }
-    }, {
-        key: 'handleSubmit',
-        value: function handleSubmit(event) {
-            //   alert('A name was submitted: ' + this.state.value);
-            event.preventDefault();
-            console.log(this.state);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _React$createElement;
-
-            var _state = this.state,
-                tags = _state.tags,
-                suggestions = _state.suggestions;
-
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'section',
-                { className: 'content' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'container-fluid' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'card card-info' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'card-header' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'h3',
-                                { className: 'card-title' },
-                                'Registro'
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'card-tools' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'button',
-                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'collapse' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-minus' })
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'button',
-                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'remove' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-remove' })
-                                )
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'card-body' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'row ' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { className: 'col-md-12' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'form',
-                                        { onSubmit: this.handleSubmit },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'div',
-                                            { className: 'row' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'div',
-                                                { className: 'col-md-6' },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Tipo de Veh\xEDculo'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'select',
-                                                        { className: 'form-control', id: 'tipoVehiculo', name: 'tipoVehiculo', value: this.state.tipoVehiculo, onChange: this.handleChange },
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '1' },
-                                                            'option 1'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '2' },
-                                                            'option 2'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '3' },
-                                                            'option 3'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '4' },
-                                                            'option 4'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '5' },
-                                                            'option 5'
-                                                        )
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Seleccione un tipo de veh\xEDculo.'
-                                                    )
-                                                ),
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        { htmlFor: 'numPesas' },
-                                                        'N\xFAmero de Pesas'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', className: 'form-control', id: 'numPesas', name: 'numPesas', value: this.state.numPesas, onChange: this.handleChange, placeholder: 'N\xFAmero de Pesas' }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese el n\xFAmero de pesas.'
-                                                    )
-                                                ),
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Transportista'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_tag_input__["WithContext"], { tags: tags,
-                                                        suggestions: suggestions,
-                                                        handleDelete: this.handleDelete,
-                                                        handleAddition: this.handleAddition,
-                                                        handleDrag: this.handleDrag,
-                                                        handleInputChange: this.handleInputChange,
-                                                        placeholder: 'Agregar Transportista',
-                                                        inline: true,
-                                                        delimiters: delimiters }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese el nombre del Transportista y selecceione en las sugerencias.'
-                                                    )
-                                                )
-                                            ),
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'div',
-                                                { className: 'col-md-6' },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        { htmlFor: 'numPesas' },
-                                                        'N\xFAmero de Placa'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', (_React$createElement = { type: 'text', id: 'numPlaca', name: 'numPlaca', value: this.state.numPlaca, onChange: this.handleChange, className: 'form-control' }, _defineProperty(_React$createElement, 'id', 'numPesas'), _defineProperty(_React$createElement, 'placeholder', 'N\xFAmero de Placa'), _React$createElement)),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese la place del veh\xEDculo.'
-                                                    )
-                                                ),
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Comit\xE9'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'select',
-                                                        { className: 'form-control', id: 'comite', name: 'comite', value: this.state.comite, onChange: this.handleChange },
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '1' },
-                                                            'option 1'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '2' },
-                                                            'option 2'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '3' },
-                                                            'option 3'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '4' },
-                                                            'option 4'
-                                                        ),
-                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                            'option',
-                                                            { value: '5' },
-                                                            'option 5'
-                                                        )
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Seleccione Comit\xE9.'
-                                                    )
-                                                ),
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Proveedor '
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'proveedor', name: 'proveedor', type: 'text', value: this.state.proveedor, onChange: this.handleChange }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { className: 'form-text text-muted' },
-                                                        'Ingrese proveedor.'
-                                                    )
-                                                )
-                                            ),
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'div',
-                                                { className: 'col-md-12' },
-                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    'div',
-                                                    { className: 'form-group' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'label',
-                                                        null,
-                                                        'Observaciones'
-                                                    ),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'observaciones', name: 'observaciones', type: 'text', value: this.state.observaciones, onChange: this.handleChange }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'small',
-                                                        { id: 'emailHelp', className: 'form-text text-muted' },
-                                                        'Registre alguna observaci\xF3n.'
-                                                    )
-                                                )
-                                            )
-                                        ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control btn btn-primary', type: 'submit', value: 'Registrar', disabled: this.state.isSubmitDisabled })
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return RegistroPendiente;
-}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["a"] = (RegistroPendiente);
-
-/***/ }),
+/* 200 */,
 /* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -102317,51 +102327,8 @@ exports.push([module.i, ".react-tags-wrapper .tag-wrapper.opacity-none {\n  opac
 
 
 /***/ }),
-/* 364 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(365);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(19)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./tagsInputStyles.css", function() {
-			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./tagsInputStyles.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 365 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(18)(false);
-// imports
-
-
-// module
-exports.push([module.i, "/* Example Styles for React Tags*/\r\n#app {\r\n    padding: 40px;\r\n  }\r\n  \r\n  div.ReactTags__tags {\r\n      position: relative;\r\n  }\r\n  \r\n  /* Styles for the input */\r\n  div.ReactTags__tagInput {\r\n      width: 200px;\r\n      border-radius: 2px;\r\n      display: inline-block;\r\n  }\r\n  div.ReactTags__tagInput input.ReactTags__tagInputField,\r\n  div.ReactTags__tagInput input.ReactTags__tagInputField:focus {\r\n      height: 31px;\r\n      margin: 0;\r\n      font-size: 12px;\r\n      width: 100%;\r\n      border: 1px solid #eee;\r\n      padding: 0 4px;\r\n  }\r\n  \r\n  /* Styles for selected tags */\r\n  div.ReactTags__selected span.ReactTags__tag {\r\n      border: 1px solid #ddd;\r\n      background: #eee;\r\n      font-size: 12px;\r\n      display: inline-block;\r\n      padding: 5px;\r\n      margin: 0 5px;\r\n      cursor: move;\r\n      border-radius: 2px;\r\n  }\r\n  div.ReactTags__selected a.ReactTags__remove {\r\n      color: #aaa;\r\n      margin-left: 5px;\r\n      cursor: pointer;\r\n  }\r\n  \r\n  /* Styles for suggestions */\r\n  div.ReactTags__suggestions {\r\n      position: absolute;\r\n  }\r\n  div.ReactTags__suggestions ul {\r\n      list-style-type: none;\r\n      box-shadow: .05em .01em .5em rgba(0,0,0,.2);\r\n      background: white;\r\n      width: 200px;\r\n  }\r\n  div.ReactTags__suggestions li {\r\n      border-bottom: 1px solid #ddd;\r\n      padding: 5px 10px;\r\n      margin: 0;\r\n  }\r\n  div.ReactTags__suggestions li mark {\r\n      text-decoration: underline;\r\n      background: none;\r\n      font-weight: 600;\r\n  }\r\n  div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {\r\n      background: #b7cfe0;\r\n      cursor: pointer;\r\n  }", ""]);
-
-// exports
-
-
-/***/ }),
+/* 364 */,
+/* 365 */,
 /* 366 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -102407,17 +102374,24 @@ var ListaPersona = function (_React$Component) {
       dniEdit: 'primer'
     };
 
-    axios.get('listaPersona').then(function (data) {
-      //console.log(data);
-      _this.setState({ data: [].concat(_toConsumableArray(data.data.Personas)) });
-    }).catch(function (error) {
-      console.error(error);
-    });
+    _this.getData();
 
     return _this;
   }
 
   _createClass(ListaPersona, [{
+    key: "getData",
+    value: function getData() {
+      var _this2 = this;
+
+      axios.get('listaPersona').then(function (data) {
+        //console.log(data);
+        _this2.setState({ data: [].concat(_toConsumableArray(data.data.Personas)) });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
     key: "editarP",
     value: function editarP(e) {
       // console.log(e);
@@ -102429,7 +102403,7 @@ var ListaPersona = function (_React$Component) {
   }, {
     key: "eliminarP",
     value: function eliminarP(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       // console.log(e);
       __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -102448,7 +102422,8 @@ var ListaPersona = function (_React$Component) {
             if (data.data == "OK") {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El sector ha sido eliminado.', 'success');
               setTimeout(function () {
-                location.reload();
+                // location.reload();
+                _this3.getData();
               }, 1500);
             } else {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -102460,7 +102435,7 @@ var ListaPersona = function (_React$Component) {
             }
           }).catch(function (error) {
             console.log('Ocurrio un error ' + error);
-            _this2.$Progress.fail();
+            _this3.$Progress.fail();
           });
         }
       });
@@ -102468,7 +102443,7 @@ var ListaPersona = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var data = this.state.data;
 
@@ -102520,6 +102495,10 @@ var ListaPersona = function (_React$Component) {
                   Header: "Dirección",
                   accessor: "direccion",
                   filterable: true
+                }, {
+                  Header: "Telefono",
+                  accessor: "telefono",
+                  filterable: true
                 }]
               }, {
                 Header: 'Persona',
@@ -102540,7 +102519,7 @@ var ListaPersona = function (_React$Component) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "button",
                       { className: "form-control btn btn-danger", onClick: function onClick() {
-                          return _this3.eliminarP(row.row);
+                          return _this4.eliminarP(row.row);
                         } },
                       "Eliminar"
                     );
@@ -102553,7 +102532,7 @@ var ListaPersona = function (_React$Component) {
                       "button",
                       { className: "form-control btn btn-primary", "data-toggle": "modal",
                         "data-target": "#exampleModal", onClick: function onClick() {
-                          return _this3.editarP(row.row);
+                          return _this4.editarP(row.row);
                         } },
                       "Editar"
                     );
@@ -102669,16 +102648,23 @@ var ListaTipoVehiculo = function (_React$Component) {
             id: ''
         };
 
-        axios.get('listaTipoVehiculo').then(function (data) {
-            _this.setState({ data: [].concat(_toConsumableArray(data.data.tv)) });
-        }).catch(function (error) {
-            console.error(error);
-        });
+        _this.getDatos();
 
         return _this;
     }
 
     _createClass(ListaTipoVehiculo, [{
+        key: "getDatos",
+        value: function getDatos() {
+            var _this2 = this;
+
+            axios.get('listaTipoVehiculo').then(function (data) {
+                _this2.setState({ data: [].concat(_toConsumableArray(data.data.tv)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
         key: "editarTV",
         value: function editarTV(e) {
             this.setState({
@@ -102689,7 +102675,7 @@ var ListaTipoVehiculo = function (_React$Component) {
     }, {
         key: "eliminarTV",
         value: function eliminarTV(e) {
-            var _this2 = this;
+            var _this3 = this;
 
             console.log(e);
             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -102708,7 +102694,8 @@ var ListaTipoVehiculo = function (_React$Component) {
                         if (data.data == "OK") {
                             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El tipo de vehículo ha sido eliminado.', 'success');
                             setTimeout(function () {
-                                location.reload();
+                                // location.reload();
+                                _this3.getDatos();
                             }, 1500);
                         } else {
                             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -102720,7 +102707,7 @@ var ListaTipoVehiculo = function (_React$Component) {
                         }
                     }).catch(function (error) {
                         console.log('Ocurrio un error ' + error);
-                        _this2.$Progress.fail();
+                        _this3.$Progress.fail();
                     });
                 }
             });
@@ -102728,7 +102715,7 @@ var ListaTipoVehiculo = function (_React$Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             var data = this.state.data;
 
@@ -102769,6 +102756,15 @@ var ListaTipoVehiculo = function (_React$Component) {
                                     Header: "Descipción",
                                     accessor: "descripcion",
                                     filterable: true
+                                }, {
+                                    Header: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "i",
+                                        { "class": "fa fa-clock-o", "aria-hidden": "true" },
+                                        "Espera"
+                                    ),
+                                    accessor: "tiempoEspera",
+                                    filterable: true,
+                                    maxWidth: 100
                                 }]
                             }, {
                                 Header: 'Acciones',
@@ -102780,7 +102776,7 @@ var ListaTipoVehiculo = function (_React$Component) {
                                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             "button",
                                             { className: "form-control btn btn-danger", onClick: function onClick() {
-                                                    return _this3.eliminarTV(row.row);
+                                                    return _this4.eliminarTV(row.row);
                                                 } },
                                             "Eliminar"
                                         );
@@ -102794,7 +102790,7 @@ var ListaTipoVehiculo = function (_React$Component) {
                                             "button",
                                             { className: "form-control btn btn-primary", "data-toggle": "modal",
                                                 "data-target": "#exampleModal", onClick: function onClick() {
-                                                    return _this3.editarTV(row.row);
+                                                    return _this4.editarTV(row.row);
                                                 } },
                                             "Editar"
                                         );
@@ -102896,16 +102892,23 @@ var ListaProveedor = function (_React$Component) {
       id: ''
     };
 
-    axios.get('/listaProveedor').then(function (data) {
-      _this.setState({ data: [].concat(_toConsumableArray(data.data.proveedor)) });
-    }).catch(function (error) {
-      console.error(error);
-    });
+    _this.getDatos();
 
     return _this;
   }
 
   _createClass(ListaProveedor, [{
+    key: "getDatos",
+    value: function getDatos() {
+      var _this2 = this;
+
+      axios.get('/listaProveedor').then(function (data) {
+        _this2.setState({ data: [].concat(_toConsumableArray(data.data.proveedor)) });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
     key: "editarPr",
     value: function editarPr(e) {
       this.setState({
@@ -102916,7 +102919,7 @@ var ListaProveedor = function (_React$Component) {
   }, {
     key: "eliminarPr",
     value: function eliminarPr(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       // console.log(e);
       __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -102935,7 +102938,8 @@ var ListaProveedor = function (_React$Component) {
             if (data.data == "OK") {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El proveedor ha sido eliminado.', 'success');
               setTimeout(function () {
-                location.reload();
+                // location.reload();
+                _this3.getDatos();
               }, 1500);
             } else {
               __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
@@ -102947,7 +102951,7 @@ var ListaProveedor = function (_React$Component) {
             }
           }).catch(function (error) {
             console.log('Ocurrio un error ' + error);
-            _this2.$Progress.fail();
+            _this3.$Progress.fail();
           });
         }
       });
@@ -102955,7 +102959,7 @@ var ListaProveedor = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var data = this.state.data;
 
@@ -103019,7 +103023,7 @@ var ListaProveedor = function (_React$Component) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "button",
                       { className: "form-control btn btn-danger", onClick: function onClick() {
-                          return _this3.eliminarPr(row.row);
+                          return _this4.eliminarPr(row.row);
                         } },
                       "Eliminar"
                     );
@@ -103033,7 +103037,7 @@ var ListaProveedor = function (_React$Component) {
                       "button",
                       { className: "form-control btn btn-primary", "data-toggle": "modal",
                         "data-target": "#exampleModal", onClick: function onClick() {
-                          return _this3.editarPr(row.row);
+                          return _this4.editarPr(row.row);
                         } },
                       "Editar"
                     );
@@ -103094,6 +103098,1394 @@ var ListaProveedor = function (_React$Component) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_tag_input__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_tag_input___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_tag_input__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tagsInputStyles_css__ = __webpack_require__(381);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tagsInputStyles_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__tagsInputStyles_css__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+//para el tag input: al presionar enter o coma agregue el tag
+var KeyCodes = {
+    comma: 188,
+    enter: 13
+};
+var delimiters = [KeyCodes.comma, KeyCodes.enter];
+//-------------------
+
+var RegistroPendiente = function (_React$Component) {
+    _inherits(RegistroPendiente, _React$Component);
+
+    function RegistroPendiente(props) {
+        _classCallCheck(this, RegistroPendiente);
+
+        var _this = _possibleConstructorReturn(this, (RegistroPendiente.__proto__ || Object.getPrototypeOf(RegistroPendiente)).call(this, props));
+
+        _this.state = {
+            registro: {
+                id: '',
+                tipoVehiculo: '',
+                numPlaca: '',
+                transportista: '',
+                observaciones: ''
+            },
+            rows: [{
+                id: '',
+                numPesas: "0",
+                comite: "",
+                proveedor: ""
+            }],
+            tipoVehiculo: [],
+            comite: [],
+            proveedor: [],
+            isSubmitDisabled: true,
+            tags: [],
+            suggestions: []
+        };
+
+        _this.getDatos();
+
+        _this.handleDelete = _this.handleDelete.bind(_this);
+        _this.handleAddition = _this.handleAddition.bind(_this);
+        _this.handleDrag = _this.handleDrag.bind(_this);
+        _this.handleInputChange = _this.handleInputChange.bind(_this);
+        _this.handleBlur = _this.handleBlur.bind(_this);
+        _this.addRow = _this.addRow.bind(_this);
+        _this.delRow = _this.delRow.bind(_this);
+
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(RegistroPendiente, [{
+        key: 'getDatos',
+        value: function getDatos() {
+            var _this2 = this;
+
+            axios.get('/listaComite').then(function (data) {
+                _this2.setState({ comite: [].concat(_toConsumableArray(data.data.comite)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+            axios.get('/listaProveedor').then(function (data) {
+                _this2.setState({ proveedor: [].concat(_toConsumableArray(data.data.proveedor)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+            axios.get('/listaTipoVehiculo').then(function (data) {
+                _this2.setState({ tipoVehiculo: [].concat(_toConsumableArray(data.data.tv)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: 'fillForm',
+        value: function fillForm(e) {
+            var _this3 = this;
+
+            axios.get('/getRegEntrada/' + e.id).then(function (data) {
+                console.log(data.data.t);
+                _this3.setState({
+                    registro: data.data.p,
+                    tags: data.data.t,
+                    rows: data.data.r
+                });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: 'handleDelete',
+        value: function handleDelete(i) {
+            var tags = this.state.tags;
+
+            this.setState({
+                tags: tags.filter(function (tag, index) {
+                    return index !== i;
+                })
+            });
+            this.setState({
+                isSubmitDisabled: true
+            });
+        }
+    }, {
+        key: 'handleAddition',
+        value: function handleAddition(tag) {
+            if (this.state.tags.length < 1) {
+                this.setState(function (state) {
+                    return {
+                        tags: [].concat(_toConsumableArray(state.tags), [tag])
+                    };
+                });
+                this.setState(function (prevState) {
+                    return {
+                        registro: _extends({}, prevState.registro, {
+                            transportista: tag.id
+                        })
+                    };
+                });
+                this.setState({
+                    isSubmitDisabled: false
+                });
+            }
+        }
+    }, {
+        key: 'handleInputChange',
+        value: function handleInputChange(e) {
+            var _this4 = this;
+
+            if (e != '') {
+                axios.get('/getTransportistas/' + e).then(function (data) {
+                    _this4.setState({ suggestions: [].concat(_toConsumableArray(data.data.showT)) });
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            }
+        }
+    }, {
+        key: 'handleDrag',
+        value: function handleDrag(tag, currPos, newPos) {
+            var tags = [].concat(_toConsumableArray(this.state.tags));
+            var newTags = tags.slice();
+            newTags.splice(currPos, 1);
+            newTags.splice(newPos, 0, tag);
+            // re-render
+            this.setState({ tags: newTags });
+        }
+    }, {
+        key: 'handleBlur',
+        value: function handleBlur(e) {
+            // const valor = e.target.value;
+            // const nombre=e.target.name;
+            // // const rule = /^(([A-Z]{3,3})\-([0-9]{3,4}))$/;
+            // // const valid = rule.test(valor);
+            // // console.log(nombre);
+            //     if(nombre=="tipoVehiculo" || nombre=="proveedor" || nombre=="comite"){
+            //         if(this.state.registro.tipoVehiculo=='' || this.state.registro.proveedor=='' || this.state.registro.comite=='' || this.state.tags.length==0){
+            //             this.setState({
+            //                 isSubmitDisabled:true
+            //             });
+            //         }else{
+            //             this.setState({
+            //                 isSubmitDisabled:false
+            //             });
+            //         }
+            //     }
+
+        }
+    }, {
+        key: 'delRow',
+        value: function delRow(e) {
+            var arr = this.state.rows;
+            arr.splice(e.target.name, 1);
+            this.setState({
+                rows: arr
+            });
+        }
+    }, {
+        key: 'addRow',
+        value: function addRow(e) {
+            this.setState(function (pre) {
+                return {
+                    rows: [].concat(_toConsumableArray(pre.rows), [{
+                        id: "",
+                        numPesas: "",
+                        comite: "",
+                        proveedor: ""
+                    }])
+                };
+            });
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            var nombre = event.target.name;
+            var valor = event.target.value;
+            var id = event.target.dataset.id;
+            if (["numPesas", "comite", "proveedor"].includes(nombre)) {
+                var rows = [].concat(_toConsumableArray(this.state.rows));
+                rows[id][nombre] = valor;
+                this.setState({ rows: rows });
+            } else {
+                this.setState(function (prevState) {
+                    return {
+                        registro: _extends({}, prevState.registro, _defineProperty({}, nombre, valor))
+                    };
+                });
+            }
+        }
+    }, {
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                registro: {
+                    id: '',
+                    tipoVehiculo: '',
+                    numPlaca: '',
+                    transportista: '',
+                    numPesas: '',
+                    comite: '',
+                    proveedor: '',
+                    observaciones: ''
+                },
+                tags: [],
+                isSubmitDisabled: true,
+                rows: [{
+                    id: '',
+                    numPesas: "0",
+                    comite: "",
+                    proveedor: ""
+                }]
+            });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            var _this5 = this;
+
+            event.preventDefault();
+            //   console.log(this.state.rows);
+            axios.post('/agregarRegistroEntrada', {
+                registro: this.state.registro,
+                pesas: this.state.rows
+            }).then(function (data) {
+                // console.log(data);
+                if (data.data == 'OK') {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Datos ingresados correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    setTimeout(function () {
+                        // location.reload();
+                        _this5.limpiar();
+                    }, 1500);
+                } else {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }).catch(function (error) {
+                __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                console.log('Error: ' + error);
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _React$createElement,
+                _this6 = this;
+
+            var tags = this.state.tags;
+            var rows = this.state.rows;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'section',
+                { className: 'content' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'container-fluid' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'card card-primary' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'card-header' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'h3',
+                                { className: 'card-title' },
+                                'Registro'
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'card-tools' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'collapse' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-minus' })
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'remove' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-remove' })
+                                )
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'card-body' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'row ' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'col-md-12' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'form',
+                                        { onSubmit: this.handleSubmit },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { className: 'col-md-12' },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'row' },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'col-md-4' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'form-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'label',
+                                                            null,
+                                                            'Tipo de Veh\xEDculo'
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'select',
+                                                            { className: 'form-control', id: 'tipoVehiculo', name: 'tipoVehiculo', value: this.state.registro.tipoVehiculo, onChange: this.handleChange, required: true },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'option',
+                                                                { value: '' },
+                                                                ' --- '
+                                                            ),
+                                                            this.state.tipoVehiculo.map(function (e, key) {
+                                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                    'option',
+                                                                    { key: key + 1, value: e.id },
+                                                                    e.descripcion
+                                                                );
+                                                            })
+                                                        )
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'col-md-4' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'form-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'label',
+                                                            { htmlFor: 'numPesas' },
+                                                            'N\xFAmero de Placa'
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', (_React$createElement = { type: 'text', id: 'numPlaca', name: 'numPlaca', value: this.state.registro.numPlaca, onChange: this.handleChange, className: 'form-control' }, _defineProperty(_React$createElement, 'id', 'numPesas'), _defineProperty(_React$createElement, 'maxLength', '9'), _defineProperty(_React$createElement, 'placeholder', 'N\xFAmero de Placa'), _defineProperty(_React$createElement, 'required', true), _React$createElement))
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'col-md-4' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'form-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'label',
+                                                            null,
+                                                            'Transportista'
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_tag_input__["WithContext"], { tags: tags,
+                                                            suggestions: this.state.suggestions,
+                                                            handleDelete: this.handleDelete,
+                                                            handleAddition: this.handleAddition,
+                                                            handleDrag: this.handleDrag,
+                                                            handleInputChange: this.handleInputChange,
+                                                            placeholder: 'Agregar Transportista',
+                                                            inline: true,
+                                                            delimiters: delimiters
+                                                        })
+                                                    )
+                                                )
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'h3',
+                                                { className: 'd-inline' },
+                                                'Pesas del Veh\xEDculo '
+                                            ),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'button',
+                                                { type: 'button', className: 'd-inline btn btn-success', onClick: this.addRow },
+                                                'Agregar ',
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-plus-square', 'aria-hidden': 'true' })
+                                            ),
+                                            rows.map(function (row, index) {
+                                                var numPesas = 'numPesas' + index,
+                                                    comite = 'comite' + index,
+                                                    proveedor = 'proveedor' + index;
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'row', key: index },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'col-md-2' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'form-group' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'label',
+                                                                { htmlFor: numPesas },
+                                                                'Pesas'
+                                                            ),
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', className: 'form-control', id: 'numPesas', 'data-id': index, name: 'numPesas', value: _this6.state.rows[index].numPesas, onChange: _this6.handleChange, min: '0', placeholder: 'N\xFAmero de Pesas', required: true })
+                                                        )
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'col-md-4' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'form-group' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'label',
+                                                                null,
+                                                                'Comit\xE9'
+                                                            ),
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'select',
+                                                                { className: 'form-control', id: 'comite', 'data-id': index, name: 'comite', value: _this6.state.rows[index].comite, onChange: _this6.handleChange, required: true },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                    'option',
+                                                                    { value: '' },
+                                                                    '  ---  '
+                                                                ),
+                                                                _this6.state.comite.map(function (e, key) {
+                                                                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                        'option',
+                                                                        { key: key + 1, value: e.id },
+                                                                        e.nombre
+                                                                    );
+                                                                })
+                                                            )
+                                                        )
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'col-md-4' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'form-group' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'label',
+                                                                null,
+                                                                'Proveedor '
+                                                            ),
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'select',
+                                                                { className: 'form-control', id: 'proveedor', 'data-id': index, name: 'proveedor', value: _this6.state.rows[index].proveedor, onChange: _this6.handleChange, required: true },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                    'option',
+                                                                    { value: '' },
+                                                                    '  ---  '
+                                                                ),
+                                                                _this6.state.proveedor.map(function (e, key) {
+                                                                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                        'option',
+                                                                        { key: key + 1, value: e.id },
+                                                                        e.nombre
+                                                                    );
+                                                                })
+                                                            )
+                                                        )
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'col-md-2' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'form-group' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'label',
+                                                                null,
+                                                                'Eliminar'
+                                                            ),
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'button',
+                                                                { type: 'button', name: index, onClick: _this6.delRow, className: 'form-control btn btn-danger' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-minus-square', 'aria-hidden': 'true' })
+                                                            )
+                                                        )
+                                                    )
+                                                );
+                                            }),
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'row' },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'col-md-12' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'form-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'label',
+                                                            null,
+                                                            'Observaciones'
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', id: 'observaciones', name: 'observaciones', type: 'text', value: this.state.registro.observaciones, onChange: this.handleChange })
+                                                    )
+                                                )
+                                            )
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control btn btn-primary', type: 'submit', value: 'Registrar', disabled: this.state.isSubmitDisabled })
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return RegistroPendiente;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (RegistroPendiente);
+
+/***/ }),
+/* 380 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert2__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var RegistrarComite = function (_React$Component) {
+    _inherits(RegistrarComite, _React$Component);
+
+    function RegistrarComite(props) {
+        _classCallCheck(this, RegistrarComite);
+
+        var _this = _possibleConstructorReturn(this, (RegistrarComite.__proto__ || Object.getPrototypeOf(RegistrarComite)).call(this, props));
+
+        _this.state = {
+            comite: {
+                id: '',
+                nombre: '',
+                descripcion: ''
+            }
+        };
+
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
+    }
+
+    _createClass(RegistrarComite, [{
+        key: 'limpiar',
+        value: function limpiar() {
+            this.setState({
+                comite: {
+                    id: '',
+                    nombre: '',
+                    descripcion: ''
+                }
+            });
+        }
+    }, {
+        key: 'fillForm',
+        value: function fillForm(e) {
+            var _this2 = this;
+
+            axios.get('/getComite/' + e.id).then(function (data) {
+                _this2.setState({ comite: data.data.p });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: 'handleChange',
+        value: function handleChange(event) {
+            var nombre = event.target.name;
+            var valor = event.target.value;
+            this.setState(function (prev) {
+                return {
+                    comite: _extends({}, prev.comite, _defineProperty({}, nombre, valor))
+                };
+            });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit(event) {
+            var _this3 = this;
+
+            event.preventDefault();
+            axios.post('/agregarComite', {
+                comite: this.state.comite
+            }).then(function (data) {
+                console.log(data);
+                if (data.data == 'OK') {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Datos ingresados correctamente',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    setTimeout(function () {
+                        // location.reload();
+                        _this3.limpiar();
+                    }, 1500);
+                } else {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'No se pudo agregar, comuníquese con el Administrador',
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            }).catch(function (error) {
+                __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Sucedió un error. Asegurese de rellenar todos los campos del formulario!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                console.log('Error: ' + error);
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'section',
+                { className: 'content' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'container-fluid' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'card card-primary' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'card-header' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'h3',
+                                { className: 'card-title' },
+                                'Agregar Nuevo Comite'
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'card-tools' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'collapse' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-minus' })
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-tool', 'data-widget': 'remove' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-remove' })
+                                )
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'card-body' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'row ' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'col-md-8 mx-auto' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'form',
+                                        { onSubmit: this.handleSubmit },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { className: 'row' },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'col-md-10 mx-auto' },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'nombre' },
+                                                        'Nombre'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-info' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'nombre', name: 'nombre', value: this.state.comite.nombre, onChange: this.handleChange, placeholder: 'Nombre del Comite', required: true })
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    'div',
+                                                    { className: 'form-group' },
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'label',
+                                                        { htmlFor: 'descripcion' },
+                                                        'Descripci\xF3n'
+                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                        'div',
+                                                        { className: 'input-group' },
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                            'div',
+                                                            { className: 'input-group-prepend' },
+                                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                                'span',
+                                                                { className: 'input-group-text' },
+                                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-info' })
+                                                            )
+                                                        ),
+                                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', id: 'descripcion', name: 'descripcion', value: this.state.comite.descripcion, onChange: this.handleChange, placeholder: 'Descripci\xF3n del Comite', required: true })
+                                                    )
+                                                ),
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control btn btn-primary', type: 'submit', value: 'Registrar', disabled: this.state.isSubmitDisabled })
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return RegistrarComite;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (RegistrarComite);
+
+/***/ }),
+/* 381 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(382);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(19)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../node_modules/css-loader/index.js!./tagsInputStyles.css", function() {
+			var newContent = require("!!../../../../../node_modules/css-loader/index.js!./tagsInputStyles.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 382 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(18)(false);
+// imports
+
+
+// module
+exports.push([module.i, "/* Example Styles for React Tags*/\r\n#app {\r\n    padding: 40px;\r\n  }\r\n  \r\n  div.ReactTags__tags {\r\n      position: relative;\r\n  }\r\n  \r\n  /* Styles for the input */\r\n  div.ReactTags__tagInput {\r\n      width: 200px;\r\n      border-radius: 2px;\r\n      display: inline-block;\r\n  }\r\n  div.ReactTags__tagInput input.ReactTags__tagInputField,\r\n  div.ReactTags__tagInput input.ReactTags__tagInputField:focus {\r\n      height: 31px;\r\n      margin: 0;\r\n      font-size: 12px;\r\n      width: 100%;\r\n      border: 1px solid #eee;\r\n      padding: 0 4px;\r\n  }\r\n  \r\n  /* Styles for selected tags */\r\n  div.ReactTags__selected span.ReactTags__tag {\r\n      border: 1px solid #ddd;\r\n      background: #eee;\r\n      font-size: 12px;\r\n      display: inline-block;\r\n      padding: 5px;\r\n      margin: 0 5px;\r\n      cursor: move;\r\n      border-radius: 2px;\r\n  }\r\n  div.ReactTags__selected a.ReactTags__remove {\r\n      color: #aaa;\r\n      margin-left: 5px;\r\n      cursor: pointer;\r\n  }\r\n  \r\n  /* Styles for suggestions */\r\n  div.ReactTags__suggestions {\r\n      position: absolute;\r\n  }\r\n  div.ReactTags__suggestions ul {\r\n      list-style-type: none;\r\n      box-shadow: .05em .01em .5em rgba(0,0,0,.2);\r\n      background: white;\r\n      width: 200px;\r\n  }\r\n  div.ReactTags__suggestions li {\r\n      border-bottom: 1px solid #ddd;\r\n      padding: 5px 10px;\r\n      margin: 0;\r\n  }\r\n  div.ReactTags__suggestions li mark {\r\n      text-decoration: underline;\r\n      background: none;\r\n      font-weight: 600;\r\n  }\r\n  div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {\r\n      background: #b7cfe0;\r\n      cursor: pointer;\r\n  }", ""]);
+
+// exports
+
+
+/***/ }),
+/* 383 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_table__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__registro__ = __webpack_require__(379);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+var ListaRegistroEntrada = function (_React$Component) {
+  _inherits(ListaRegistroEntrada, _React$Component);
+
+  function ListaRegistroEntrada() {
+    _classCallCheck(this, ListaRegistroEntrada);
+
+    var _this = _possibleConstructorReturn(this, (ListaRegistroEntrada.__proto__ || Object.getPrototypeOf(ListaRegistroEntrada)).call(this));
+
+    _this.RegistroPendiente = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
+    _this.state = {
+      data: [],
+      id: ''
+    };
+
+    _this.getDataTable();
+    return _this;
+  }
+
+  _createClass(ListaRegistroEntrada, [{
+    key: "getDataTable",
+    value: function getDataTable() {
+      var _this2 = this;
+
+      axios.get('/listaRegistroEntrada').then(function (data) {
+        _this2.setState({ data: [].concat(_toConsumableArray(data.data.regEn)) });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
+    key: "editarRE",
+    value: function editarRE(e) {
+      this.setState({
+        id: e
+      });
+      this.RegistroPendiente.current.fillForm(e);
+    }
+  }, {
+    key: "verInfo",
+    value: function verInfo(e) {
+      axios.get("/verInfo/" + e.id).then(function (data) {
+        var string = "<ul class=\"list-unstyled\">";
+        data.data.pesas.map(function (val) {
+          string += "<li><div class=\"callout callout-info\"><p>Pesas: " + val.numPesas + "</p><p>Comite: " + val.comite + "</p><p>Proveedor: " + val.proveedor + "</p></div></li>";
+        });
+        string += "</ul>";
+        __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+          title: '<h3><strong>Pesas Detalle</strong></h3>',
+          html: string,
+          showCloseButton: true,
+          focusConfirm: false
+        });
+      }).catch(function (error) {
+        console.error(error);
+      });
+    }
+  }, {
+    key: "eliminarRE",
+    value: function eliminarRE(e) {
+      var _this3 = this;
+
+      // console.log(e);
+      __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+        title: "Deseas eliminar este registro: " + e.id + "?",
+        text: "No será posible revertir esta acción!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, elíminalo!',
+        cancelButtonText: 'No, cancelar!'
+      }).then(function (result) {
+        if (result.value) {
+          axios.get("/eliminarRegEntrada/" + e.id).then(function (data) {
+            console.log(data.data);
+            if (data.data == "OK") {
+              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El registro ha sido eliminado.', 'success');
+              setTimeout(function () {
+                // location.reload();
+                _this3.getDataTable();
+              }, 1500);
+            } else {
+              __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Algo fue mal!',
+                footer: 'Consulte con el administrador sobre este problema.'
+              });
+            }
+          }).catch(function (error) {
+            console.log('Ocurrio un error ' + error);
+            _this3.$Progress.fail();
+          });
+        }
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      var data = this.state.data;
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        { className: "col-md-12" },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          "div",
+          { className: "card card-info" },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "card-header" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "h3",
+              { className: "card-title" },
+              "Lista de Registros"
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "card-body" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
+              data: data,
+              columns: [{
+                Header: "Código",
+                columns: [{
+                  Header: "ID",
+                  filterable: true,
+                  maxWidth: 50,
+                  id: "id",
+                  accessor: function accessor(d) {
+                    return d.id;
+                  }
+                }]
+              }, {
+                Header: "Información",
+                columns: [{
+                  Header: "Vehículo",
+                  accessor: "vehiculo",
+                  filterable: true
+                }, {
+                  Header: "Placa",
+                  accessor: "placa",
+                  filterable: true
+                }, {
+                  Header: "Transportista",
+                  accessor: "transportista",
+                  filterable: true
+                }, {
+                  Header: "Observaciones",
+                  accessor: "observaciones",
+                  filterable: true
+                }]
+              }, {
+                Header: 'Acciones',
+                columns: [{
+                  Header: "Info",
+                  accessor: "tipo",
+                  maxWidth: 100,
+                  Cell: function Cell(row) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { className: "form-control btn btn-info", onClick: function onClick() {
+                          return _this4.verInfo(row.row);
+                        } },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-eye", "aria-hidden": "true" })
+                    );
+                  }
+                }, {
+                  Header: "Eliminar",
+                  accessor: "tipo",
+                  maxWidth: 100,
+                  Cell: function Cell(row) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { className: "form-control btn btn-danger", onClick: function onClick() {
+                          return _this4.eliminarRE(row.row);
+                        } },
+                      "Eliminar"
+                    );
+                  }
+                }, {
+                  Header: "Editar",
+                  accessor: "tipo",
+                  maxWidth: 100,
+                  Cell: function Cell(row) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { className: "form-control btn btn-primary", "data-toggle": "modal",
+                        "data-target": "#exampleModal", onClick: function onClick() {
+                          return _this4.editarRE(row.row);
+                        } },
+                      "Editar"
+                    );
+                  }
+                }]
+              }],
+              defaultPageSize: 5,
+              className: "-striped -highlight"
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              "div",
+              { className: "modal fade", id: "exampleModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "exampleModalLabel", "aria-hidden": "true" },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "modal-dialog modal-lg", role: "document" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  "div",
+                  { className: "modal-content" },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "modal-header" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "h5",
+                      { className: "modal-title", id: "exampleModalLabel" },
+                      "Editar Registro"
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      "button",
+                      { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { "aria-hidden": "true" },
+                        "\xD7"
+                      )
+                    )
+                  ),
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "modal-body" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registro__["a" /* default */], { ref: this.RegistroPendiente })
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ListaRegistroEntrada;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (ListaRegistroEntrada);
+
+/***/ }),
+/* 384 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_table__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_table_react_table_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__registrar__ = __webpack_require__(380);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+var ListaComite = function (_React$Component) {
+    _inherits(ListaComite, _React$Component);
+
+    function ListaComite() {
+        _classCallCheck(this, ListaComite);
+
+        var _this = _possibleConstructorReturn(this, (ListaComite.__proto__ || Object.getPrototypeOf(ListaComite)).call(this));
+
+        _this.RegistrarComite = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createRef();
+        _this.state = {
+            data: [],
+            id: ''
+        };
+        _this.getDatos();
+
+        return _this;
+    }
+
+    _createClass(ListaComite, [{
+        key: "getDatos",
+        value: function getDatos() {
+            var _this2 = this;
+
+            axios.get('/listaComite').then(function (data) {
+                _this2.setState({ data: [].concat(_toConsumableArray(data.data.comite)) });
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    }, {
+        key: "editarC",
+        value: function editarC(e) {
+            this.setState({
+                id: e
+            });
+            this.RegistrarComite.current.fillForm(e);
+        }
+    }, {
+        key: "eliminarC",
+        value: function eliminarC(e) {
+            var _this3 = this;
+
+            // console.log(e);
+            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+                title: "Deseas eliminar este comite: " + e.nombre + "?",
+                text: "No será posible revertir esta acción!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, elíminalo!',
+                cancelButtonText: 'No, cancelar!'
+            }).then(function (result) {
+                if (result.value) {
+                    axios.get("/eliminarComite/" + e.id).then(function (data) {
+                        console.log(data.data);
+                        if (data.data == "OK") {
+                            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El comite ha sido eliminado.', 'success');
+                            setTimeout(function () {
+                                // location.reload();
+                                _this3.getDatos();
+                            }, 1500);
+                        } else {
+                            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Algo fue mal!',
+                                footer: 'Consulte con el administrador sobre este problema.'
+                            });
+                        }
+                    }).catch(function (error) {
+                        console.log('Ocurrio un error ' + error);
+                        _this3.$Progress.fail();
+                    });
+                }
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this4 = this;
+
+            var data = this.state.data;
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-md-12" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "card card-info" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "card-header" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "h3",
+                            { className: "card-title" },
+                            "Lista de comites"
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "card-body" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
+                            data: data,
+                            columns: [{
+                                Header: "Código",
+                                columns: [{
+                                    Header: "ID",
+                                    filterable: true,
+                                    maxWidth: 50,
+                                    id: "id",
+                                    accessor: function accessor(d) {
+                                        return d.id;
+                                    }
+                                }]
+                            }, {
+                                Header: "Información",
+                                columns: [{
+                                    Header: "Nombre",
+                                    accessor: "nombre",
+                                    filterable: true
+                                }, {
+                                    Header: "Descipción",
+                                    accessor: "descripcion",
+                                    filterable: true
+                                }]
+                            }, {
+                                Header: 'Acciones',
+                                columns: [{
+                                    Header: "Eliminar",
+                                    accessor: "tipo",
+                                    maxWidth: 100,
+                                    Cell: function Cell(row) {
+                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "button",
+                                            { className: "form-control btn btn-danger", onClick: function onClick() {
+                                                    return _this4.eliminarC(row.row);
+                                                } },
+                                            "Eliminar"
+                                        );
+                                    }
+                                }, {
+                                    Header: "Editar",
+                                    accessor: "tipo",
+                                    maxWidth: 100,
+                                    Cell: function Cell(row) {
+                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "button",
+                                            { className: "form-control btn btn-primary", "data-toggle": "modal",
+                                                "data-target": "#exampleModal", onClick: function onClick() {
+                                                    return _this4.editarC(row.row);
+                                                } },
+                                            "Editar"
+                                        );
+                                    }
+                                }]
+                            }],
+                            defaultPageSize: 5,
+                            className: "-striped -highlight"
+                        }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "modal fade", id: "exampleModal", tabIndex: "-1", role: "dialog", "aria-labelledby": "exampleModalLabel", "aria-hidden": "true" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "modal-dialog modal-lg", role: "document" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-content" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "modal-header" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "h5",
+                                            { className: "modal-title", id: "exampleModalLabel" },
+                                            "Editar comite"
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "button",
+                                            { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "span",
+                                                { "aria-hidden": "true" },
+                                                "\xD7"
+                                            )
+                                        )
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "modal-body" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__registrar__["a" /* default */], { ref: this.RegistrarComite })
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ListaComite;
+}(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (ListaComite);
 
 /***/ })
 /******/ ]);

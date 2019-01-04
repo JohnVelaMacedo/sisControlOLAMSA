@@ -14,13 +14,17 @@ class ListaProveedor extends React.Component {
         id:''
       };
 
+      this.getDatos();
+
+    }
+
+    getDatos(){
       axios.get('/listaProveedor')
         .then(data => {
             this.setState({data: [...data.data.proveedor]});
         }).catch(error => {
             console.error(error);
         });
-
     }
     editarPr(e){
         this.setState({
@@ -51,7 +55,8 @@ class ListaProveedor extends React.Component {
                          'success'
                             );
                         setTimeout(() => {
-                            location.reload();
+                            // location.reload();
+                            this.getDatos();
                         }, 1500);
                     }else{
                       Swal({

@@ -88,18 +88,29 @@ class PendienteDescargaController extends Controller
     public function update(Request $request, $id)
     {
         date_default_timezone_set('America/Lima');
-
         $data = $request->data;
 
-        $isUpdate = PendienteDescarga::where('id', $id)
+        if ($data['ObservacionFin']) {
+            $isUpdate = PendienteDescarga::where('id', $id)
                 ->update(
                     [ 
-                        'checkInicio' => 1, 
-                        'ObservacionInicio' => $data, 
-                        'fechaInicio' => date('Y-m-d'), 
-                        'horaInicio' => date('H:i:s')
+                        'checkFin' => 1, 
+                        'ObservacionFin' => $data['ObservacionFin'], 
+                        'fechaFin' => date('Y-m-d'), 
+                        'horaFin' => date('H:i:s')
                     ]
-        );
+            );
+        } else {
+            $isUpdate = PendienteDescarga::where('id', $id)
+                    ->update(
+                        [ 
+                            'checkInicio' => 1, 
+                            'ObservacionInicio' => $data['ObservacionInicio'], 
+                            'fechaInicio' => date('Y-m-d'), 
+                            'horaInicio' => date('H:i:s')
+                        ]
+            );
+        }
 
         return $isUpdate ? "bien" : "error";
     }

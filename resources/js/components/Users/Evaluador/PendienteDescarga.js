@@ -16,19 +16,69 @@ class PendienteDescarga extends Component {
             idPendienteDescarga: null,
             idCheckbox: null,
             pendienteDescarga: {
-                ObservacionInicio: null
-            },
+                ObservacionInicio: null,
+                ObservacionFin: null
+            }
         }
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        const { idPendienteDescarga, idCheckbox } = this.state;
+        const { idPendienteDescarga, idCheckbox, pendienteDescarga } = this.state;
 
-        console.log(idPendienteDescarga, idCheckbox, this.state);
-        // axios.put(`/pendiente_descarga/${id}`)
-        //     .then(data => console.log(data))
-        //     .catch(error => console.log(error));
+        axios.put(`/pendiente_descarga/${idPendienteDescarga}`, {
+            data: pendienteDescarga,
+        }).then(data => {
+            if (data.data === 'bien') {
+                swal({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Agregado correctamente Pendiente Descarga (Inicio)',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'No se pudo agregar Pendiente Descarga (Inicio)',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            setTimeout(() => {
+                $(idCheckbox).modal('hide');
+                this.getData();
+                this.clearState();
+            }, 1800);
+        }).catch(error => {
+            swal({
+                position: 'top-end',
+                type: 'error',
+                title: 'Error externo. Consulte con el administrador.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setTimeout(() => {
+                $(idCheckbox).modal('hide');
+                this.getData();
+                this.clearState();
+            }, 1800);
+        });
+    }
+
+    clearState() {
+        this.setState(prevState => ({
+            idPendienteDescarga: null, 
+            idCheckbox: null,
+            pendienteDescarga: {
+                ...prevState.pendienteDescarga,
+                ObservacionInicio: null,
+                ObservacionFin: null
+            }
+        }));
     }
 
     handleChange(e) {
@@ -44,12 +94,18 @@ class PendienteDescarga extends Component {
 
     handleChangeCheck(data, e) {
         let idPendienteDescarga = data.row._original.idPendienteDescarga;
-        let idCheckbox = e.target.id;
+        let id = data.column.id;
+        var idCheckbox = null;
         
-        this.setState({ idPendienteDescarga, idCheckbox });
-        $('#exampleModal').modal('show');
+        if (id === 'checkInicio') {
+            $('#exampleModal').modal('show');
+            idCheckbox = '#exampleModal';
+        } else {
+            $('#exampleModal2').modal('show');
+            idCheckbox = '#exampleModal2';
+        } 
 
-        // console.log(data.row._original.idPendienteDescarga, data.row._original.idRegistroEntrada, data.value);
+        this.setState({ idPendienteDescarga, idCheckbox });
     }
 
     getData() {
@@ -84,7 +140,8 @@ class PendienteDescarga extends Component {
                 {
                     Header: 'Check de Culminación',
                     accessor: 'checkFin',
-                    Cell: props => <input type="checkbox" disabled={props.value === 1} />
+                    Cell: props => <input type="checkbox" id={'Fin' + props.value} checked={props.value === 1} disabled={props.value === 1}
+                        onChange={(e) => this.handleChangeCheck(props, e)} />
                 }
             ]
         }];
@@ -92,6 +149,11 @@ class PendienteDescarga extends Component {
 
     componentDidMount() {
         this.getData();
+        this.timerID = setInterval(() => this.getData(), 5000);
+    }
+
+    componentWillMount() {
+        clearInterval(this.timerID);
     }
 
     render() {
@@ -132,6 +194,33 @@ class PendienteDescarga extends Component {
                                     <div className="form-group">
                                         <label>Observaciones:</label>
                                         <textarea id="ObservacionInicio" className="form-control" onChange={this.handleChange} required 
+                                            rows={3}>
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" className="btn btn-primary">Guardar cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {/* Modal checkFin */}
+                <div className="modal fade" id="exampleModal2" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel2">Observaciones de Culminación</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form onSubmit={this.handleSubmit}>
+                                <div className="modal-body">
+                                    <div className="form-group">
+                                        <label>Observaciones:</label>
+                                        <textarea id="ObservacionFin" className="form-control" onChange={this.handleChange} required 
                                             rows={3}>
                                         </textarea>
                                     </div>

@@ -72860,7 +72860,8 @@ var PendienteDescarga = function (_Component) {
             idPendienteDescarga: null,
             idCheckbox: null,
             pendienteDescarga: {
-                ObservacionInicio: null
+                ObservacionInicio: null,
+                ObservacionFin: null
             }
         };
         return _this;
@@ -72869,16 +72870,70 @@ var PendienteDescarga = function (_Component) {
     _createClass(PendienteDescarga, [{
         key: "handleSubmit",
         value: function handleSubmit(e) {
+            var _this2 = this;
+
             e.preventDefault();
             var _state = this.state,
                 idPendienteDescarga = _state.idPendienteDescarga,
-                idCheckbox = _state.idCheckbox;
+                idCheckbox = _state.idCheckbox,
+                pendienteDescarga = _state.pendienteDescarga;
 
 
-            console.log(idPendienteDescarga, idCheckbox, this.state);
-            // axios.put(`/pendiente_descarga/${id}`)
-            //     .then(data => console.log(data))
-            //     .catch(error => console.log(error));
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.put("/pendiente_descarga/" + idPendienteDescarga, {
+                data: pendienteDescarga
+            }).then(function (data) {
+                if (data.data === 'bien') {
+                    __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Agregado correctamente Pendiente Descarga (Inicio)',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'No se pudo agregar Pendiente Descarga (Inicio)',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+
+                setTimeout(function () {
+                    __WEBPACK_IMPORTED_MODULE_4_jquery___default()(idCheckbox).modal('hide');
+                    _this2.getData();
+                    _this2.clearState();
+                }, 1800);
+            }).catch(function (error) {
+                __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Error externo. Consulte con el administrador.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                setTimeout(function () {
+                    __WEBPACK_IMPORTED_MODULE_4_jquery___default()(idCheckbox).modal('hide');
+                    _this2.getData();
+                    _this2.clearState();
+                }, 1800);
+            });
+        }
+    }, {
+        key: "clearState",
+        value: function clearState() {
+            this.setState(function (prevState) {
+                return {
+                    idPendienteDescarga: null,
+                    idCheckbox: null,
+                    pendienteDescarga: _extends({}, prevState.pendienteDescarga, {
+                        ObservacionInicio: null,
+                        ObservacionFin: null
+                    })
+                };
+            });
         }
     }, {
         key: "handleChange",
@@ -72898,20 +72953,26 @@ var PendienteDescarga = function (_Component) {
         key: "handleChangeCheck",
         value: function handleChangeCheck(data, e) {
             var idPendienteDescarga = data.row._original.idPendienteDescarga;
-            var idCheckbox = e.target.id;
+            var id = data.column.id;
+            var idCheckbox = null;
+
+            if (id === 'checkInicio') {
+                __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#exampleModal').modal('show');
+                idCheckbox = '#exampleModal';
+            } else {
+                __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#exampleModal2').modal('show');
+                idCheckbox = '#exampleModal2';
+            }
 
             this.setState({ idPendienteDescarga: idPendienteDescarga, idCheckbox: idCheckbox });
-            __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#exampleModal').modal('show');
-
-            // console.log(data.row._original.idPendienteDescarga, data.row._original.idRegistroEntrada, data.value);
         }
     }, {
         key: "getData",
         value: function getData() {
-            var _this2 = this;
+            var _this3 = this;
 
             __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('pendiente_descarga').then(function (data) {
-                _this2.setState({ pendientedescarga_inicio_fin: data.data.pendiente_descarga });
+                _this3.setState({ pendientedescarga_inicio_fin: data.data.pendiente_descarga });
             }).catch(function (error) {
                 return console.error(error);
             });
@@ -72919,7 +72980,7 @@ var PendienteDescarga = function (_Component) {
     }, {
         key: "dataReactTable",
         value: function dataReactTable() {
-            var _this3 = this;
+            var _this4 = this;
 
             return [{
                 Header: 'Transportista',
@@ -72935,14 +72996,17 @@ var PendienteDescarga = function (_Component) {
                     Cell: function Cell(props) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "checkbox", id: 'Ini' + props.value, checked: props.value === 1, disabled: props.value === 1,
                             onChange: function onChange(e) {
-                                return _this3.handleChangeCheck(props, e);
+                                return _this4.handleChangeCheck(props, e);
                             } });
                     }
                 }, {
                     Header: 'Check de Culminación',
                     accessor: 'checkFin',
                     Cell: function Cell(props) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "checkbox", disabled: props.value === 1 });
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "checkbox", id: 'Fin' + props.value, checked: props.value === 1, disabled: props.value === 1,
+                            onChange: function onChange(e) {
+                                return _this4.handleChangeCheck(props, e);
+                            } });
                     }
                 }]
             }];
@@ -72950,7 +73014,17 @@ var PendienteDescarga = function (_Component) {
     }, {
         key: "componentDidMount",
         value: function componentDidMount() {
+            var _this5 = this;
+
             this.getData();
+            this.timerID = setInterval(function () {
+                return _this5.getData();
+            }, 5000);
+        }
+    }, {
+        key: "componentWillMount",
+        value: function componentWillMount() {
+            clearInterval(this.timerID);
         }
     }, {
         key: "render",
@@ -73029,6 +73103,69 @@ var PendienteDescarga = function (_Component) {
                                             "Observaciones:"
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { id: "ObservacionInicio", className: "form-control", onChange: this.handleChange, required: true,
+                                            rows: 3 })
+                                    )
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-footer" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "button",
+                                        { type: "button", className: "btn btn-danger", "data-dismiss": "modal" },
+                                        "Cerrar"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "button",
+                                        { type: "submit", className: "btn btn-primary" },
+                                        "Guardar cambios"
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "modal fade", id: "exampleModal2", role: "dialog", "aria-labelledby": "exampleModalLabel2", "aria-hidden": "true" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "modal-dialog", role: "document" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "modal-content" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "modal-header" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "h5",
+                                    { className: "modal-title", id: "exampleModalLabel2" },
+                                    "Observaciones de Culminaci\xF3n"
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "button",
+                                    { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "span",
+                                        { "aria-hidden": "true" },
+                                        "\xD7"
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "form",
+                                { onSubmit: this.handleSubmit },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "modal-body" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "form-group" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "label",
+                                            null,
+                                            "Observaciones:"
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { id: "ObservacionFin", className: "form-control", onChange: this.handleChange, required: true,
                                             rows: 3 })
                                     )
                                 ),

@@ -79,7 +79,8 @@ class RegistroPendiente extends React.Component {
             this.setState({
                 registro: data.data.p,
                 tags:data.data.t,
-                rows:data.data.r
+                rows:data.data.r,
+                isSubmitDisabled: false
             });
         }).catch(error => {
             console.error(error);
@@ -234,8 +235,8 @@ class RegistroPendiente extends React.Component {
                     timer: 2000
                 });
                 setTimeout(() => {
-                    // location.reload();
-                    this.limpiar();
+                    location.reload();
+                    // this.limpiar();
                 }, 1500);
             } else {
                 Swal({

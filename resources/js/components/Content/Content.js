@@ -4,7 +4,7 @@ import PendienteDescarga from "../Users/Evaluador/PendienteDescarga";
 import Home from "../Home";
 
 import RegistroPendiente from "../agenteGarita/registroEntrada/registro";
-import ListaRegistroEntrada from "../agenteGarita/registroEntrada/lista"; 
+import ListaRegistroEntrada from "../agenteGarita/registroEntrada/lista";
 
 import RegistrarPersona from "../administrador/usuario/registrar";
 import ListaPersona from "../administrador/usuario/lista";
@@ -14,7 +14,7 @@ import RegistrarProveedor from "../administrador/proveedor/registrar";
 import ListaProveedor from "../administrador/proveedor/lista";
 import RegistrarComite from "../administrador/comite/registrar";
 import ListaComite from "../administrador/comite/lista";
-
+import ListaPendienteEntrada from "../agenteGarita/pendienteEntrada/lista";
 
 class Content extends Component {
     render() {
@@ -28,6 +28,7 @@ class Content extends Component {
 
                         <Route path="/agenteRegistro" component={RegistroPendiente} />
                         <Route path="/listaAgenteReg" component={ListaRegistroEntrada} />
+                        <Route path="/listaPendienteEntrada" component={ListaPendienteEntrada} />
 
                         <Route path="/adminRegUsu" component={RegistrarPersona} />
                         <Route path="/listaUsu" component={ListaPersona} />

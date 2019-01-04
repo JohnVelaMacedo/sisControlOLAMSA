@@ -72106,6 +72106,11 @@ var PendienteDescarga = function (_Component) {
     }, {
         key: "clearState",
         value: function clearState() {
+            var textInicio = document.getElementById('ObservacionInicio');
+            var textoFin = document.getElementById('ObservacionFin');
+            textInicio.value = null;
+            textoFin.value = null;
+
             this.setState(function (prevState) {
                 return {
                     idPendienteDescarga: null,

@@ -60,7 +60,7 @@ class PendienteDescarga extends Component {
                 showConfirmButton: false,
                 timer: 1500
             });
-
+            
             setTimeout(() => {
                 $(idCheckbox).modal('hide');
                 this.getData();
@@ -68,8 +68,13 @@ class PendienteDescarga extends Component {
             }, 1800);
         });
     }
-
+    
     clearState() {
+        var textInicio = document.getElementById('ObservacionInicio');
+        var textoFin = document.getElementById('ObservacionFin');
+        textInicio.value = null;
+        textoFin.value = null;
+
         this.setState(prevState => ({
             idPendienteDescarga: null, 
             idCheckbox: null,

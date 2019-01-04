@@ -30,6 +30,8 @@ class PendienteDescargaController extends Controller
                                 'pendientedescarga_inicio_fin.ObservacionFin', 'pendientedescarga_inicio_fin.fechaInicio', 
                                 'pendientedescarga_inicio_fin.horaInicio', 'pendientedescarga_inicio_fin.fechaFin', 
                                 'pendientedescarga_inicio_fin.horaFin')
+                            ->where('pendientedescarga_inicio_fin.checkInicio', '=', 0)
+                            ->orWhere('pendientedescarga_inicio_fin.checkFin', '=', 0)
                             ->get();
                                           
         return compact('pendiente_descarga', 'codigo');

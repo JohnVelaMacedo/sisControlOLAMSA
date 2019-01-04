@@ -143,7 +143,7 @@ class ListaRegistroEntrada extends React.Component {
                 Header: 'Acciones',
                 columns: [
                   {
-                    Header: "Info",
+                    Header: "Pesas",
                     accessor: "tipo",
                     maxWidth: 100,
                     Cell: row =>(

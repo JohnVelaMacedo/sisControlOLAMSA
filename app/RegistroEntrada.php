@@ -6,19 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class RegistroEntrada extends Model
 {
-<<<<<<< HEAD
-    public $timestamps = false;
-    protected $fillable = ['id', 'tipoVehiculo', 'numPlaca', 'transportista', 'observaciones'];
-    public $table = 'registroentrada';
-=======
     public $table="registroentrada";
-    public $timestamps=false;
+    public $timestamps=true;
     protected $fillable=[
         'id',
         'tipoVehiculo',
         'numPlaca',
         'transportista',
-        'observaciones'
+        'observaciones',
+        'created_at',
+        'updated_at'
     ];
->>>>>>> origin/master
 }

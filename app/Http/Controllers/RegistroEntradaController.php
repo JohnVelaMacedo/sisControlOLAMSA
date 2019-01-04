@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+date_default_timezone_set('America/Lima');
 use Illuminate\Http\Request;
 use App\RegistroEntrada;
 use App\RegistroPesas;
+use App\PendienteEntradaSalida;
 
 class RegistroEntradaController extends Controller
 {
@@ -16,8 +17,8 @@ class RegistroEntradaController extends Controller
     public function index()
     {
         $regEn=\DB::select("SELECT re.id, v.descripcion as vehiculo, re.numPlaca as placa, 
-        t.nombre as transportista,
-        re.observaciones from registroentrada re 
+        concat(t.nombre,' ',t.apellidos) as transportista,
+        re.observaciones from registroentrada re
         INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
         INNER JOIN persona t ON re.transportista=t.dni ");
 
@@ -49,8 +50,11 @@ class RegistroEntradaController extends Controller
                 'numPlaca'      =>$request['registro']['numPlaca'],
                 'transportista' =>$request['registro']['transportista'],
                 'observaciones' =>$request['registro']['observaciones'],
+                'updated_at'    =>date("Y-m-d H:i:s"),
             ]
         );
+
+        $eliPesas=RegistroPesas::where('idregistroentrada',$reg->id)->delete();
         for($i=0;$i<count($request['pesas']);$i++){
             $pesa=RegistroPesas::updateOrCreate(
                 ['id'=>$request['pesas'][$i]['id']],
@@ -59,6 +63,15 @@ class RegistroEntradaController extends Controller
                     'numPesas'      =>$request['pesas'][$i]['numPesas'],
                     'comite'        =>$request['pesas'][$i]['comite'],
                     'proveedor'     =>$request['pesas'][$i]['proveedor']
+                ]
+            );
+        }
+
+        if($request['registro']['id']==''){
+            $pend=PendienteEntradaSalida::updateOrCreate(
+                ['id'   =>null],
+                [
+                    'idRegistroEntrada' =>$reg->id
                 ]
             );
         }
@@ -92,7 +105,7 @@ class RegistroEntradaController extends Controller
     {
         $p =\DB::table('registroentrada')->where('id', $id)->first();
         $t =\DB::select("SELECT dni as id, concat(nombre,' ',apellidos) as text from persona where dni=$p->transportista");
-        $r=\DB::select("SELECT * from registropesas");
+        $r=\DB::select("SELECT * from registropesas where idregistroentrada=$id");
         return compact('p','t','r');
     }
 

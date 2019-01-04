@@ -57,6 +57,10 @@ Route::get('/verInfo/{dni}','RegistroEntradaController@verInfo')->name('verinfo'
 // rutas tipo persona
 Route::resource('/tipoPersona', 'TipoPersonaController');
 
+//rutas pendiente entrada salida
+Route::resource('/listaPendienteEntradaSalida','PendienteEntradaSalidaController');
+Route::post('/checkInicio','PendienteEntradaSalidaController@checkInicio')->name('checkInicio');
+Route::post('/checkFin','PendienteEntradaSalidaController@checkFin')->name('checkFin');
 
 // Rutas alternas
 // Route::view('/{path?}', 'app');

@@ -8,400 +8,139 @@ import './PendienteDescarga.css';
 class PendienteDescarga extends Component {
     constructor(props) {
         super(props);
+        this.handleChangeCheck = this.handleChangeCheck.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeEdit = this.handleChangeEdit.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSubmitEdit = this.handleSubmitEdit.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleEditPendiente = this.handleEditPendiente.bind(this);
         this.state = {
-            tipo_vehiculo: [],
-            fecha_hora_descarga: [],
-            persona: [],
-            id_pendienteDescargas: null,
-            fecha_hora_descarga_datos: { 
-                observaciones: null,
-                fechaReg: null,
-                horaReg: null,
-                transportista: null,
-                tipoVehiculo: null,
-                placa: null
+            pendientedescarga_inicio_fin: [],
+            idPendienteDescarga: null,
+            idCheckbox: null,
+            pendienteDescarga: {
+                ObservacionInicio: null
             },
-            fecha_hora_descarga_fin_datos: {
-                id_pendienteDescarga: null,
-                fechafinReg: null,
-                horafinReg: null,
-                observaciones: null,
-            },
-            errorPlaca: ""
-        };
-    }
-
-    handleSubmitEdit(e) {
-        e.preventDefault();
-        var pedefi = this.state.fecha_hora_descarga_fin_datos;
-
-        axios.post('addPendienteDescargaFin', {
-            pdf: pedefi
-        }).then(data => console.log(data))
-        .catch(error => console.error(error));
-    }
-
-    handleChangeEdit(e) {
-        var id = this.state.id_pendienteDescargas;
-        const name = e.target.id;
-        const value = e.target.value;
-        
-        this.setState(prevState => ({
-            fecha_hora_descarga_fin_datos: {
-                ...prevState.fecha_hora_descarga_fin_datos,
-                [name]: value
-            }
-        }));
-
-        this.setState(prevState => ({
-            fecha_hora_descarga_fin_datos: {
-                ...prevState.fecha_hora_descarga_fin_datos,
-                id_pendienteDescarga: id
-            }
-        }));
-    }
-
-    handleEditPendiente(data) {
-        this.setState({id_pendienteDescargas: data});
-        $('#editModal').modal('show');
-        var hide = $('#editModal').modal('hide');
-        var editModal = document.getElementById('formEditSubmit');
-
-        if (hide) editModal.reset();
-    }
-
-    handleBlur(e) {
-        var value = e.target.value;
-        const rule = /^(([A-Z]{3,3})\-([0-9]{3,4}))$/;
-        const valid = rule.test(value);
-
-        if (valid) {
-            $('#button_submit').prop('disabled', false);
-            this.setState({errorPlaca: ""});
-        } else {
-            $('#button_submit').prop('disabled', true);
-            $('#errorPlaca').css("color", "red");
-            this.setState({errorPlaca: "Asegurese de cumplir el formato indicado(XXX-123)"});
         }
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        var formSubmit = document.getElementById('formSubmit');
+        const { idPendienteDescarga, idCheckbox } = this.state;
 
-        axios.post('fecha_hora_descarga', {
-            fecha_hora_descarga: this.state.fecha_hora_descarga_datos
-        }).then(data => {
-            if (data.data === 'bien') {
-                swal({
-                    position: 'top-end',
-                    type: 'success',
-                    title: 'Datos agregados correctamente',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            } else {
-                swal({
-                    position: 'top-end',
-                    type: 'error',
-                    title: 'No se pudo agregar los datos',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-
-            setTimeout(() => {
-                $('#exampleModal').modal('hide');
-                formSubmit.reset();
-                this.setState(prevState => ({
-                    fecha_hora_descarga_datos: {
-                        observaciones: null,
-                        fechaReg: null,
-                        horaReg: null,
-                        transportista: null,
-                        tipoVehiculo: null,
-                        placa: null
-                    }
-                }));
-            }, 1800);
-
-        }).catch(error => {
-            swal({
-                position: 'top-end',
-                type: 'error',
-                title: 'Fallo externo. Comuníquese con el administrador',
-                showConfirmButton: false,
-                timer: 1500
-            });
-
-            setTimeout(() => {
-                $('#exampleModal').modal('hide');
-            }, 1800);
-        });
+        console.log(idPendienteDescarga, idCheckbox, this.state);
+        // axios.put(`/pendiente_descarga/${id}`)
+        //     .then(data => console.log(data))
+        //     .catch(error => console.log(error));
     }
 
     handleChange(e) {
-        let nombre = e.target.id;
-        let valor = e.target.value;
-
-        this.setState(prevState => ({
-            fecha_hora_descarga_datos: {
-                ...prevState.fecha_hora_descarga_datos,
-                [nombre]: valor
+        const { id, value } = e.target;
+        
+        this.setState(prevState => ({ 
+            pendienteDescarga: {
+                ...prevState.pendienteDescarga,
+                [id]: value 
             }
         }));
     }
 
-    componentDidMount() {
-        axios.get('fecha_hora_descarga')
+    handleChangeCheck(data, e) {
+        let idPendienteDescarga = data.row._original.idPendienteDescarga;
+        let idCheckbox = e.target.id;
+        
+        this.setState({ idPendienteDescarga, idCheckbox });
+        $('#exampleModal').modal('show');
+
+        // console.log(data.row._original.idPendienteDescarga, data.row._original.idRegistroEntrada, data.value);
+    }
+
+    getData() {
+        axios.get('pendiente_descarga')
             .then(data => {
-                this.setState({ 
-                    tipo_vehiculo: data.data.tipo_vehiculo,
-                    persona: data.data.persona,
-                    fecha_hora_descarga: data.data.fecha_hora_descarga
-                });
+                this.setState({ pendientedescarga_inicio_fin: data.data.pendiente_descarga })
             }).catch(error => console.error(error));
     }
-        
-    render() {
-        const { tipo_vehiculo, persona, fecha_hora_descarga } = this.state;
 
-        // Lista de Tipos de Vehículos
-        const lista_tipo_vehiculos = tipo_vehiculo.length ?
-            (
-                <select className="form-control" required id="tipoVehiculo" onChange={this.handleChange}>
-                    <option value="">Seleccione</option>
-                    {tipo_vehiculo.map(e => <option key={e.id} value={e.id}>{e.descripcion}</option>)}
-                </select>
-            ) : (
-                <select className="form-control">
-                    <option>No hay datos disponibles</option>
-                </select>
-            );
-        
-        // Lista de Transportistas
-        const lista_transportistas = persona.length ? 
-            (
-                <select className="form-control" required id="transportista" onChange={this.handleChange}>
-                    <option value="">Seleccione</option>
-                    { persona.map(e => <option value={e.dni} key={e.id}>{e.nombre} {e.apellidos}</option>) }
-                </select>
-            ) : (
-                <select>
-                    <option>No hay datos disponibles</option>
-                </select>
-            );
-        
-        // React Table
-        const columns = [{
-            Header: 'PLACA',
-            accessor: 'placa'
-        }, {
-            Header: 'TRANSPORTISTA',
+    dataReactTable() {
+        return [{
+            Header: 'Transportista',
             columns: [
-                {
-                    Header: 'DNI',
-                    accessor: 'transportista'
-                }, 
-                {
-                    Header: 'Nombres Completos',
-                    accessor: 'full_name'
-                }
+                { Header: 'DNI', accessor: 'transportista' },
+                { Header: 'Nombres Completos', accessor: 'full_name' },
             ]
         }, {
-            Header: 'VEHICULO',
+            Header: 'Vehículo',
             columns: [
-                {
-                    Header: 'Tipo',
-                    accessor: 'descripcion'
-                }
+                { Header: 'Tipo de Vehículo', accessor: 'descripcion_tipo_vehiculo' },
+                { Header: 'Número de Placa', accessor: 'numPlaca' }
             ]
         }, {
-            Header: 'FECHA/HORA (INICIO)',
+            Header: 'Pendiente en Descarga',
             columns: [
                 {
-                    Header: 'Fecha',
-                    accessor: 'fechaReg'
-                }, 
+                    Header: 'Check de Inicio',
+                    accessor: 'checkInicio',
+                    Cell: props => <input type="checkbox" id={'Ini' + props.value} checked={props.value === 1} disabled={props.value === 1}
+                        onChange={(e) => this.handleChangeCheck(props, e)} />
+                },
                 {
-                    Header: 'Hora',
-                    accessor: 'horaReg'
+                    Header: 'Check de Culminación',
+                    accessor: 'checkFin',
+                    Cell: props => <input type="checkbox" disabled={props.value === 1} />
                 }
             ]
-        }, {
-            Header: 'FECHA/HORA (FIN)',
-            columns: [
-                {
-                    Header: 'Fecha',
-                    accessor: 'fechafinReg',
-                    Cell: props => props.value ? props.value : "Datos faltantes"
-                }, 
-                {
-                    Header: 'Hora',
-                    accessor: 'horafinReg',
-                    Cell: props => props.value ? props.value : "Datos faltantes"
-                }
-            ]
-        }, {
-            Header: 'ESTADO',
-            accessor: 'checkInicioFin',
-            Cell: props => {
-                return props.value === 1 ? (
-                    <p>
-                        Iniciado
-                        <i className="fa fa-circle" style={{color: 'green', marginLeft: '5px'}} aria-hidden="true"></i>
-                    </p>
-                ) : (
-                    <p>
-                        Terminado
-                        <i className="fa fa-circle" style={{color: 'red', marginLeft: '5px'}} aria-hidden="true"></i>
-                    </p>
-                );
-            }
-        },{
-            Header: 'ACCIONES',
-            accessor: 'id_pendienteDescarga',
-            Cell: props => {
-                return (
-                    <a style={{cursor: 'pointer', color: 'green'}} onClick={() => this.handleEditPendiente(props.value)}>
-                        <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </a>
-                );
-            }
-        }]
+        }];
+    }
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    render() {
+        const { pendientedescarga_inicio_fin } = this.state;
 
         return (
-            <div className="card">
+            <div className="card card-info">
                 <div className="card-header">
-                    <h3>
-                        <button type="button" id="add_descarga" className="btn btn-success" data-toggle="modal" 
-                            data-target="#exampleModal">
-                            <i className="fa fa-plus" aria-hidden="true"></i>
-                        </button>
-                        Agregar Inicio de Descarga
-                    </h3>
+                    <h3 className="card-title">Pendiente Descarga</h3>
                 </div>
                 <div className="card-body">
-                    <ReactTable 
-                        data={fecha_hora_descarga} 
-                        columns={columns} 
-                        loadingText="Cargando..."
-                        noDataText="No hay filas encontradas"
+                    <ReactTable
+                        data={pendientedescarga_inicio_fin}
+                        columns={this.dataReactTable()}
+                        defaultPageSize={5}
+                        minRows={5}
                         previousText='Anterior'
                         nextText='Siguiente'
+                        loadingText='Cargando...'
+                        noDataText='No hay filas encontradas'
                         pageText='Página'
-                        ofText="de"
-                        rowsText="filas" 
-                        defaultPageSize={5}
+                        ofText='de'
+                        rowsText='filas'
                     />
-                    
-                    {/* MODAL AGREGAR */}
-                    <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalLabel">Agregar Pendiente de Inicio de Descarga</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-body">
-                                    <form onSubmit={this.handleSubmit} id="formSubmit"> 
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Placa de Vehículo:</label>
-                                            <div className="col-sm-8">
-                                                <input type="text" className="form-control" name="" id="placa" onChange={this.handleChange} 
-                                                    required placeholder="Ingrese el número de la placa" minLength={6}
-                                                    maxLength={7} onBlur={this.handleBlur} />
-                                                <small id="errorPlaca">{this.state.errorPlaca}</small>
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Tipo de Vehículo:</label>
-                                            <div className="col-md-8">
-                                                {lista_tipo_vehiculos}
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Transportista:</label>
-                                            <div className="col-md-8">
-                                                {lista_transportistas}
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Fecha de Descarga (Inicio):</label>
-                                            <div className="col-md-8">
-                                                <input type="date" className="form-control" id="fechaReg" min="2018-12-29" required 
-                                                    onChange={this.handleChange} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Hora de Descarga (Inicio):</label>
-                                            <div className="col-md-8">
-                                                <input type="time" className="form-control" min="00:00" required onChange={this.handleChange}
-                                                    id="horaReg" />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Observaciones</label>
-                                            <textarea className="form-control" id="observaciones" placeholder="Ingrese una observación"
-                                                onChange={this.handleChange} maxLength={50} >
-                                            </textarea>
-                                        </div>
-                                        <div className="form-group text-right">
-                                            <button type="button" className="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                                            <button type="submit" id="button_submit" className="btn btn-primary ml-2">Guardar cambios</button>
-                                        </div>
-                                    </form>
-                                </div>
+                </div>
+                {/* Modal checkInicio */}
+                <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Observaciones de Inicio</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </div>
-                    </div>
-                    {/* MODAL EDITAR */}
-                    <div className="modal fade" id="editModal" tabIndex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="editModalLabel">Agregar Pendiente de Fin de Descarga</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                            <form onSubmit={this.handleSubmit}>
                                 <div className="modal-body">
-                                    <form onSubmit={this.handleSubmitEdit} id="formEditSubmit">
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Fecha de Descarga (Fin):</label>
-                                            <div className="col-md-8">
-                                                <input type="date" className="form-control" id="fechafinReg" min="2018-12-29" required 
-                                                    onChange={this.handleChangeEdit} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-sm-4 col-form-label">Hora de Descarga (Fin):</label>
-                                            <div className="col-md-8">
-                                                <input type="time" className="form-control" min="00:00" required onChange={this.handleChangeEdit}
-                                                    id="horafinReg" />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Observaciones</label>
-                                            <textarea className="form-control" id="observaciones" placeholder="Ingrese una observación"
-                                                onChange={this.handleChangeEdit} maxLength={50} >
-                                            </textarea>
-                                        </div>
-                                        <div className="form-group text-right">
-                                            <button type="button" className="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                                            <button type="submit" id="button_edit_submit" className="btn btn-primary ml-2">Guardar cambios</button>
-                                        </div>
-                                    </form>
+                                    <div className="form-group">
+                                        <label>Observaciones:</label>
+                                        <textarea id="ObservacionInicio" className="form-control" onChange={this.handleChange} required 
+                                            rows={3}>
+                                        </textarea>
+                                    </div>
                                 </div>
-                            </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" className="btn btn-primary">Guardar cambios</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

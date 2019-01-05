@@ -60,7 +60,7 @@ class PendienteDescarga extends Component {
                 showConfirmButton: false,
                 timer: 1500
             });
-
+            
             setTimeout(() => {
                 $(idCheckbox).modal('hide');
                 this.getData();
@@ -68,8 +68,13 @@ class PendienteDescarga extends Component {
             }, 1800);
         });
     }
-
+    
     clearState() {
+        var textInicio = document.getElementById('ObservacionInicio');
+        var textoFin = document.getElementById('ObservacionFin');
+        textInicio.value = null;
+        textoFin.value = null;
+
         this.setState(prevState => ({
             idPendienteDescarga: null, 
             idCheckbox: null,
@@ -140,8 +145,8 @@ class PendienteDescarga extends Component {
                 {
                     Header: 'Check de Culminación',
                     accessor: 'checkFin',
-                    Cell: props => <input type="checkbox" id={'Fin' + props.value} checked={props.value === 1} disabled={props.value === 1}
-                        onChange={(e) => this.handleChangeCheck(props, e)} />
+                    Cell: props => <input type="checkbox" id={'Fin' + props.value} checked={props.value === 1} 
+                        disabled={props.original.checkInicio === 0} onChange={(e) => this.handleChangeCheck(props, e)} className="minimal" />
                 }
             ]
         }];

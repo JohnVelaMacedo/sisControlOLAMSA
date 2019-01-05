@@ -72924,6 +72924,11 @@ var PendienteDescarga = function (_Component) {
     }, {
         key: "clearState",
         value: function clearState() {
+            var textInicio = document.getElementById('ObservacionInicio');
+            var textoFin = document.getElementById('ObservacionFin');
+            textInicio.value = null;
+            textoFin.value = null;
+
             this.setState(function (prevState) {
                 return {
                     idPendienteDescarga: null,
@@ -73003,10 +73008,10 @@ var PendienteDescarga = function (_Component) {
                     Header: 'Check de Culminación',
                     accessor: 'checkFin',
                     Cell: function Cell(props) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "checkbox", id: 'Fin' + props.value, checked: props.value === 1, disabled: props.value === 1,
-                            onChange: function onChange(e) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "checkbox", id: 'Fin' + props.value, checked: props.value === 1,
+                            disabled: props.original.checkInicio === 0, onChange: function onChange(e) {
                                 return _this4.handleChangeCheck(props, e);
-                            } });
+                            }, className: "minimal" });
                     }
                 }]
             }];

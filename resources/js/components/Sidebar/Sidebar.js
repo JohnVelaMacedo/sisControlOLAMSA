@@ -112,29 +112,48 @@ class Sidebar extends Component {
 				break;
 			case 2:
 				aside = (
-					<li className="nav-item has-treeview">
-						<a href="#" className="nav-link">
-							<i className="nav-icon fa fa-folder"></i>
-							<p>
-								Supervisor
-                                <i className="fa fa-angle-right right"></i>
-							</p>
-						</a>
-						<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
-							<li className="nav-item">
-								<Link to="/ejemplo" className="nav-link">
-									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Ejemplo</p>
-								</Link>
-							</li>
-							<li className="nav-item">
-								<Link to="/ejemplo2" className="nav-link">
-									<i className="fa fa-list-ol nav-icon"></i>
-									<p>Ejemplo 2</p>
-								</Link>
-							</li>
-						</ul>
-					</li>
+					<div>
+						<li className="nav-item has-treeview">
+							<Link to="#" className="nav-link">
+								<i className="nav-icon fa fa-file-pdf-o"></i>
+								<p>
+									Reporte Tipo Vehículo
+								</p>
+							</Link>
+						</li>
+						<li className="nav-item has-treeview">
+							<Link to="#" className="nav-link">
+								<i className="nav-icon fa fa-file-pdf-o"></i>
+								<p>
+									Reporte Transportista
+								</p>
+							</Link>
+						</li>
+						<li className="nav-item has-treeview">
+							<Link to="#" className="nav-link">
+								<i className="nav-icon fa fa-file-pdf-o"></i>
+								<p>
+									Reporte Comite
+								</p>
+							</Link>
+						</li>
+						<li className="nav-item has-treeview">
+							<Link to="#" className="nav-link">
+								<i className="nav-icon fa fa-file-pdf-o"></i>
+								<p>
+									Reporte Proveedor
+								</p>
+							</Link>
+						</li>
+						<li className="nav-item has-treeview">
+							<Link to="#" className="nav-link">
+								<i className="nav-icon fa fa-file-pdf-o"></i>
+								<p>
+									Reporte Placa
+								</p>
+							</Link>
+						</li>
+					</div>
 				);
 				break;
 			case 3:

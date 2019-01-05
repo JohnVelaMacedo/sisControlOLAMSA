@@ -72383,48 +72383,75 @@ var Sidebar = function (_Component) {
 					break;
 				case 2:
 					aside = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						"li",
-						{ className: "nav-item has-treeview" },
+						"div",
+						null,
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"a",
-							{ href: "#", className: "nav-link" },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-folder" }),
+							"li",
+							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"p",
-								null,
-								"Supervisor",
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-angle-right right" })
+								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+								{ to: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-file-pdf-o" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"p",
+									null,
+									"Reporte Tipo Veh\xEDculo"
+								)
 							)
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-							"ul",
-							{ className: "nav nav-treeview", style: { paddingLeft: '10px' } },
+							"li",
+							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"li",
-								{ className: "nav-item" },
+								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+								{ to: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-file-pdf-o" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-									{ to: "/ejemplo", className: "nav-link" },
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										"p",
-										null,
-										"Ejemplo"
-									)
+									"p",
+									null,
+									"Reporte Transportista"
 								)
-							),
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							"li",
+							{ className: "nav-item has-treeview" },
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								"li",
-								{ className: "nav-item" },
+								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+								{ to: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-file-pdf-o" }),
 								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-									__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
-									{ to: "/ejemplo2", className: "nav-link" },
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-list-ol nav-icon" }),
-									__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										"p",
-										null,
-										"Ejemplo 2"
-									)
+									"p",
+									null,
+									"Reporte Comite"
+								)
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							"li",
+							{ className: "nav-item has-treeview" },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+								{ to: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-file-pdf-o" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"p",
+									null,
+									"Reporte Proveedor"
+								)
+							)
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							"li",
+							{ className: "nav-item has-treeview" },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
+								{ to: "#", className: "nav-link" },
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "nav-icon fa fa-file-pdf-o" }),
+								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+									"p",
+									null,
+									"Reporte Placa"
 								)
 							)
 						)

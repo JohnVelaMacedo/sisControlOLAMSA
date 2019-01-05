@@ -16,6 +16,8 @@ import RegistrarComite from "../administrador/comite/registrar";
 import ListaComite from "../administrador/comite/lista";
 import ListaPendienteEntrada from "../agenteGarita/pendienteEntrada/lista";
 
+import ListaReporte from "../reportes/lista";
+
 class Content extends Component {
     render() {
         return (
@@ -38,7 +40,8 @@ class Content extends Component {
                         <Route path="/listaProv" component={ListaProveedor} />
                         <Route path="/adminRegComite" component={RegistrarComite} />
                         <Route path="/listaCom" component={ListaComite} />
-                        
+
+                        <Route path="/listaReporte" component={ListaReporte} />
                     </Switch>
                 </section>
             </div>

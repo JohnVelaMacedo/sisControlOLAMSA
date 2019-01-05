@@ -114,42 +114,10 @@ class Sidebar extends Component {
 				aside = (
 					<div>
 						<li className="nav-item has-treeview">
-							<Link to="#" className="nav-link">
+							<Link to="listaReporte" className="nav-link">
 								<i className="nav-icon fa fa-file-pdf-o"></i>
 								<p>
-									Reporte Tipo Vehículo
-								</p>
-							</Link>
-						</li>
-						<li className="nav-item has-treeview">
-							<Link to="#" className="nav-link">
-								<i className="nav-icon fa fa-file-pdf-o"></i>
-								<p>
-									Reporte Transportista
-								</p>
-							</Link>
-						</li>
-						<li className="nav-item has-treeview">
-							<Link to="#" className="nav-link">
-								<i className="nav-icon fa fa-file-pdf-o"></i>
-								<p>
-									Reporte Comite
-								</p>
-							</Link>
-						</li>
-						<li className="nav-item has-treeview">
-							<Link to="#" className="nav-link">
-								<i className="nav-icon fa fa-file-pdf-o"></i>
-								<p>
-									Reporte Proveedor
-								</p>
-							</Link>
-						</li>
-						<li className="nav-item has-treeview">
-							<Link to="#" className="nav-link">
-								<i className="nav-icon fa fa-file-pdf-o"></i>
-								<p>
-									Reporte Placa
+									Reportes
 								</p>
 							</Link>
 						</li>

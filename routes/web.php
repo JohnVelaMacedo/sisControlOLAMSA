@@ -62,6 +62,10 @@ Route::resource('/listaPendienteEntradaSalida','PendienteEntradaSalidaController
 Route::post('/checkInicio','PendienteEntradaSalidaController@checkInicio')->name('checkInicio');
 Route::post('/checkFin','PendienteEntradaSalidaController@checkFin')->name('checkFin');
 
+//rutas para reportes
+Route::resource('/listaInicialReporte','ReporteController');
+Route::post('/filtroTabla','ReporteController@filtrar')->name('filtrar');
+
 // Rutas alternas
 // Route::view('/{path?}', 'app');
 Route::get('{path}', 'HomeController@index')->where('path', '([A-z\d-\/_.]+)?');

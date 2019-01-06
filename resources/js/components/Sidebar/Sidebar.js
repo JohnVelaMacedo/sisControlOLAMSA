@@ -107,6 +107,55 @@ class Sidebar extends Component {
 							
 						</ul>
 					</li>
+						<li className="nav-item has-treeview">
+							<a href="#" className="nav-link">
+								<i class="fa fa-archive" aria-hidden="true"></i>
+								<p>
+									Pendiente Descarga
+                                    <i className="fa fa-angle-right right"></i>
+								</p>
+							</a>
+							<ul className="nav nav-treeview" style={{ paddingLeft: '6px' }}>
+								<li className="nav-item">
+									<Link to="/pendiente-descarga" className="nav-link">
+										<i className="fa fa-list-ol nav-icon"></i>
+										<p>Listado</p>
+									</Link>
+								</li>
+							</ul>
+						</li>
+						<li className="nav-item has-treeview">
+							<a href="#" className="nav-link">
+								<i className="nav-icon fa fa-sign-in"></i>
+								<p>
+									Registro Entrada
+									<i className="fa fa-angle-right right"></i>
+								</p>
+							</a>
+							<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
+								<li className="nav-item">
+									<Link to="/agenteRegistro" className="nav-link">
+									<i className="fa fa-plus-square nav-icon"></i>
+										<p>Agregar</p>
+									</Link>
+								</li>
+								<li className="nav-item">
+									<Link to="/listaAgenteReg" className="nav-link">
+										<i className="fa fa-list-ol nav-icon"></i>
+										<p>Lista de Registros</p>
+									</Link>
+								</li>
+								
+							</ul>
+						</li>
+						<li className="nav-item has-treeview">
+							<Link to="/listaPendienteEntrada" className="nav-link">
+								<i className="nav-icon fa fa-exchange"></i>
+								<p>
+									Pendiente Entrada Salida
+								</p>
+							</Link>
+						</li>
 					</div>
 				);
 				break;
@@ -182,7 +231,7 @@ class Sidebar extends Component {
 				aside = (
 						<li className="nav-item has-treeview">
 							<a href="#" className="nav-link">
-								<i className="fa fa-car" aria-hidden="true"></i>
+								<i class="fa fa-archive" aria-hidden="true"></i>
 								<p>
 									Pendiente Descarga
                                     <i className="fa fa-angle-right right"></i>

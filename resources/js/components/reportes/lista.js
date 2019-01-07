@@ -4,9 +4,9 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { WithContext as ReactTags } from 'react-tag-input';
 import Swal from 'sweetalert2';
+import { Link } from "react-router-dom";
 import $ from "jquery";
-import { Document, Page } from 'react-pdf';
-
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
 //para el tag input: al presionar enter o coma agregue el tag
 const KeyCodes = {
@@ -15,6 +15,17 @@ const KeyCodes = {
   };
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
 //-------------------
+const styles = StyleSheet.create({
+    page: {
+      flexDirection: 'row',
+      backgroundColor: '#E4E4E4'
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1
+    }
+  });
 
 class ListaReporte extends React.Component{
 
@@ -287,17 +298,20 @@ class ListaReporte extends React.Component{
                         {
                             Header: "Pesas",
                             accessor: "pesas",
-                            filterable:true
+                            filterable:true,
+                            maxWidth:50
                         },
                         {
                             Header: "Vehículo",
                             accessor: "vehiculo",
-                            filterable:true
+                            filterable:true,
+                            maxWidth:80
                         },
                         {
                             Header: "Placa",
                             accessor: "placa",
-                            filterable:true
+                            filterable:true,
+                            maxWidth:80
                         },
                         {
                             Header: "Transportista",
@@ -307,12 +321,14 @@ class ListaReporte extends React.Component{
                         {
                             Header: "Entrada",
                             accessor: "entrada",
-                            filterable:true
+                            filterable:true,
+                            minWidth:140
                         },
                         {
                             Header: "Salida",
                             accessor: "salida",
-                            filterable:true
+                            filterable:true,
+                            minWidth:140
                         },
                         {
                             Header: "Observaciones",
@@ -322,12 +338,14 @@ class ListaReporte extends React.Component{
                         {
                             Header: "Inicio Descarga",
                             accessor: "descargaInicio",
-                            filterable:true
+                            filterable:true,
+                            minWidth:140
                         },
                         {
                             Header: "Inicio Fin",
                             accessor: "descargaFin",
-                            filterable:true
+                            filterable:true,
+                            minWidth:140
                         },
                         {
                             Header: "Observaciones",
@@ -338,6 +356,7 @@ class ListaReporte extends React.Component{
                     }
                     ]}
                     defaultPageSize={20}
+                    style={{fontSize:'12px'}}
                     className="-striped -highlight"
                     classNames={{
                         tags: 'tagsClass',
@@ -350,6 +369,22 @@ class ListaReporte extends React.Component{
                         activeSuggestion: 'activeSuggestionClass'
                       }}
                 />
+                <div>
+                    <PDFDownloadLink document={
+                        <Document>
+                        <Page size="A4" style={styles.page}>
+                            <View style={styles.section}>
+                                {data.map((d,k)=><Text key={k}>{d.transportista}</Text>)}
+                            </View>
+                            <View style={styles.section}>
+                                <Text>Section #2</Text>
+                            </View>
+                        </Page>
+                    </Document>
+                    } fileName="somename.pdf">
+                    {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+                    </PDFDownloadLink>
+                </div>
                 </div>
             </div>
         );

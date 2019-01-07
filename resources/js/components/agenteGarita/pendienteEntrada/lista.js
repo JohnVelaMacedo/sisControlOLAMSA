@@ -26,7 +26,7 @@ class ListaPendienteEntrada extends React.Component{
         setInterval(()=>{
         axios.get('/listaPendienteEntradaSalida')
         .then(data => {
-            this.setState({data: [...data.data.regEn]});
+            this.setState({data: data.data.regEn});
         }).catch(error => {
             console.error(error);
         });
@@ -64,8 +64,6 @@ class ListaPendienteEntrada extends React.Component{
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            setTimeout(() => {
-                            }, 1500);
                         } else {
                             Swal({
                                 position: 'top-end',
@@ -121,8 +119,6 @@ class ListaPendienteEntrada extends React.Component{
                                 showConfirmButton: false,
                                 timer: 2000
                             });
-                            setTimeout(() => {
-                            }, 1500);
                         } else {
                             Swal({
                                 position: 'top-end',
@@ -148,8 +144,76 @@ class ListaPendienteEntrada extends React.Component{
           });
     }
 
+    rows(){
+        return [
+            {
+                Header: "Código",
+                columns: [
+                {
+                    Header: "ID",
+                    filterable:true,
+                    maxWidth: 50,
+                    id: "idPendiente",
+                    accessor: d => d.id
+                }
+                ]
+            },
+            {
+                Header: "Información",
+                columns: [
+                {
+                    Header: "Vehículo",
+                    accessor: "vehiculo",
+                    filterable:true
+                },
+                {
+                    Header: "Placa",
+                    accessor: "placa",
+                    filterable:true
+                },
+                {
+                    Header: "Transportista",
+                    accessor: "transportista",
+                    filterable:true
+                },
+                {
+                    Header: "Observaciones",
+                    accessor: "observaciones",
+                    filterable:true
+                },
+                ]
+            },
+            {
+                Header: 'Acciones',
+                columns: [
+                
+                {
+                    Header: "Entrada",
+                    accessor: "checkIn",
+                    maxWidth: 100,
+                    Cell: row =>(
+                        <div>
+                            {/* <label className="form-check-label">{row.row._original.checkIn?'true':'false'}</label> */}
+                            <input className="form-control" type="checkbox" id={'in-'+row.row.idPendiente} disabled={row.row._original.checkIn} onClick={(e)=>{this.penEntrada(e,row.row._original.id,row.row._original.idPendiente)}} defaultChecked={row.row._original.checkIn} />
+                        </div>
+                    )
+                },
+                {
+                    Header: "Salida",
+                    accessor: "checkOut",
+                    maxWidth: 100,
+                    Cell: row =>(
+                        <div>
+                            <input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row._original.checkOut} onClick={(e)=>{this.penSalida(e,row.row._original.id,row.row._original.idPendiente)}} defaultChecked={row.row._original.checkOut} />
+                        </div>
+                    )
+                }
+                ]
+            }
+            ]
+    }
     render(){
-        const { data } = this.state;
+        let { data } = this.state;
         return(
             <div className="col-md-12">
             <div className="card card-info">
@@ -159,74 +223,16 @@ class ListaPendienteEntrada extends React.Component{
                 <div className="card-body"></div>
                 <ReactTable
                     data={data}
-                    columns={[
-                    {
-                        Header: "Código",
-                        columns: [
-                        {
-                            Header: "ID",
-                            filterable:true,
-                            maxWidth: 50,
-                            id: "idPendiente",
-                            accessor: d => d.id
-                        }
-                        ]
-                    },
-                    {
-                        Header: "Información",
-                        columns: [
-                        {
-                            Header: "Vehículo",
-                            accessor: "vehiculo",
-                            filterable:true
-                        },
-                        {
-                            Header: "Placa",
-                            accessor: "placa",
-                            filterable:true
-                        },
-                        {
-                            Header: "Transportista",
-                            accessor: "transportista",
-                            filterable:true
-                        },
-                        {
-                            Header: "Observaciones",
-                            accessor: "observaciones",
-                            filterable:true
-                        },
-                        ]
-                    },
-                    {
-                        Header: 'Acciones',
-                        columns: [
-                        
-                        {
-                            Header: "Entrada",
-                            accessor: "checkIn",
-                            maxWidth: 100,
-                            Cell: row =>(
-                                <div>
-                                    {/* <label className="form-check-label">{row.row._original.checkIn?'true':'false'}</label> */}
-                                    <input className="form-control" type="checkbox" id={'in-'+row.row.idPendiente} disabled={row.row._original.checkIn} onClick={(e)=>{this.penEntrada(e,row.row._original.id,row.row._original.idPendiente)}} defaultChecked={row.row._original.checkIn} />
-                                </div>
-                            )
-                        },
-                        {
-                            Header: "Salida",
-                            accessor: "checkOut",
-                            maxWidth: 100,
-                            Cell: row =>(
-                                <div>
-                                    <input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row._original.checkOut} onClick={(e)=>{this.penSalida(e,row.row._original.id,row.row._original.idPendiente)}} defaultChecked={row.row._original.checkOut} />
-                                </div>
-                            )
-                        }
-                        ]
-                    }
-                    ]}
+                    columns={this.rows()}
                     defaultPageSize={5}
                     className="-striped -highlight"
+                    previousText='Anterior'
+                    nextText='Siguiente'
+                    loadingText='Cargando...'
+                    noDataText='No hay filas encontradas'
+                    pageText='Página'
+                    ofText='de'
+                    rowsText='filas'
                 />
                 </div>
             </div>

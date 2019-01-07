@@ -26,7 +26,6 @@ class Content extends Component {
                     <Switch>
                         <Route exact path="/home" component={Home} />
                         <Route path="/pendiente-descarga" component={PendienteDescarga} />
-                        {/* <Route path="/inicio-descarga" component={InicioDescarga} /> */}
 
                         <Route path="/agenteRegistro" component={RegistroPendiente} />
                         <Route path="/listaAgenteReg" component={ListaRegistroEntrada} />

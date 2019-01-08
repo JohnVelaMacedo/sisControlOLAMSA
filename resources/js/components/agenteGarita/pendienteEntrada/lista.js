@@ -7,21 +7,24 @@ import $ from "jquery";
 
 class ListaPendienteEntrada extends React.Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state={
             data: [],
             id:''
         }
-        axios.get('/listaPendienteEntradaSalida')
-        .then(data => {
-            this.setState({data: [...data.data.regEn]});
-        }).catch(error => {
-            console.error(error);
-        });
-        this.getDataTable();
+        this.penEntrada = this.penEntrada.bind(this);
+        this.penSalida = this.penSalida.bind(this);
     }
 
+    componentDidMount() {
+        this.getDataTable();
+        this.timerID = setInterval(() => this.getDataTable(), 5000);
+    }
+
+    componentWillMount() {
+        clearInterval(this.timerID);
+    }
     getDataTable(){
         setInterval(()=>{
         axios.get('/listaPendienteEntradaSalida')
@@ -105,7 +108,7 @@ class ListaPendienteEntrada extends React.Component{
             focusConfirm: false,
           }).then((d)=>{
               if(d.value){
-                $('#'+idInput).prop('disabled',true);
+                //$('#'+idInput).prop('disabled',true);
                 PendienteSal.observaciones=d.value;
                 axios.post('/checkFin', {
                     pendiente: PendienteSal

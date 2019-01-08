@@ -65,6 +65,7 @@ Route::post('/checkFin','PendienteEntradaSalidaController@checkFin')->name('chec
 //rutas para reportes
 Route::resource('/listaInicialReporte','ReporteController');
 Route::post('/filtroTabla','ReporteController@filtrar')->name('filtrar');
+Route::post('/pdf','ReporteController@pdf')->name('pdf');
 
 // Rutas alternas
 // Route::view('/{path?}', 'app');

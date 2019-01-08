@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;   
 
 class ReporteController extends Controller
 {
@@ -60,15 +61,15 @@ class ReporteController extends Controller
                         $fil=$fil.'pro.id='.$value.' and ';
                         break;
                     case 'desde':
-                        $fil=$fil.'re.created_at between \''.$value.'\'';
+                        $fil=$fil.' date(re.created_at) >= \''.$value.'\'';
                         break;
                     case 'hasta':
-                        $fil=$fil.' and \''.$value.'\'';
+                        $fil=$fil.' and date(re.created_at) <= \''.$value.'\'';
                         break;
                 }
             }
         }
-        //echo $fil;
+        // echo $fil;
         $reporte=\DB::select("SELECT re.id, tv.descripcion as vehiculo, re.numPlaca as placa, concat(pers.nombre,' ',pers.apellidos) as transportista, re.observaciones,
         GROUP_CONCAT(rp.numPesas) as pesas, GROUP_CONCAT(c.nombre) as comite, GROUP_CONCAT(pro.nombre) as proveedor, pes.fechaHoraInicio as entrada,
         pes.fechaHoraFin as salida,concat('1.',pes.ObservacionInicio,' - 2.',pes.ObservacionFin) as observaciones1, concat(pif.fechaInicio,' ',pif.HoraInicio) as descargaInicio, concat(pif.fechaFin,' ',pif.horaFin) as descargaFin, concat('1.',pif.ObservacionInicio,' - 2.',pif.ObservacionFin) as observaciones2
@@ -87,6 +88,18 @@ class ReporteController extends Controller
         
     }
 
+    public function pdf(Request $request)
+    {   
+        if($request['filtro']['desde']=='' || $request['filtro']['hasta']==''){
+            $query=$this->index();
+        }else{
+            $query = $this->filtrar($request);
+        }
+        $n=date("Y-m-d H:i:s");
+        $pdf = PDF::loadView('reporte', $query)->setPaper('a4', 'landscape');
+        $output = $pdf->stream();
+        return $output;
+    }
     /**
      * Display the specified resource.
      *

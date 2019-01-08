@@ -6,7 +6,6 @@ import { WithContext as ReactTags } from 'react-tag-input';
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
 import $ from "jquery";
-import { PDFDownloadLink, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
 //para el tag input: al presionar enter o coma agregue el tag
 const KeyCodes = {
@@ -15,17 +14,6 @@ const KeyCodes = {
   };
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
 //-------------------
-const styles = StyleSheet.create({
-    page: {
-      flexDirection: 'row',
-      backgroundColor: '#E4E4E4'
-    },
-    section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1
-    }
-  });
 
 class ListaReporte extends React.Component{
 
@@ -64,6 +52,7 @@ class ListaReporte extends React.Component{
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.donwload = this.donwload.bind(this);
     }
 
     getDatos(){
@@ -144,8 +133,6 @@ class ListaReporte extends React.Component{
                 }
             })
             );
-        
-        
     }
 
     handleSubmit(event) {
@@ -166,13 +153,35 @@ class ListaReporte extends React.Component{
               });
               console.log(`Error: ${error}`);
           });
-  
       }
+    
+    donwload(){
+        
+        axios.post('/pdf', {
+            filtro: this.state.filtro
+            },{responseType: 'arraybuffer'})
+            .then(data => {
+                var headers = data.data;
+                var blob = new Blob([data.data],{type:headers['content-type']});
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = "reporte.pdf";
+                link.click();
+            }).catch(error => {
+                Swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Sucedió un error, comuníquese con el Administrador!',
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+                console.log(`Error: ${error}`);
+            });
+    }
 
     render(){
         const { data } = this.state;
         const { tags } = this.state;
-        let {rows}=this.state;
         return(
             <div className="col-md-12">
             <div className="card card-info">
@@ -370,21 +379,12 @@ class ListaReporte extends React.Component{
                       }}
                 />
                 <div>
-                    <PDFDownloadLink document={
-                        <Document>
-                        <Page size="A4" style={styles.page}>
-                            <View style={styles.section}>
-                                {data.map((d,k)=><Text key={k}>{d.transportista}</Text>)}
-                            </View>
-                            <View style={styles.section}>
-                                <Text>Section #2</Text>
-                            </View>
-                        </Page>
-                    </Document>
-                    } fileName="somename.pdf">
-                    {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
-                    </PDFDownloadLink>
+                    
                 </div>
+                <br></br>
+                
+                <a type="button" onClick={this.donwload} target="_blank" className="btn btn-secondary mx-auto" >Descargar</a>
+                <br></br>
                 </div>
             </div>
         );

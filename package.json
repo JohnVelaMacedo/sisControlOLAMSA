@@ -24,9 +24,7 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.5.0",
-        "@react-pdf/renderer": "^1.1.1",
         "admin-lte": "^3.0.0-alpha.2",
-        "react-pdf": "^4.0.0",
         "react-table": "^6.8.6",
         "react-tag-input": "^6.1.0",
         "sweetalert2": "^7.33.1"

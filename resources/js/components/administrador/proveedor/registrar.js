@@ -68,7 +68,7 @@ class RegistrarProveedor extends React.Component {
                             timer: 2000
                         });
                         setTimeout(() => {
-                            // location.reload();
+                            location.reload();
                             this.limpiar();
                         }, 1500);
                     } else {

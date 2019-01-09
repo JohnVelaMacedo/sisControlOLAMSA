@@ -309,7 +309,7 @@ class Sidebar extends Component {
 				break;
 		}
 		return (
-			<aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ minHeight: '600px' }}>
+			<aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ minHeight: '500px' }}>
 				<Link className="brand-link text-center" to="/home">
 					<img src={OLAMSA} alt="Olamsa" className="brand-image img-circle elevation-3" style={{opacity: '.8'}} />
 					<span className="brand-text font-weight-light">Sistema de Control</span>

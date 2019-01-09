@@ -33,7 +33,7 @@ class PendienteDescarga extends Component {
                 swal({
                     position: 'top-end',
                     type: 'success',
-                    title: 'Agregado correctamente Pendiente Descarga (Inicio)',
+                    title: 'Check realizado correctamente.',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -41,7 +41,7 @@ class PendienteDescarga extends Component {
                 swal({
                     position: 'top-end',
                     type: 'error',
-                    title: 'No se pudo agregar Pendiente Descarga (Inicio)',
+                    title: 'No se pudo realizar check correctamente!!',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -105,9 +105,21 @@ class PendienteDescarga extends Component {
         if (id === 'checkInicio') {
             $('#exampleModal').modal('show');
             idCheckbox = '#exampleModal';
+            this.setState(prevState => ({ 
+                pendienteDescarga: {
+                    ...prevState.pendienteDescarga,
+                    ObservacionInicio: '--' 
+                }
+            }));
         } else {
             $('#exampleModal2').modal('show');
             idCheckbox = '#exampleModal2';
+            this.setState(prevState => ({ 
+                pendienteDescarga: {
+                    ...prevState.pendienteDescarga,
+                    ObservacionFin: '--' 
+                }
+            }));
         } 
 
         this.setState({ idPendienteDescarga, idCheckbox });
@@ -121,7 +133,14 @@ class PendienteDescarga extends Component {
     }
 
     dataReactTable() {
-        return [{
+        return [
+        {
+            Header: 'ID',
+            columns: [
+                { Header: 'ID', accessor: 'idRegistroEntrada',maxWidth: 50, }
+            ] 
+        },
+        {
             Header: 'Transportista',
             columns: [
                 { Header: 'DNI', accessor: 'transportista' },
@@ -173,8 +192,8 @@ class PendienteDescarga extends Component {
                     <ReactTable
                         data={pendientedescarga_inicio_fin}
                         columns={this.dataReactTable()}
-                        defaultPageSize={5}
-                        minRows={5}
+                        defaultPageSize={20}
+                        minRows={20}
                         previousText='Anterior'
                         nextText='Siguiente'
                         loadingText='Cargando...'
@@ -198,7 +217,7 @@ class PendienteDescarga extends Component {
                                 <div className="modal-body">
                                     <div className="form-group">
                                         <label>Observaciones:</label>
-                                        <textarea id="ObservacionInicio" className="form-control" onChange={this.handleChange} required 
+                                        <textarea id="ObservacionInicio" className="form-control" onChange={this.handleChange}
                                             rows={3}>
                                         </textarea>
                                     </div>
@@ -225,7 +244,7 @@ class PendienteDescarga extends Component {
                                 <div className="modal-body">
                                     <div className="form-group">
                                         <label>Observaciones:</label>
-                                        <textarea id="ObservacionFin" className="form-control" onChange={this.handleChange} required 
+                                        <textarea id="ObservacionFin" className="form-control" onChange={this.handleChange}
                                             rows={3}>
                                         </textarea>
                                     </div>

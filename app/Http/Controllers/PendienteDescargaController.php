@@ -16,23 +16,34 @@ class PendienteDescargaController extends Controller
     public function index()
     {
         $codigo = 0;
-        $pendiente_descarga = DB::table('pendientedescarga_inicio_fin')
-                            ->join('registroentrada', 'pendientedescarga_inicio_fin.idRegistroEntrada', '=', 'registroentrada.id')
-                            ->join('persona', 'registroentrada.transportista', '=', 'persona.dni')
-                            ->join('tipovehiculo', 'registroentrada.tipoVehiculo', '=', 'tipovehiculo.id')
-                            ->select('registroentrada.id as idRegistroEntrada', 'registroentrada.tipoVehiculo', 
-                                'tipovehiculo.descripcion as descripcion_tipo_vehiculo', 'tipovehiculo.tiempoEspera',
-                                'registroentrada.numPlaca', 'registroentrada.transportista',  
-                                DB::raw("CONCAT_WS(' ', persona.nombre, persona.apellidos) as full_name"),
-                                'registroentrada.observaciones', 'pendientedescarga_inicio_fin.id as idPendienteDescarga',
-                                'pendientedescarga_inicio_fin.idRegistroEntrada', 'pendientedescarga_inicio_fin.checkInicio',
-                                'pendientedescarga_inicio_fin.checkFin', 'pendientedescarga_inicio_fin.ObservacionInicio', 
-                                'pendientedescarga_inicio_fin.ObservacionFin', 'pendientedescarga_inicio_fin.fechaInicio', 
-                                'pendientedescarga_inicio_fin.horaInicio', 'pendientedescarga_inicio_fin.fechaFin', 
-                                'pendientedescarga_inicio_fin.horaFin')
-                            ->where('pendientedescarga_inicio_fin.checkInicio', '=', 0)
-                            ->orWhere('pendientedescarga_inicio_fin.checkFin', '=', 0)
-                            ->get();
+        // $pendiente_descarga = DB::table('pendientedescarga_inicio_fin')
+        //                     ->join('registroentrada', 'pendientedescarga_inicio_fin.idRegistroEntrada', '=', 'registroentrada.id')
+        //                     ->join('persona', 'registroentrada.transportista', '=', 'persona.dni')
+        //                     ->join('tipovehiculo', 'registroentrada.tipoVehiculo', '=', 'tipovehiculo.id')
+        //                     ->select('registroentrada.id as idRegistroEntrada', 'registroentrada.tipoVehiculo', 
+        //                         'tipovehiculo.descripcion as descripcion_tipo_vehiculo', 'tipovehiculo.tiempoEspera',
+        //                         'registroentrada.numPlaca', 'registroentrada.transportista',  
+        //                         DB::raw("CONCAT_WS(' ', persona.nombre, persona.apellidos) as full_name"),
+        //                         'registroentrada.observaciones', 'pendientedescarga_inicio_fin.id as idPendienteDescarga',
+        //                         'pendientedescarga_inicio_fin.idRegistroEntrada', 'pendientedescarga_inicio_fin.checkInicio',
+        //                         'pendientedescarga_inicio_fin.checkFin', 'pendientedescarga_inicio_fin.ObservacionInicio', 
+        //                         'pendientedescarga_inicio_fin.ObservacionFin', 'pendientedescarga_inicio_fin.fechaInicio', 
+        //                         'pendientedescarga_inicio_fin.horaInicio', 'pendientedescarga_inicio_fin.fechaFin', 
+        //                         'pendientedescarga_inicio_fin.horaFin')
+        //                     ->where('pendientedescarga_inicio_fin.checkInicio', '=', 0)
+        //                     ->orWhere('pendientedescarga_inicio_fin.checkFin', '=', 0)
+        //                     ->get();
+        $pendiente_descarga=DB::select("select registroentrada.id as idRegistroEntrada, registroentrada.tipoVehiculo, tipovehiculo.descripcion as descripcion_tipo_vehiculo, tipovehiculo.tiempoEspera,
+        registroentrada.numPlaca, registroentrada.transportista, CONCAT_WS(' ', persona.nombre, persona.apellidos) as full_name,
+        registroentrada.observaciones, pendientedescarga_inicio_fin.id as idPendienteDescarga, pendientedescarga_inicio_fin.idRegistroEntrada, pendientedescarga_inicio_fin.checkInicio, pendientedescarga_inicio_fin.checkFin, pendientedescarga_inicio_fin.ObservacionInicio, 
+        pendientedescarga_inicio_fin.ObservacionFin, pendientedescarga_inicio_fin.fechaInicio, pendientedescarga_inicio_fin.horaInicio, 
+        pendientedescarga_inicio_fin.fechaFin, pendientedescarga_inicio_fin.horaFin 
+        from pendientedescarga_inicio_fin
+        INNER JOIN registroentrada on  pendientedescarga_inicio_fin.idRegistroEntrada=registroentrada.id
+        INNER JOIN persona on registroentrada.transportista =persona.dni
+        INNER JOIN pendiente_entrada_salida on pendiente_entrada_salida.idRegistroEntrada =registroentrada.id
+        INNER JOIN tipovehiculo on registroentrada.tipoVehiculo=tipovehiculo.id
+        where (pendientedescarga_inicio_fin.checkInicio=0 || pendientedescarga_inicio_fin.checkFin=0) and (TIMEDIFF(CURRENT_TIMESTAMP,pendiente_entrada_salida.fechaHoraInicio)<tipovehiculo.tiempoEspera)");
                                           
         return compact('pendiente_descarga', 'codigo');
     }

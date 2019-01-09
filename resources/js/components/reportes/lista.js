@@ -328,6 +328,12 @@ class ListaReporte extends React.Component{
                             filterable:true
                         },
                         {
+                            Header: "Registro",
+                            accessor: "created_at",
+                            filterable:true,
+                            minWidth:140
+                        },
+                        {
                             Header: "Entrada",
                             accessor: "entrada",
                             filterable:true,
@@ -364,7 +370,7 @@ class ListaReporte extends React.Component{
                         ]
                     }
                     ]}
-                    defaultPageSize={20}
+                    defaultPageSize={50}
                     style={{fontSize:'12px'}}
                     className="-striped -highlight"
                     classNames={{
@@ -383,7 +389,7 @@ class ListaReporte extends React.Component{
                 </div>
                 <br></br>
                 
-                <a type="button" onClick={this.donwload} target="_blank" className="btn btn-secondary mx-auto" >Descargar</a>
+                <a type="button" onClick={this.donwload} target="_blank" className="btn btn-outline-info mx-auto" >Descargar</a>
                 <br></br>
                 </div>
             </div>

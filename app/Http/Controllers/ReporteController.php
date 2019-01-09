@@ -15,7 +15,6 @@ class ReporteController extends Controller
     public function index()
     {
         $reporte=\DB::select("CALL reportesAll();");
-
         return compact('reporte');
     }
 
@@ -70,7 +69,7 @@ class ReporteController extends Controller
             }
         }
         // echo $fil;
-        $reporte=\DB::select("SELECT re.id, tv.descripcion as vehiculo, re.numPlaca as placa, concat(pers.nombre,' ',pers.apellidos) as transportista, re.observaciones,
+        $reporte=\DB::select("SELECT re.id, tv.descripcion as vehiculo, re.numPlaca as placa, concat(pers.nombre,' ',pers.apellidos) as transportista, re.created_at,
         GROUP_CONCAT(rp.numPesas) as pesas, GROUP_CONCAT(c.nombre) as comite, GROUP_CONCAT(pro.nombre) as proveedor, pes.fechaHoraInicio as entrada,
         pes.fechaHoraFin as salida,concat('1.',pes.ObservacionInicio,' - 2.',pes.ObservacionFin) as observaciones1, concat(pif.fechaInicio,' ',pif.HoraInicio) as descargaInicio, concat(pif.fechaFin,' ',pif.horaFin) as descargaFin, concat('1.',pif.ObservacionInicio,' - 2.',pif.ObservacionFin) as observaciones2
         FROM registroentrada re
@@ -95,7 +94,6 @@ class ReporteController extends Controller
         }else{
             $query = $this->filtrar($request);
         }
-        $n=date("Y-m-d H:i:s");
         $pdf = PDF::loadView('reporte', $query)->setPaper('a4', 'landscape');
         $output = $pdf->stream();
         return $output;

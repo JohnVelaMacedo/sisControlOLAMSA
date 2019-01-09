@@ -96,6 +96,7 @@ body{
         <td class="td">Vehículo</td>
         <td class="td">Placa</td>
         <td class="td">Transportista</td>
+        <td class="td">Registro</td>
         <td class="td">Entrada</td>
         <td class="td">Salida</td>
         <td class="td">Observaciones</td>
@@ -112,6 +113,7 @@ body{
             <td>{{$report->vehiculo}}</td>
             <td>{{$report->placa}}</td>
             <td>{{$report->transportista}}</td>
+            <td>{{$report->created_at}}</td>
             <td>{{$report->entrada}}</td>
             <td>{{$report->salida}}</td>
             <td>{{$report->observaciones1}}</td>

@@ -21,8 +21,8 @@ class PendienteEntradaSalidaController extends Controller
         concat('Entrada: ',pen.ObservacionInicio,'.\n Salida: ',pen.ObservacionFin) as observaciones from pendiente_entrada_salida pen 
         inner join registroentrada re on pen.idRegistroEntrada=re.id 
         INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
-        INNER JOIN persona t ON re.transportista=t.dni where (pen.checkIngreso!=1 || pen.checksalida!=1) order by re.id asc");
-
+        INNER JOIN persona t ON re.transportista=t.dni where (pen.checksalida!=1) order by re.id asc");
+//                                                     where (pen.checkIngreso!=1 || pen.checksalida!=1)
         return compact('regEn');
     }
 

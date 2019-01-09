@@ -21867,7 +21867,7 @@ var RegistroPendiente = function (_React$Component) {
             },
             rows: [{
                 id: '',
-                numPesas: "0",
+                numPesas: "1",
                 comite: "",
                 proveedor: ""
             }],
@@ -22023,11 +22023,17 @@ var RegistroPendiente = function (_React$Component) {
     }, {
         key: 'addRow',
         value: function addRow(e) {
+            var pesa = void 0;
+            if (this.state.rows.length > 0) {
+                pesa = parseInt(this.state.rows[this.state.rows.length - 1].numPesas) + 1;
+            } else {
+                pesa = 1;
+            }
             this.setState(function (pre) {
                 return {
                     rows: [].concat(_toConsumableArray(pre.rows), [{
                         id: "",
-                        numPesas: "",
+                        numPesas: pesa,
                         comite: "",
                         proveedor: ""
                     }])
@@ -22080,7 +22086,6 @@ var RegistroPendiente = function (_React$Component) {
         key: 'handleSubmit',
         value: function handleSubmit(event) {
             event.preventDefault();
-            //   console.log(this.state.rows);
             axios.post('/agregarRegistroEntrada', {
                 registro: this.state.registro,
                 pesas: this.state.rows
@@ -24886,7 +24891,7 @@ var RegistrarTipoVehiculo = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        // location.reload();
+                        location.reload();
                         _this3.limpiar();
                     }, 1500);
                 } else {
@@ -25136,7 +25141,7 @@ var RegistrarProveedor = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        // location.reload();
+                        location.reload();
                         _this3.limpiar();
                     }, 1500);
                 } else {
@@ -25419,7 +25424,7 @@ var RegistrarComite = function (_React$Component) {
                         timer: 2000
                     });
                     setTimeout(function () {
-                        // location.reload();
+                        location.reload();
                         _this3.limpiar();
                     }, 1500);
                 } else {
@@ -73504,7 +73509,7 @@ var Sidebar = function (_Component) {
 			}
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 				"aside",
-				{ className: "main-sidebar sidebar-dark-primary elevation-4", style: { minHeight: '600px' } },
+				{ className: "main-sidebar sidebar-dark-primary elevation-4", style: { minHeight: '500px' } },
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["b" /* Link */],
 					{ className: "brand-link text-center", to: "/home" },
@@ -73748,10 +73753,10 @@ var Content = function (_Component) {
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "div",
-                { className: "content-wrapper", style: { 'minHeight': '600px' } },
+                { className: "content-wrapper", style: { 'minHeight': '200px !important' } },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "section",
-                    { className: "content mt-4" },
+                    { className: "content pt-4" },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_1_react_router_dom__["d" /* Switch */],
                         null,
@@ -73857,7 +73862,7 @@ var PendienteDescarga = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
                         position: 'top-end',
                         type: 'success',
-                        title: 'Agregado correctamente Pendiente Descarga (Inicio)',
+                        title: 'Check realizado correctamente.',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -73865,7 +73870,7 @@ var PendienteDescarga = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
                         position: 'top-end',
                         type: 'error',
-                        title: 'No se pudo agregar Pendiente Descarga (Inicio)',
+                        title: 'No se pudo realizar check correctamente!!',
                         showConfirmButton: false,
                         timer: 1500
                     });
@@ -73935,9 +73940,23 @@ var PendienteDescarga = function (_Component) {
             if (id === 'checkInicio') {
                 __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#exampleModal').modal('show');
                 idCheckbox = '#exampleModal';
+                this.setState(function (prevState) {
+                    return {
+                        pendienteDescarga: _extends({}, prevState.pendienteDescarga, {
+                            ObservacionInicio: '--'
+                        })
+                    };
+                });
             } else {
                 __WEBPACK_IMPORTED_MODULE_4_jquery___default()('#exampleModal2').modal('show');
                 idCheckbox = '#exampleModal2';
+                this.setState(function (prevState) {
+                    return {
+                        pendienteDescarga: _extends({}, prevState.pendienteDescarga, {
+                            ObservacionFin: '--'
+                        })
+                    };
+                });
             }
 
             this.setState({ idPendienteDescarga: idPendienteDescarga, idCheckbox: idCheckbox });
@@ -73959,6 +73978,9 @@ var PendienteDescarga = function (_Component) {
             var _this4 = this;
 
             return [{
+                Header: 'ID',
+                columns: [{ Header: 'ID', accessor: 'idRegistroEntrada', maxWidth: 50 }]
+            }, {
                 Header: 'Transportista',
                 columns: [{ Header: 'DNI', accessor: 'transportista' }, { Header: 'Nombres Completos', accessor: 'full_name' }]
             }, {
@@ -74026,8 +74048,8 @@ var PendienteDescarga = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
                         data: pendientedescarga_inicio_fin,
                         columns: this.dataReactTable(),
-                        defaultPageSize: 5,
-                        minRows: 5,
+                        defaultPageSize: 20,
+                        minRows: 20,
                         previousText: "Anterior",
                         nextText: "Siguiente",
                         loadingText: "Cargando...",
@@ -74078,7 +74100,7 @@ var PendienteDescarga = function (_Component) {
                                             null,
                                             "Observaciones:"
                                         ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { id: "ObservacionInicio", className: "form-control", onChange: this.handleChange, required: true,
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { id: "ObservacionInicio", className: "form-control", onChange: this.handleChange,
                                             rows: 3 })
                                     )
                                 ),
@@ -74141,7 +74163,7 @@ var PendienteDescarga = function (_Component) {
                                             null,
                                             "Observaciones:"
                                         ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { id: "ObservacionFin", className: "form-control", onChange: this.handleChange, required: true,
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("textarea", { id: "ObservacionFin", className: "form-control", onChange: this.handleChange,
                                             rows: 3 })
                                     )
                                 ),
@@ -75871,9 +75893,13 @@ var Home = function (_Component) {
         key: "render",
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "h1",
+                "div",
                 null,
-                "Desde Home"
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h1",
+                    { align: "center", className: "pt-5" },
+                    "Bienvenido"
+                )
             );
         }
     }]);
@@ -104785,20 +104811,19 @@ var ListaPendienteEntrada = function (_React$Component) {
         value: function getDataTable() {
             var _this3 = this;
 
-            setInterval(function () {
-                axios.get('/listaPendienteEntradaSalida').then(function (data) {
-                    _this3.setState({ data: data.data.regEn });
-                }).catch(function (error) {
-                    console.error(error);
-                });
-            }, 5000);
+            axios.get('/listaPendienteEntradaSalida').then(function (data) {
+                _this3.setState({ data: data.data.regEn });
+            }).catch(function (error) {
+                console.error(error);
+            });
         }
     }, {
         key: "penEntrada",
         value: function penEntrada(e, idRegistro, idPendiente) {
+            var _this4 = this;
+
             // console.log(e.target.id,idRegistro);
             var idInput = e.target.id;
-
             var Pendiente = {
                 idRegEntrada: idRegistro,
                 idPendiente: idPendiente,
@@ -104811,9 +104836,10 @@ var ListaPendienteEntrada = function (_React$Component) {
                 showCloseButton: true,
                 focusConfirm: false
             }).then(function (d) {
-                if (d.value) {
+                //   console.log(d.value);
+                if (d.value || d.value == '') {
                     __WEBPACK_IMPORTED_MODULE_5_jquery___default()('#' + idInput).prop('disabled', true);
-                    Pendiente.observaciones = d.value;
+                    Pendiente.observaciones = d.value == '' ? ' -- ' : d.value;
                     axios.post('/checkInicio', {
                         pendiente: Pendiente
                     }).then(function (data) {
@@ -104834,6 +104860,7 @@ var ListaPendienteEntrada = function (_React$Component) {
                                 timer: 2000
                             });
                         }
+                        _this4.getDataTable();
                     }).catch(function (error) {
                         __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
                             position: 'top-end',
@@ -104851,8 +104878,10 @@ var ListaPendienteEntrada = function (_React$Component) {
         }
     }, {
         key: "penSalida",
-        value: function penSalida(e, idRegistro, idPendiente) {
-            // console.log(e.target.checked);
+        value: function penSalida(r, e, idRegistro, idPendiente) {
+            var _this5 = this;
+
+            console.log(r);
             var idInput = e.target.id;
             var PendienteSal = {
                 idRegEntrada: idRegistro,
@@ -104866,9 +104895,9 @@ var ListaPendienteEntrada = function (_React$Component) {
                 showCloseButton: true,
                 focusConfirm: false
             }).then(function (d) {
-                if (d.value) {
+                if (d.value || d.value == '') {
                     //$('#'+idInput).prop('disabled',true);
-                    PendienteSal.observaciones = d.value;
+                    PendienteSal.observaciones = d.value == '' ? ' -- ' : d.value;
                     axios.post('/checkFin', {
                         pendiente: PendienteSal
                     }).then(function (data) {
@@ -104889,6 +104918,7 @@ var ListaPendienteEntrada = function (_React$Component) {
                                 timer: 2000
                             });
                         }
+                        _this5.getDataTable();
                     }).catch(function (error) {
                         __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
                             position: 'top-end',
@@ -104907,7 +104937,7 @@ var ListaPendienteEntrada = function (_React$Component) {
     }, {
         key: "rows",
         value: function rows() {
-            var _this4 = this;
+            var _this6 = this;
 
             return [{
                 Header: "Código",
@@ -104927,17 +104957,9 @@ var ListaPendienteEntrada = function (_React$Component) {
                     accessor: "vehiculo",
                     filterable: true
                 }, {
-                    Header: "Placa",
-                    accessor: "placa",
-                    filterable: true
-                }, {
-                    Header: "Transportista",
-                    accessor: "transportista",
-                    filterable: true
-                }, {
                     Header: "Observaciones",
                     accessor: "observaciones",
-                    filterable: true
+                    filterable: false
                 }]
             }, {
                 Header: 'Acciones',
@@ -104946,26 +104968,18 @@ var ListaPendienteEntrada = function (_React$Component) {
                     accessor: "checkIn",
                     maxWidth: 100,
                     Cell: function Cell(row) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            null,
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'in-' + row.row.idPendiente, disabled: row.row._original.checkIn, onClick: function onClick(e) {
-                                    _this4.penEntrada(e, row.row._original.id, row.row._original.idPendiente);
-                                }, defaultChecked: row.row._original.checkIn })
-                        );
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'in-' + row.row.idPendiente, disabled: row.row.checkIn, onChange: function onChange(e) {
+                                _this6.penEntrada(e, row.row._original.id, row.row._original.idPendiente);
+                            }, checked: row.row.checkIn });
                     }
                 }, {
                     Header: "Salida",
                     accessor: "checkOut",
                     maxWidth: 100,
                     Cell: function Cell(row) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            null,
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'out-' + row.row.idPendiente, disabled: row.row._original.checkOut, onClick: function onClick(e) {
-                                    _this4.penSalida(e, row.row._original.id, row.row._original.idPendiente);
-                                }, defaultChecked: row.row._original.checkOut })
-                        );
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'out-' + row.row.idPendiente, disabled: row.row.checkOut, onChange: function onChange(e) {
+                                _this6.penSalida(row.row, e, row.row._original.id, row.row._original.idPendiente);
+                            }, checked: row.row.checkOut });
                     }
                 }]
             }];
@@ -104994,7 +105008,8 @@ var ListaPendienteEntrada = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_table__["a" /* default */], {
                         data: data,
                         columns: this.rows(),
-                        defaultPageSize: 5,
+                        defaultPageSize: 20,
+                        minRows: 20,
                         className: "-striped -highlight",
                         previousText: "Anterior",
                         nextText: "Siguiente",
@@ -105502,6 +105517,11 @@ var ListaReporte = function (_React$Component) {
                                 accessor: "transportista",
                                 filterable: true
                             }, {
+                                Header: "Registro",
+                                accessor: "created_at",
+                                filterable: true,
+                                minWidth: 140
+                            }, {
                                 Header: "Entrada",
                                 accessor: "entrada",
                                 filterable: true,
@@ -105531,7 +105551,7 @@ var ListaReporte = function (_React$Component) {
                                 filterable: true
                             }]
                         }],
-                        defaultPageSize: 20,
+                        defaultPageSize: 50,
                         style: { fontSize: '12px' },
                         className: "-striped -highlight",
                         classNames: {
@@ -105549,7 +105569,7 @@ var ListaReporte = function (_React$Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "a",
-                        { type: "button", onClick: this.donwload, target: "_blank", className: "btn btn-secondary mx-auto" },
+                        { type: "button", onClick: this.donwload, target: "_blank", className: "btn btn-outline-info mx-auto" },
                         "Descargar"
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null)

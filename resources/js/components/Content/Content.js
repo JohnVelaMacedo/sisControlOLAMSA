@@ -21,8 +21,8 @@ import ListaReporte from "../reportes/lista";
 class Content extends Component {
     render() {
         return (
-            <div className="content-wrapper" style={{'minHeight': '600px'}}>
-                <section className="content mt-4">
+            <div className="content-wrapper" style={{'minHeight': '200px !important'}}>
+                <section className="content pt-4">
                     <Switch>
                         <Route exact path="/home" component={Home} />
                         <Route path="/pendiente-descarga" component={PendienteDescarga} />

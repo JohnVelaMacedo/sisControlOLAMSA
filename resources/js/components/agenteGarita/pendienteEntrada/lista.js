@@ -26,20 +26,17 @@ class ListaPendienteEntrada extends React.Component{
         clearInterval(this.timerID);
     }
     getDataTable(){
-        setInterval(()=>{
         axios.get('/listaPendienteEntradaSalida')
         .then(data => {
             this.setState({data: data.data.regEn});
         }).catch(error => {
             console.error(error);
         });
-        },5000)
     }   
 
     penEntrada(e,idRegistro,idPendiente){
         // console.log(e.target.id,idRegistro);
         let idInput=e.target.id;
-        
         let Pendiente={
             idRegEntrada:idRegistro,
             idPendiente:idPendiente,
@@ -52,9 +49,10 @@ class ListaPendienteEntrada extends React.Component{
             showCloseButton: true,
             focusConfirm: false,
           }).then((d)=>{
-              if(d.value){
+            //   console.log(d.value);
+              if(d.value || d.value==''){
                 $('#'+idInput).prop('disabled',true);
-                Pendiente.observaciones=d.value;
+                Pendiente.observaciones=(d.value==''?' -- ':d.value);
                 axios.post('/checkInicio', {
                     pendiente: Pendiente
                     })
@@ -76,6 +74,7 @@ class ListaPendienteEntrada extends React.Component{
                                 timer: 2000
                             });
                         }
+                        this.getDataTable();
                     }).catch(error => {
                         Swal({
                             position: 'top-end',
@@ -92,8 +91,8 @@ class ListaPendienteEntrada extends React.Component{
           });
     }
 
-    penSalida(e,idRegistro,idPendiente){
-        // console.log(e.target.checked);
+    penSalida(r,e,idRegistro,idPendiente){
+        console.log(r);
         let idInput=e.target.id;
         let PendienteSal={
             idRegEntrada:idRegistro,
@@ -107,9 +106,9 @@ class ListaPendienteEntrada extends React.Component{
             showCloseButton: true,
             focusConfirm: false,
           }).then((d)=>{
-              if(d.value){
+              if(d.value || d.value==''){
                 //$('#'+idInput).prop('disabled',true);
-                PendienteSal.observaciones=d.value;
+                PendienteSal.observaciones=(d.value==''?' -- ':d.value);
                 axios.post('/checkFin', {
                     pendiente: PendienteSal
                     })
@@ -131,6 +130,7 @@ class ListaPendienteEntrada extends React.Component{
                                 timer: 2000
                             });
                         }
+                        this.getDataTable();
                     }).catch(error => {
                         Swal({
                             position: 'top-end',
@@ -169,20 +169,11 @@ class ListaPendienteEntrada extends React.Component{
                     accessor: "vehiculo",
                     filterable:true
                 },
-                {
-                    Header: "Placa",
-                    accessor: "placa",
-                    filterable:true
-                },
-                {
-                    Header: "Transportista",
-                    accessor: "transportista",
-                    filterable:true
-                },
+                
                 {
                     Header: "Observaciones",
                     accessor: "observaciones",
-                    filterable:true
+                    filterable:false
                 },
                 ]
             },
@@ -194,29 +185,20 @@ class ListaPendienteEntrada extends React.Component{
                     Header: "Entrada",
                     accessor: "checkIn",
                     maxWidth: 100,
-                    Cell: row =>(
-                        <div>
-                            {/* <label className="form-check-label">{row.row._original.checkIn?'true':'false'}</label> */}
-                            <input className="form-control" type="checkbox" id={'in-'+row.row.idPendiente} disabled={row.row._original.checkIn} onClick={(e)=>{this.penEntrada(e,row.row._original.id,row.row._original.idPendiente)}} defaultChecked={row.row._original.checkIn} />
-                        </div>
-                    )
+                    Cell: row =><input className="form-control" type="checkbox" id={'in-'+row.row.idPendiente} disabled={row.row.checkIn} onChange={(e)=>{this.penEntrada(e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkIn} />       
                 },
                 {
                     Header: "Salida",
                     accessor: "checkOut",
                     maxWidth: 100,
-                    Cell: row =>(
-                        <div>
-                            <input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row._original.checkOut} onClick={(e)=>{this.penSalida(e,row.row._original.id,row.row._original.idPendiente)}} defaultChecked={row.row._original.checkOut} />
-                        </div>
-                    )
+                    Cell: row =><input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row.checkOut} onChange={(e)=>{this.penSalida(row.row,e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkOut} />
                 }
                 ]
             }
             ]
     }
     render(){
-        let { data } = this.state;
+        const { data } = this.state;
         return(
             <div className="col-md-12">
             <div className="card card-info">
@@ -227,7 +209,8 @@ class ListaPendienteEntrada extends React.Component{
                 <ReactTable
                     data={data}
                     columns={this.rows()}
-                    defaultPageSize={5}
+                    defaultPageSize={20}
+                    minRows={20}
                     className="-striped -highlight"
                     previousText='Anterior'
                     nextText='Siguiente'

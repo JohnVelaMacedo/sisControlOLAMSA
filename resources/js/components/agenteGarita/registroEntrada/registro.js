@@ -24,7 +24,7 @@ class RegistroPendiente extends React.Component {
                     },
             rows:[{
                 id:'',
-                numPesas: "0",
+                numPesas: "1",
                 comite: "",
                 proveedor: ""
             }],
@@ -164,10 +164,16 @@ class RegistroPendiente extends React.Component {
         });
     }
     addRow(e){
+        let pesa;
+        if(this.state.rows.length>0){
+            pesa=parseInt(this.state.rows[this.state.rows.length-1].numPesas)+1;
+        }else{
+            pesa=1;
+        }
         this.setState((pre)=>({
             rows:[...pre.rows,{
                                 id:"",
-                                numPesas: "",
+                                numPesas: pesa,
                                 comite: "",
                                 proveedor: ""
             }]
@@ -219,7 +225,6 @@ class RegistroPendiente extends React.Component {
     }
     handleSubmit(event) {
       event.preventDefault();
-    //   console.log(this.state.rows);
       axios.post('/agregarRegistroEntrada', {
         registro: this.state.registro,
         pesas:this.state.rows

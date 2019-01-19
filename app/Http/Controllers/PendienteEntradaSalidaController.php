@@ -18,10 +18,12 @@ class PendienteEntradaSalidaController extends Controller
         $regEn=\DB::select("SELECT re.id, pen.id as idPendiente,pen.checkIngreso as checkIn,
         pen.checksalida as checkOut , v.descripcion as vehiculo, re.numPlaca as placa, 
         concat(t.nombre,' ',t.apellidos) as transportista,
-        concat('Entrada: ',pen.ObservacionInicio,'.\n Salida: ',pen.ObservacionFin) as observaciones from pendiente_entrada_salida pen 
+        concat('Entrada: ',pen.ObservacionInicio,'.\n Salida: ',pen.ObservacionFin) as observaciones 
+        from pendiente_entrada_salida pen 
         inner join registroentrada re on pen.idRegistroEntrada=re.id 
         INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
-        INNER JOIN persona t ON re.transportista=t.dni where (pen.checksalida!=1) order by re.id asc");
+        INNER JOIN persona t ON re.transportista=t.dni where (pen.checksalida=0) and
+        (TIMEDIFF(CURRENT_TIMESTAMP,re.created_at)<v.tiempoEspera or pen.checkIngreso=1) order by re.id asc");
 //                                                     where (pen.checkIngreso!=1 || pen.checksalida!=1)
         return compact('regEn');
     }

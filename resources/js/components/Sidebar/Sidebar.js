@@ -117,13 +117,13 @@ class Sidebar extends Component {
 							</a>
 							<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
 								<li className="nav-item">
-									<Link to="/agenteRegistro" className="nav-link">
+									<Link to="/agenteRegistro-as" className="nav-link">
 									<i className="fa fa-plus-square nav-icon"></i>
 										<p>Agregar</p>
 									</Link>
 								</li>
 								<li className="nav-item">
-									<Link to="/listaAgenteReg" className="nav-link">
+									<Link to="/listaAgenteReg-as" className="nav-link">
 										<i className="fa fa-list-ol nav-icon"></i>
 										<p>Lista de Registros</p>
 									</Link>
@@ -180,13 +180,13 @@ class Sidebar extends Component {
 							</a>
 							<ul className="nav nav-treeview" style={{ paddingLeft: '10px' }}>
 								<li className="nav-item">
-									<Link to="/agenteRegistro" className="nav-link">
+									<Link to="/agenteRegistro-as" className="nav-link">
 									<i className="fa fa-plus-square nav-icon"></i>
 										<p>Agregar</p>
 									</Link>
 								</li>
 								<li className="nav-item">
-									<Link to="/listaAgenteReg" className="nav-link">
+									<Link to="/listaAgenteReg-as" className="nav-link">
 										<i className="fa fa-list-ol nav-icon"></i>
 										<p>Lista de Registros</p>
 									</Link>

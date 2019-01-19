@@ -5,7 +5,7 @@ import "react-table/react-table.css";
 import Swal from 'sweetalert2';
 import RegistroPendiente from './registro'
 
-class ListaRegistroEntrada extends React.Component {
+class ListaRegistroEntradaAS extends React.Component {
     constructor() {
       super();
       this.RegistroPendiente = React.createRef();
@@ -212,6 +212,23 @@ class ListaRegistroEntrada extends React.Component {
                     Cell: row =>(
                         <button className="form-control btn btn-info" onClick={()=>this.verInfo(row.row)}><i className="fa fa-eye" aria-hidden="true"></i></button>
                     )
+                  },
+                  {
+                    Header: "Eliminar",
+                    accessor: "tipo",
+                    maxWidth: 100,
+                    Cell: row =>(
+                        <button className="form-control btn btn-danger" onClick={()=>this.eliminarRE(row.row)}>Eliminar</button>
+                    )
+                  },
+                  {
+                    Header: "Editar",
+                    accessor: "tipo",
+                    maxWidth: 100,
+                    Cell: row =>(
+                        <button className="form-control btn btn-primary" data-toggle="modal" 
+                        data-target="#exampleModal" onClick={()=>this.editarRE(row.row)}>Editar</button>
+                    )
                   }
                 ]
               }
@@ -243,4 +260,4 @@ class ListaRegistroEntrada extends React.Component {
       );
     }
   }
-  export default ListaRegistroEntrada;
+  export default ListaRegistroEntradaAS;

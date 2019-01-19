@@ -8,5 +8,5 @@ class TipoVehiculo extends Model
 {
     public $table = 'tipovehiculo';
     public $timestamps = false;
-    protected $fillable = ['id', 'descripcion','tiempoEspera'];
+    protected $fillable = ['id', 'descripcion','tiempoEspera','clasificacion'];
 }

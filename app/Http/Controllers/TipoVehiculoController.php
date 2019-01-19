@@ -40,7 +40,8 @@ class TipoVehiculoController extends Controller
             ['id'=>$request['tipoVehiculo']['id']],
             [
                 'descripcion'   =>$request['tipoVehiculo']['descripcion'],
-                'tiempoEspera'  =>$request['tipoVehiculo']['tiempoEspera'].':00'     
+                'tiempoEspera'  =>$request['tipoVehiculo']['id']?$request['tipoVehiculo']['tiempoEspera']:$request['tipoVehiculo']['tiempoEspera'].':00',
+                'clasificacion' =>$request['tipoVehiculo']['clasificacion']     
             ]
         );
         if($persona){

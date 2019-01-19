@@ -370,7 +370,7 @@ class ListaReporte extends React.Component{
                         ]
                     }
                     ]}
-                    defaultPageSize={50}
+                    defaultPageSize={100}
                     style={{fontSize:'12px'}}
                     className="-striped -highlight"
                     classNames={{
@@ -388,7 +388,7 @@ class ListaReporte extends React.Component{
                     
                 </div>
                 <br></br>
-                
+            
                 <a type="button" onClick={this.donwload} target="_blank" className="btn btn-outline-info mx-auto" >Descargar</a>
                 <br></br>
                 </div>

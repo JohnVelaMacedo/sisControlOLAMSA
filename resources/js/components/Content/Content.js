@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PendienteDescarga from "../Users/Evaluador/PendienteDescarga";
 import Home from "../Home";
-
+//para el agente garita
 import RegistroPendiente from "../agenteGarita/registroEntrada/registro";
 import ListaRegistroEntrada from "../agenteGarita/registroEntrada/lista";
 
@@ -15,6 +15,10 @@ import ListaProveedor from "../administrador/proveedor/lista";
 import RegistrarComite from "../administrador/comite/registrar";
 import ListaComite from "../administrador/comite/lista";
 import ListaPendienteEntrada from "../agenteGarita/pendienteEntrada/lista";
+
+//para los usuarios administradores y supervisores
+import RegistroPendienteAS from "../administrador/registroEntrada/registro";
+import ListaRegistroEntradaAS from "../administrador/registroEntrada/lista";
 
 import ListaReporte from "../reportes/lista";
 
@@ -41,6 +45,9 @@ class Content extends Component {
                         <Route path="/listaCom" component={ListaComite} />
 
                         <Route path="/listaReporte" component={ListaReporte} />
+
+                        <Route path="/agenteRegistro-as" component={RegistroPendienteAS} />
+                        <Route path="/listaAgenteReg-as" component={ListaRegistroEntradaAS} />
                     </Switch>
                 </section>
             </div>

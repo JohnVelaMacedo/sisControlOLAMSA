@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\RegistroEntrada;
 use App\RegistroPesas;
 use App\PendienteEntradaSalida;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class RegistroEntradaController extends Controller
 {
@@ -20,11 +21,22 @@ class RegistroEntradaController extends Controller
         concat(t.nombre,' ',t.apellidos) as transportista,
         re.observaciones from registroentrada re
         INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
-        INNER JOIN persona t ON re.transportista=t.dni ");
-
+        INNER JOIN persona t ON re.transportista=t.dni ORDER BY re.id desc limit 50");
         return compact('regEn');
     }
 
+    public function filtrar(Request $request){
+
+        $desde=$request['filtro']['desde'];
+        $hasta=$request['filtro']['hasta'];
+        $regEn=\DB::select("SELECT re.id, v.descripcion as vehiculo, re.numPlaca as placa, 
+        concat(t.nombre,' ',t.apellidos) as transportista,
+        re.observaciones from registroentrada re
+        INNER JOIN tipovehiculo v ON re.tipoVehiculo=v.id 
+        INNER JOIN persona t ON re.transportista=t.dni where date(re.created_at) BETWEEN CAST('$desde' AS DATE) AND CAST('$hasta' AS DATE)");
+        // where re.created_at BETWEEN CAST('$desde' AS DATE) AND CAST('$hasta' AS DATE)
+        return compact('regEn');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -66,20 +78,27 @@ class RegistroEntradaController extends Controller
                 ]
             );
         }
-
+        $ticket;
         if($request['registro']['id']==''){
+            
             $pend=PendienteEntradaSalida::updateOrCreate(
                 ['id'   =>null],
                 [
                     'idRegistroEntrada' =>$reg->id
                 ]
             );
+            $claseV=\DB::table('tipovehiculo')->where('id', $request['registro']['tipoVehiculo'])->first();
+            $num=\DB::select("SELECT newTicket($reg->id, '$claseV->clasificacion') AS newTicket;");
+            // var_dump($num);
+            $ticket=array($claseV->clasificacion.'-'.$num[0]->newTicket,$claseV->descripcion,$reg->numPlaca,$claseV->tiempoEspera,$reg->created_at);
         }
 
-        if($reg && $pesa){
-            return "OK";
+        if($pend){
+            $pdf = PDF::loadView('ticket',compact('ticket'))->setPaper('a4', 'landscape');
+            $output = $pdf->stream();
+            return $output;
         }else{
-            return "FAIL";
+            return "OK";
         }
     }
 

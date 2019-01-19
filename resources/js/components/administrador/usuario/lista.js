@@ -165,7 +165,7 @@ class ListaPersona extends React.Component {
                 ]
               }
             ]}
-            defaultPageSize={10}
+            defaultPageSize={25}
             className="-striped -highlight"
           />
           

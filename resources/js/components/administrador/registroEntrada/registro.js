@@ -11,7 +11,7 @@ const KeyCodes = {
   const delimiters = [KeyCodes.comma, KeyCodes.enter];
 //-------------------
 
-class RegistroPendiente extends React.Component {
+class RegistroPendienteAS extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -250,6 +250,7 @@ class RegistroPendiente extends React.Component {
                 link.href = window.URL.createObjectURL(blob);
                 link.download = this.state.registro.numPlaca+"-ticket.pdf";
                 link.click();
+                location.reload();
             }
         }).catch(error => {
             Swal({
@@ -398,4 +399,4 @@ class RegistroPendiente extends React.Component {
     }
   }
 
-  export default RegistroPendiente;
+  export default RegistroPendienteAS;

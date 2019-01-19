@@ -81,7 +81,7 @@ class ReporteController extends Controller
         INNER JOIN pendiente_entrada_salida pes ON re.id=pes.idRegistroEntrada
         INNER JOIN pendientedescarga_inicio_fin pif ON re.id=pif.idRegistroEntrada
         WHERE (".$fil.")
-        GROUP by re.id");
+        GROUP by re.id ");
 
         return compact('reporte');
         

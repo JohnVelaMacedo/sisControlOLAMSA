@@ -8,7 +8,8 @@ class RegistrarTipoVehiculo extends React.Component {
                 tipoVehiculo:{
                     id:'',
                     descripcion:   '',
-                    tiempoEspera:''
+                    tiempoEspera:'',
+                    clasificacion:''
                 }
       }
 
@@ -21,13 +22,16 @@ class RegistrarTipoVehiculo extends React.Component {
             tipoVehiculo:{
                 id:'',
                 descripcion:   '',
-                tiempoEspera:''
+                tiempoEspera:'',
+                clasificacion:''
             }
         });
     }
     fillForm(e){
+        // console.log(e);
         axios.get(`/getTipoVehiculo/${e.id}`)
         .then(data => {
+            // console.log(data.data.p);
             this.setState({tipoVehiculo: data.data.p});
             // this.setState({claves: data.data.u});
         }).catch(error => {
@@ -37,15 +41,15 @@ class RegistrarTipoVehiculo extends React.Component {
     handleChange(event) {
         const nombre=   event.target.name;
         const valor =   event.target.value;
-        this.setState(
-            prev=>({
-                tipoVehiculo:{
-                    ...prev.tipoVehiculo,
-                    [nombre]:valor
-                }
-            })
-        );
-      
+            this.setState(
+                prev=>({
+                    tipoVehiculo:{
+                        ...prev.tipoVehiculo,
+                        [nombre]:valor
+                    }
+                })
+            );
+        
     }
   
     handleSubmit(event) {
@@ -107,24 +111,33 @@ class RegistrarTipoVehiculo extends React.Component {
                                 <div className="row">
                                     <div className="col-md-8 mx-auto">
                                         <div className="form-group">
-                                            <label htmlFor="descripcion">Descripción</label>
+                                            <label htmlFor="descripcion">Nombre de Vehículo</label>
                                             <div className="input-group">
                                             <div className="input-group-prepend">
                                             <span className="input-group-text"><i className="fa fa-info"></i></span>
                                             </div>
-                                            <input type="text" className="form-control" id="descripcion" name="descripcion" value={this.state.tipoVehiculo.descripcion} onChange={this.handleChange} placeholder="Descripción del Vehículo" required/>
+                                            <input type="text" className="form-control" id="descripcion" name="descripcion" value={this.state.tipoVehiculo.descripcion} onChange={this.handleChange} placeholder="Nombre del Vehículo" required/>
                                             </div>
                                             {/* <small className="form-text text-muted">Ingrese descripcion del vehículo.</small> */}
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="tiempoEspera">Tiempo espera permitido</label><small><strong> (horas)</strong></small>
+                                            <label htmlFor="tiempoEspera">Tiempo espera permitido</label><small><strong> (horas 00:00:00)</strong></small>
                                             <div className="input-group">
                                             <div className="input-group-prepend">
                                             <span className="input-group-text"><i className="fa fa-clock-o"></i></span>
                                             </div>
-                                            <input type="number" className="form-control" id="tiempoEspera" name="tiempoEspera" value={this.state.tipoVehiculo.tiempoEspera} onChange={this.handleChange} min="0" max="72" placeholder="Tiempo de espera permitido en cola" required/>
+                                            <input type="text" className="form-control" id="tiempoEspera" name="tiempoEspera" value={this.state.tipoVehiculo.tiempoEspera} onChange={this.handleChange} min="0" max="72" placeholder="Tiempo de espera permitido en cola" required/>
                                             </div>
                                             {/* <small className="form-text text-muted">Ingrese descripcion del vehículo.</small> */}
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Clasificación</label>
+                                            <select className="form-control" id="clasificacion" name="clasificacion" value={this.state.tipoVehiculo.clasificacion} onChange={this.handleChange} required>
+                                            <option value=''> ------ </option>
+                                            <option value='LV'> Liviano </option>
+                                            <option value='PE'> Pesado </option>
+                                            <option value='OT'> Otro </option>
+                                            </select>
                                         </div>
                                         <input className="form-control btn btn-primary" type="submit" value="Registrar" disabled={this.state.isSubmitDisabled}/>
                                     </div>

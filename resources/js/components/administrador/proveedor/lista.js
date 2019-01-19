@@ -145,7 +145,7 @@ class ListaProveedor extends React.Component {
                 ]
               }
             ]}
-            defaultPageSize={5}
+            defaultPageSize={25}
             className="-striped -highlight"
           />
           

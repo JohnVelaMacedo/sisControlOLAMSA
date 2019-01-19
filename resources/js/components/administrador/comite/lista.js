@@ -135,7 +135,7 @@ class ListaComite extends React.Component {
                 ]
               }
             ]}
-            defaultPageSize={5}
+            defaultPageSize={20}
             className="-striped -highlight"
           />
           

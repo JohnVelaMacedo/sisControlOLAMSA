@@ -54,6 +54,7 @@ Route::post('/agregarRegistroEntrada','RegistroEntradaController@store')->name('
 Route::resource('/listaRegistroEntrada','RegistroEntradaController');
 Route::get('/eliminarRegEntrada/{dni}','RegistroEntradaController@destroy')->name('eliminarRE');
 Route::get('/verInfo/{dni}','RegistroEntradaController@verInfo')->name('verinfo');
+Route::post('/filtroTablaReg','RegistroEntradaController@filtrar')->name('filtrar');
 // rutas tipo persona
 Route::resource('/tipoPersona', 'TipoPersonaController');
 

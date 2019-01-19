@@ -111,6 +111,19 @@ class ListaTipoVehiculo extends React.Component {
                     accessor: "tiempoEspera",
                     filterable:true,
                     maxWidth: 100,
+                  },
+                  {
+                    Header: "clasificación",
+                    accessor: "clasificacion",
+                    filterable:true,
+                    maxWidth: 100,
+                    Cell: row =>(
+                        <label>{
+                            row.row.clasificacion=='LV'?'LIVIANO':
+                            row.row.clasificacion=='PE'?'PESADO':
+                            row.row.clasificacion=='OT'?'OTRO':' - '
+                        }</label>
+                    )
                   }
                 ]
               },
@@ -119,7 +132,7 @@ class ListaTipoVehiculo extends React.Component {
                 columns: [
                   {
                     Header: "Eliminar",
-                    accessor: "tipo",
+                    accessor: "elim",
                     maxWidth: 100,
                     Cell: row =>(
                         <button className="form-control btn btn-danger" onClick={()=>this.eliminarTV(row.row)}>Eliminar</button>
@@ -127,7 +140,7 @@ class ListaTipoVehiculo extends React.Component {
                   },
                   {
                     Header: "Editar",
-                    accessor: "tipo",
+                    accessor: "edit",
                     maxWidth: 100,
                     Cell: row =>(
                         <button className="form-control btn btn-primary" data-toggle="modal" 
@@ -137,7 +150,7 @@ class ListaTipoVehiculo extends React.Component {
                 ]
               }
             ]}
-            defaultPageSize={5}
+            defaultPageSize={20}
             className="-striped -highlight"
           />
           

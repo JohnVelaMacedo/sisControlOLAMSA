@@ -48475,13 +48475,10 @@ var Example = function (_Component) {
     _createClass(Example, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this2 = this;
+            var app = document.getElementById('app');
+            var tipo = app.className;
 
-            __WEBPACK_IMPORTED_MODULE_3_axios___default.a.get('home_user').then(function (data) {
-                _this2.setState({ type: data.data.user.tipo });
-            }).catch(function (error) {
-                return console.error(error);
-            });
+            this.setState({ type: parseInt(tipo) });
         }
     }, {
         key: 'render',
@@ -74102,7 +74099,7 @@ var Sidebar = function (_Component) {
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							"a",
 							{ href: "#", className: "nav-link" },
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { "class": "fa fa-archive", "aria-hidden": "true" }),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fa fa-archive", "aria-hidden": "true" }),
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 								"p",
 								null,

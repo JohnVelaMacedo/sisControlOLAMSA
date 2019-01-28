@@ -12,10 +12,10 @@ export default class Example extends Component {
     }
 
     componentDidMount() {
-        axios.get('home_user')
-            .then(data => {
-                this.setState({ type: data.data.user.tipo });
-            }).catch(error => console.error(error));
+        const app = document.getElementById('app');
+        var tipo = app.className;
+
+        this.setState({ type: parseInt(tipo) });
     }
 
     render() {

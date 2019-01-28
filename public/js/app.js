@@ -105506,6 +105506,7 @@ var ListaPendienteEntrada = function (_React$Component) {
         };
         _this.penEntrada = _this.penEntrada.bind(_this);
         _this.penSalida = _this.penSalida.bind(_this);
+        _this.llamar = _this.llamar.bind(_this);
         return _this;
     }
 
@@ -105533,6 +105534,15 @@ var ListaPendienteEntrada = function (_React$Component) {
                 _this3.setState({ data: data.data.regEn });
             }).catch(function (error) {
                 console.error(error);
+            });
+        }
+    }, {
+        key: "llamar",
+        value: function llamar(e, id) {
+            // console.log(e.target.id);
+            var op = e.target.checked ? 'PENDIENTE' : 'ESPERA';
+            axios.post("/llamarTicket/" + id, { opcion: op }).then(function (data) {
+                // console.log(data);
             });
         }
     }, {
@@ -105698,6 +105708,18 @@ var ListaPendienteEntrada = function (_React$Component) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'out-' + row.row.idPendiente, disabled: row.row.checkOut, onChange: function onChange(e) {
                                 _this6.penSalida(row.row, e, row.row._original.id, row.row._original.idPendiente);
                             }, checked: row.row.checkOut });
+                    }
+                }]
+            }, {
+                Header: "Ticket",
+                columns: [{
+                    Header: "Llamar",
+                    accessor: "estado",
+                    maxWidth: 100,
+                    Cell: function Cell(row1) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'call-' + row1.row.idPendiente, onChange: function onChange(e) {
+                                _this6.llamar(e, row1.row.idPendiente);
+                            }, disabled: row1.row.checkIn, checked: row1.row._original.estado == 'PENDIENTE' ? true : false });
                     }
                 }]
             }];

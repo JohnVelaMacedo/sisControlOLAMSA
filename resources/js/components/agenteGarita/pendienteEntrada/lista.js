@@ -15,6 +15,7 @@ class ListaPendienteEntrada extends React.Component{
         }
         this.penEntrada = this.penEntrada.bind(this);
         this.penSalida = this.penSalida.bind(this);
+        this.llamar = this.llamar.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +34,15 @@ class ListaPendienteEntrada extends React.Component{
             console.error(error);
         });
     }   
+
+    llamar(e,id){
+        // console.log(e.target.id);
+        var op=e.target.checked?'PENDIENTE':'ESPERA';
+        axios.post(`/llamarTicket/${id}`,{opcion:op}).
+        then(data=>{
+            // console.log(data);
+        });
+    }
 
     penEntrada(e,idRegistro,idPendiente){
         // console.log(e.target.id,idRegistro);
@@ -194,7 +204,18 @@ class ListaPendienteEntrada extends React.Component{
                     Cell: row =><input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row.checkOut} onChange={(e)=>{this.penSalida(row.row,e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkOut} />
                 }
                 ]
-            }
+            },
+              {
+                Header:"Ticket",
+                columns:[
+                  {
+                    Header:"Llamar",
+                    accessor: "estado",
+                    maxWidth: 100,
+                    Cell: row1 =><input className="form-control" type="checkbox" id={'call-'+row1.row.idPendiente} onChange={(e)=>{this.llamar(e,row1.row.idPendiente)}} disabled={row1.row.checkIn} checked={row1.row._original.estado=='PENDIENTE'?true:false}/>
+                  }
+                ]
+              }
             ]
     }
     render(){

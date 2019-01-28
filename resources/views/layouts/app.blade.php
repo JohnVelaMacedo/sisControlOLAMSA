@@ -37,6 +37,9 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                        <li class="navbar-nav ml-auto"> 
+                            <a class="nav-link" href="colas" target="_blank">Ver Colas</a>
+                        </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                             </li>

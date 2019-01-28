@@ -14,7 +14,9 @@
 Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
-
+Route::get('colas', function(){
+    return view('colas');
+});
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -67,6 +69,12 @@ Route::post('/checkFin','PendienteEntradaSalidaController@checkFin')->name('chec
 Route::resource('/listaInicialReporte','ReporteController');
 Route::post('/filtroTabla','ReporteController@filtrar')->name('filtrar');
 Route::post('/pdf','ReporteController@pdf')->name('pdf');
+
+//rutas tickets
+Route::get('ticketsPE', 'TicketController@getPesados');
+Route::get('ticketsLV', 'TicketController@getLivianos');
+Route::get('ticketsOT', 'TicketController@getOtros');
+Route::post('llamarTicket/{id}', 'TicketController@llamarTIcket');
 
 // Rutas alternas
 // Route::view('/{path?}', 'app');

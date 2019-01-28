@@ -36,20 +36,37 @@ class ProveedorController extends Controller
      */
     public function store(Request $request)
     {
-        $persona=Proveedor::updateOrCreate(
-            ['id'=>$request['proveedor']['id']],
-            [
+        
+        if($request['proveedor']['id']){
+            $p=Proveedor::where('id',$request['proveedor']['id'])->update([
                 'nombre'        =>$request['proveedor']['nombre'],
                 'descripcion'   =>$request['proveedor']['descripcion'],
                 'direccion'     =>$request['proveedor']['direccion'],
-                'telefono'     =>$request['proveedor']['telefono']            
-            ]
-        );
+                'telefono'     =>$request['proveedor']['telefono']
+            ]);
+            $persona=true;
+        }else{
+            $persona=Proveedor::insert([
+                'nombre'        =>$request['proveedor']['nombre'],
+                'descripcion'   =>$request['proveedor']['descripcion'],
+                'direccion'     =>$request['proveedor']['direccion'],
+                'telefono'     =>$request['proveedor']['telefono']
+            ]);
+        }
         if($persona){
             return "OK";
         }else{
             return "FAIL";
         }
+        // $persona=Proveedor::updateOrCreate(
+        //     ['id'=>$request['proveedor']['id']],
+        //     [
+        //         'nombre'        =>$request['proveedor']['nombre'],
+        //         'descripcion'   =>$request['proveedor']['descripcion'],
+        //         'direccion'     =>$request['proveedor']['direccion'],
+        //         'telefono'     =>$request['proveedor']['telefono']            
+        //     ]
+        // );
     }
 
     /**

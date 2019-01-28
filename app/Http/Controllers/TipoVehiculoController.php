@@ -36,14 +36,27 @@ class TipoVehiculoController extends Controller
      */
     public function store(Request $request)
     {
-        $persona=TipoVehiculo::updateOrCreate(
-            ['id'=>$request['tipoVehiculo']['id']],
-            [
+        // $persona=TipoVehiculo::updateOrCreate(
+        //     ['id'=>$request['tipoVehiculo']['id']],
+        //     [
+        //         'descripcion'   =>$request['tipoVehiculo']['descripcion'],
+        //         'tiempoEspera'  =>$request['tipoVehiculo']['id']?$request['tipoVehiculo']['tiempoEspera']:$request['tipoVehiculo']['tiempoEspera'].':00',
+        //         'clasificacion' =>$request['tipoVehiculo']['clasificacion']     
+        //     ]
+        // );
+        if($request['tipoVehiculo']['id']){
+            $persona=TipoVehiculo::where('id',$request['tipoVehiculo']['id'])->update([
                 'descripcion'   =>$request['tipoVehiculo']['descripcion'],
                 'tiempoEspera'  =>$request['tipoVehiculo']['id']?$request['tipoVehiculo']['tiempoEspera']:$request['tipoVehiculo']['tiempoEspera'].':00',
-                'clasificacion' =>$request['tipoVehiculo']['clasificacion']     
-            ]
-        );
+                'clasificacion' =>$request['tipoVehiculo']['clasificacion']  
+            ]);
+        }else{
+            $persona=TipoVehiculo::insert([
+                'descripcion'   =>$request['tipoVehiculo']['descripcion'],
+                'tiempoEspera'  =>$request['tipoVehiculo']['id']?$request['tipoVehiculo']['tiempoEspera']:$request['tipoVehiculo']['tiempoEspera'].':00',
+                'clasificacion' =>$request['tipoVehiculo']['clasificacion']
+            ]);
+        }
         if($persona){
             return "OK";
         }else{

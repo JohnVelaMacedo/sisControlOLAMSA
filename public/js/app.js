@@ -25885,8 +25885,8 @@ var RegistroPendienteAS = function (_React$Component) {
                 registro: this.state.registro,
                 pesas: this.state.rows
             }, { responseType: 'arraybuffer' }).then(function (data) {
-                // console.log(data);
-                if (data.data == 'OK') {
+                console.log(data);
+                if (data.statusText == 'OK') {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
                         position: 'top-end',
                         type: 'success',
@@ -105961,7 +105961,7 @@ var ListaRegistroEntradaAS = function (_React$Component) {
                 if (result.value) {
                     axios.get("/eliminarRegEntrada/" + e.id).then(function (data) {
                         console.log(data.data);
-                        if (data.data == "OK") {
+                        if (data.statusText == "OK") {
                             __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()('Eliminado!', 'El registro ha sido eliminado.', 'success');
                             setTimeout(function () {
                                 // location.reload();

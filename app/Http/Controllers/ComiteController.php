@@ -36,18 +36,31 @@ class ComiteController extends Controller
      */
     public function store(Request $request)
     {
-        $comite=Comite::updateOrCreate(
-            ['id'=>$request['comite']['id']],
-            [
+        
+        if($request['comite']['id']){
+            $comite=\DB::table('comite')->where('id',$request['comite']['id'])->update([
                 'nombre'        =>$request['comite']['nombre'],
-                'descripcion'   =>$request['comite']['descripcion']         
-            ]
-        );
+                'descripcion'   =>$request['comite']['descripcion']
+            ]);
+            $comite=true;
+        }else{
+            $comite=\DB::table('comite')->insertGetId([
+                'nombre'        =>$request['comite']['nombre'],
+                'descripcion'   =>$request['comite']['descripcion']
+            ]);
+        }
         if($comite){
             return "OK";
         }else{
             return "FAIL";
         }
+            // $comite=Comite::updateOrCreate(
+            //     ['id'=>$request['comite']['id']],
+            //     [
+            //         'nombre'        =>$request['comite']['nombre'],
+            //         'descripcion'   =>$request['comite']['descripcion']         
+            //     ]
+            // );
     }
 
     /**

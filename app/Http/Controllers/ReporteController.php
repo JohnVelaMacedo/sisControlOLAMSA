@@ -14,7 +14,7 @@ class ReporteController extends Controller
      */
     public function index()
     {
-        $reporte=\DB::select("CALL reportesAll();");
+        $reporte=\DB::select("call reportesAll();");
         return compact('reporte');
     }
 

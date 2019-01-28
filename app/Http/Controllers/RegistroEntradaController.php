@@ -7,6 +7,8 @@ use App\RegistroEntrada;
 use App\RegistroPesas;
 use App\PendienteEntradaSalida;
 use Barryvdh\DomPDF\Facade as PDF;
+use App\PendienteDescarga;
+use App\Ticket;
 
 class RegistroEntradaController extends Controller
 {
@@ -55,42 +57,77 @@ class RegistroEntradaController extends Controller
      */
     public function store(Request $request)
     {
-        $reg=RegistroEntrada::updateOrCreate(
-            ['id'=>$request['registro']['id']],
-            [
+        // $reg=RegistroEntrada::updateOrCreate(
+        //     ['id'=>$request['registro']['id']],
+        //     [
+                
+        //     ]
+        // );
+        if($request['registro']['id']){
+            $reg=RegistroEntrada::where('id',$request['registro']['id'])->update([
                 'tipoVehiculo'  =>$request['registro']['tipoVehiculo'],
                 'numPlaca'      =>$request['registro']['numPlaca'],
                 'transportista' =>$request['registro']['transportista'],
                 'observaciones' =>$request['registro']['observaciones'],
-                'updated_at'    =>date("Y-m-d H:i:s"),
-            ]
-        );
+                'updated_at'    =>date("Y-m-d H:i:s")
+            ]);
+            $reg=$request['registro']['id'];
+        }else{
+            $reg=RegistroEntrada::insertGetId([
+                'tipoVehiculo'  =>$request['registro']['tipoVehiculo'],
+                'numPlaca'      =>$request['registro']['numPlaca'],
+                'transportista' =>$request['registro']['transportista'],
+                'observaciones' =>$request['registro']['observaciones'],
+                'updated_at'    =>date("Y-m-d H:i:s")
+            ]);
+        }
 
-        $eliPesas=RegistroPesas::where('idregistroentrada',$reg->id)->delete();
+        $eliPesas=RegistroPesas::where('idregistroentrada',$reg)->delete();
         for($i=0;$i<count($request['pesas']);$i++){
-            $pesa=RegistroPesas::updateOrCreate(
-                ['id'=>$request['pesas'][$i]['id']],
-                [
-                    'idregistroentrada'      =>$reg->id,
+
+            // $pesa=RegistroPesas::updateOrCreate(
+            //     ['id'=>$request['pesas'][$i]['id']],
+            //     [
+            //         'idregistroentrada'      =>$reg,
+            //         'numPesas'      =>$request['pesas'][$i]['numPesas'],
+            //         'comite'        =>$request['pesas'][$i]['comite'],
+            //         'proveedor'     =>$request['pesas'][$i]['proveedor']
+            //     ]
+            // );
+            if(RegistroPesas::where('id',$request['pesas'][$i]['id'])->first()){
+                $pesa=RegistroPesas::where('id',$request['pesas'][$i]['id'])->update([
+                    'idregistroentrada'      =>$reg,
                     'numPesas'      =>$request['pesas'][$i]['numPesas'],
                     'comite'        =>$request['pesas'][$i]['comite'],
                     'proveedor'     =>$request['pesas'][$i]['proveedor']
-                ]
-            );
+                ]);
+            }else{
+                $pesa=RegistroPesas::insert([
+                    'idregistroentrada'      =>$reg,
+                    'numPesas'      =>$request['pesas'][$i]['numPesas'],
+                    'comite'        =>$request['pesas'][$i]['comite'],
+                    'proveedor'     =>$request['pesas'][$i]['proveedor']
+                ]);
+            }
         }
         $ticket;
         if($request['registro']['id']==''){
             
-            $pend=PendienteEntradaSalida::updateOrCreate(
-                ['id'   =>null],
-                [
-                    'idRegistroEntrada' =>$reg->id
-                ]
-            );
+            // $pend=PendienteEntradaSalida::updateOrCreate(
+            //     ['id'   =>null],
+            //     [
+            //         'idRegistroEntrada' =>$reg
+            //     ]
+            // );
+            $pend=PendienteEntradaSalida::insert([
+                'idRegistroEntrada' =>$reg
+            ]);
             $claseV=\DB::table('tipovehiculo')->where('id', $request['registro']['tipoVehiculo'])->first();
-            $num=\DB::select("SELECT newTicket($reg->id, '$claseV->clasificacion') AS newTicket;");
+            $num=\DB::select("SELECT newTicket($reg, '$claseV->clasificacion') AS newTicket;");
             // var_dump($num);
-            $ticket=array($claseV->clasificacion.'-'.$num[0]->newTicket,$claseV->descripcion,$reg->numPlaca,$claseV->tiempoEspera,$reg->created_at);
+            $ticket=array($claseV->clasificacion.'-'.$num[0]->newTicket,$claseV->descripcion,$request['registro']['numPlaca'],$claseV->tiempoEspera,date("Y-m-d H:i:s"));
+        }else{
+            $pend=false;
         }
 
         if($pend){
@@ -154,8 +191,12 @@ class RegistroEntradaController extends Controller
      */
     public function destroy($id)
     {
-        $eliminarP=RegistroEntrada::where('id',$id)->delete();
-        if($eliminarP){
+        $elimR=RegistroEntrada::where('id',$id)->delete();
+        $elimP=PendienteEntradaSalida::where('idRegistroEntrada',$id)->delete();
+        $elimD=PendienteDescarga::where('idRegistroEntrada',$id)->delete();
+        $elimPS=RegistroPesas::where('idregistroentrada',$id)->delete();
+        $elimT=Ticket::where('idregistroentrada',$id)->delete();
+        if($elimP && $elimR && $elimD && $elimPS && $elimT){
             return "OK";
         }else{
             return "FAIL";

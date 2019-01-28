@@ -106,7 +106,7 @@ class ListaRegistroEntradaAS extends React.Component {
                 axios.get(`/eliminarRegEntrada/${e.id}`)
                     .then(data => {
                       console.log(data.data);
-                    if(data.data=="OK"){
+                    if(data.statusText=="OK"){
                         Swal(
                         'Eliminado!',
                          'El registro ha sido eliminado.',

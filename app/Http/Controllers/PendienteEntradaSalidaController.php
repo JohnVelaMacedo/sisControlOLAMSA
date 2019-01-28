@@ -57,48 +57,59 @@ class PendienteEntradaSalidaController extends Controller
     public function checkInicio(Request $request)
     {
         // var_dump($request['pendiente']);
-            $pendiente=PendienteDescarga::updateOrCreate(
-                ['id'   =>null],
-                [
-                    'idRegistroEntrada' =>$request['pendiente']['idRegEntrada']
-                ]
-            );
-
-            $reg=PendienteEntradaSalida::updateOrCreate(
-                ['id'=>$request['pendiente']['idPendiente']],
-                [
+            
+            $pendiente=\DB::table('pendientedescarga_inicio_fin')->insert([
+                'idRegistroEntrada' =>$request['pendiente']['idRegEntrada']
+            ]);
+            $reg=\DB::table('pendiente_entrada_salida')->where('id',$request['pendiente']['idPendiente'])->update([
                     'checkIngreso'              =>$request['pendiente']['check'],
                     'ObservacionInicio'         =>$request['pendiente']['observaciones'],
                     'fechaHoraInicio'           =>date("Y-m-d H:i:s")
-                ]
-            );
-
+            ]);
             $ticket=Ticket::where('idregistroentrada',$request['pendiente']['idPendiente'])->update(['estado'=>'DESCARGANDO']);
-
         if($pendiente && $reg){
             return "OK";
         }else{
             return "FAIL";
         }
+        // $pendiente=PendienteDescarga::updateOrCreate(
+        //     ['id'   =>null],
+        //     [
+        //         'idRegistroEntrada' =>$request['pendiente']['idRegEntrada']
+        //     ]
+        // );
+
+        // $reg=PendienteEntradaSalida::updateOrCreate(
+        //     ['id'=>$request['pendiente']['idPendiente']],
+        //     [
+        //         'checkIngreso'              =>$request['pendiente']['check'],
+        //         'ObservacionInicio'         =>$request['pendiente']['observaciones'],
+        //         'fechaHoraInicio'           =>date("Y-m-d H:i:s")
+        //     ]
+        // );
     }
 
     public function checkFin(Request $request)
     {
-
-        $reg=PendienteEntradaSalida::updateOrCreate(
-            ['id'=>$request['pendiente']['idPendiente']],
-            [
-                'checksalida'              =>$request['pendiente']['check'],
+        $reg=\DB::table('pendiente_entrada_salida')->where('id',$request['pendiente']['idPendiente'])->update([
+            'checksalida'              =>$request['pendiente']['check'],
                 'ObservacionFin'         =>$request['pendiente']['observaciones'],
                 'fechaHoraFin'           =>date("Y-m-d H:i:s")
-            ]
-        );
+        ]);
         $ticket=Ticket::where('idregistroentrada',$request['pendiente']['idPendiente'])->update(['estado'=>'FINALIZADO']);
-    if($reg){
+    if($reg && $ticket){
         return "OK";
     }else{
         return "FAIL";
     }
+     // $reg=PendienteEntradaSalida::updateOrCreate(
+        //     ['id'=>$request['pendiente']['idPendiente']],
+        //     [
+        //         'checksalida'              =>$request['pendiente']['check'],
+        //         'ObservacionFin'         =>$request['pendiente']['observaciones'],
+        //         'fechaHoraFin'           =>date("Y-m-d H:i:s")
+        //     ]
+        // );
     }
 
     /**

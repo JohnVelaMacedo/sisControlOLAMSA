@@ -135,7 +135,7 @@ class RegistroEntradaController extends Controller
             $output = $pdf->stream();
             return $output;
         }else{
-            return "OK";
+            return "UPDATE";
         }
     }
 
@@ -159,8 +159,9 @@ class RegistroEntradaController extends Controller
      */
     public function edit($id)
     {
-        $p =\DB::table('registroentrada')->where('id', $id)->first();
-        $t =\DB::select("SELECT dni as id, concat(nombre,' ',apellidos) as text from persona where dni=$p->transportista");
+        $pr =\DB::select("select id, tipoVehiculo, numPlaca, transportista, coalesce(observaciones, '') as observaciones, created_at, updated_at from registroentrada where id='$id' ");
+        $p=$pr[0];
+        $t =\DB::select("SELECT dni as id, concat(nombre,' ',apellidos) as text from persona where dni=".$p->transportista."");
         $r=\DB::select("SELECT * from registropesas where idregistroentrada=$id");
         return compact('p','t','r');
     }

@@ -230,8 +230,8 @@ class RegistroPendienteAS extends React.Component {
         pesas:this.state.rows
         },{responseType: 'arraybuffer'})
         .then(data => {
-            console.log(data);
-            if (data.statusText == 'OK') {
+            //console.log(data);
+            if (data.statusText == 'UPDATE') {
                 Swal({
                     position: 'top-end',
                     type: 'success',

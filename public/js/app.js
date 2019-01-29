@@ -22599,7 +22599,7 @@ var RegistroPendiente = function (_React$Component) {
                 pesas: this.state.rows
             }, { responseType: 'arraybuffer' }).then(function (data) {
                 // console.log(data);
-                if (data.data == 'OK') {
+                if (data.statusText == 'UPDATE') {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
                         position: 'top-end',
                         type: 'success',
@@ -22618,6 +22618,7 @@ var RegistroPendiente = function (_React$Component) {
                     link.href = window.URL.createObjectURL(blob);
                     link.download = _this5.state.registro.numPlaca + "-ticket.pdf";
                     link.click();
+                    location.reload();
                 }
             }).catch(function (error) {
                 __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
@@ -25885,8 +25886,8 @@ var RegistroPendienteAS = function (_React$Component) {
                 registro: this.state.registro,
                 pesas: this.state.rows
             }, { responseType: 'arraybuffer' }).then(function (data) {
-                console.log(data);
-                if (data.statusText == 'OK') {
+                //console.log(data);
+                if (data.statusText == 'UPDATE') {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert2___default()({
                         position: 'top-end',
                         type: 'success',

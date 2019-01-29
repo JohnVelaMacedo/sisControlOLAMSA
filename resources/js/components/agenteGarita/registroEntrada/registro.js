@@ -231,7 +231,7 @@ class RegistroPendiente extends React.Component {
         },{responseType: 'arraybuffer'})
         .then(data => {
             // console.log(data);
-            if (data.data == 'OK') {
+            if (data.statusText == 'UPDATE') {
                 Swal({
                     position: 'top-end',
                     type: 'success',
@@ -250,6 +250,7 @@ class RegistroPendiente extends React.Component {
                 link.href = window.URL.createObjectURL(blob);
                 link.download = this.state.registro.numPlaca+"-ticket.pdf";
                 link.click();
+                location.reload();
             }
         }).catch(error => {
             Swal({

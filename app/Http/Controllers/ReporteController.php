@@ -14,7 +14,7 @@ class ReporteController extends Controller
      */
     public function index()
     {
-        $reporte=\DB::select("call reportesAll();");
+        $reporte=\DB::select("declare @return_value int exec @return_value=[dbo].[reportesAll] ");
         return compact('reporte');
     }
 

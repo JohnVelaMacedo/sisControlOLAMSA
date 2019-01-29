@@ -195,13 +195,13 @@ class ListaPendienteEntrada extends React.Component{
                     Header: "Entrada",
                     accessor: "checkIn",
                     maxWidth: 100,
-                    Cell: row =><input className="form-control" type="checkbox" id={'in-'+row.row.idPendiente} disabled={row.row.checkIn} onChange={(e)=>{this.penEntrada(e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkIn} />       
+                    Cell: row =><input className="form-control" type="checkbox" id={'in-'+row.row.idPendiente} disabled={row.row.checkIn==1?true:false} onChange={(e)=>{this.penEntrada(e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkIn==1?true:false} />       
                 },
                 {
                     Header: "Salida",
                     accessor: "checkOut",
                     maxWidth: 100,
-                    Cell: row =><input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row.checkOut} onChange={(e)=>{this.penSalida(row.row,e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkOut} />
+                    Cell: row =><input className="form-control" type="checkbox" id={'out-'+row.row.idPendiente} disabled={row.row.checkOut==1?true:false} onChange={(e)=>{this.penSalida(row.row,e,row.row._original.id,row.row._original.idPendiente)}} checked={row.row.checkOut==1?true:false} />
                 }
                 ]
             },
@@ -212,7 +212,7 @@ class ListaPendienteEntrada extends React.Component{
                     Header:"Llamar",
                     accessor: "estado",
                     maxWidth: 100,
-                    Cell: row1 =><input className="form-control" type="checkbox" id={'call-'+row1.row.idPendiente} onChange={(e)=>{this.llamar(e,row1.row.idPendiente)}} disabled={row1.row.checkIn} checked={row1.row._original.estado=='PENDIENTE'?true:false}/>
+                    Cell: row1 =><input className="form-control" type="checkbox" id={'call-'+row1.row.idPendiente} onChange={(e)=>{this.llamar(e,row1.row.idPendiente)}} disabled={row1.row.checkIn==1?true:false} checked={row1.row._original.estado=='PENDIENTE'?true:false}/>
                   }
                 ]
               }

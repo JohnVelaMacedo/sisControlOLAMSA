@@ -23,7 +23,7 @@ class PendienteDescargaController extends Controller
                             ->select('registroentrada.id as idRegistroEntrada', 'registroentrada.tipoVehiculo', 
                                 'tipovehiculo.descripcion as descripcion_tipo_vehiculo', 'tipovehiculo.tiempoEspera',
                                 'registroentrada.numPlaca', 'registroentrada.transportista',  
-                                DB::raw("CONCAT_WS(' ', persona.nombre, persona.apellidos) as full_name"),
+                                DB::raw("CONCAT( persona.nombre, ' ',persona.apellidos) as full_name"),
                                 'registroentrada.observaciones', 'pendientedescarga_inicio_fin.id as idPendienteDescarga',
                                 'pendientedescarga_inicio_fin.idRegistroEntrada', 'pendientedescarga_inicio_fin.checkInicio',
                                 'pendientedescarga_inicio_fin.checkFin', 'pendientedescarga_inicio_fin.ObservacionInicio', 

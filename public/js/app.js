@@ -105694,18 +105694,18 @@ var ListaPendienteEntrada = function (_React$Component) {
                     accessor: "checkIn",
                     maxWidth: 100,
                     Cell: function Cell(row) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'in-' + row.row.idPendiente, disabled: row.row.checkIn, onChange: function onChange(e) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'in-' + row.row.idPendiente, disabled: row.row.checkIn == 1 ? true : false, onChange: function onChange(e) {
                                 _this6.penEntrada(e, row.row._original.id, row.row._original.idPendiente);
-                            }, checked: row.row.checkIn });
+                            }, checked: row.row.checkIn == 1 ? true : false });
                     }
                 }, {
                     Header: "Salida",
                     accessor: "checkOut",
                     maxWidth: 100,
                     Cell: function Cell(row) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'out-' + row.row.idPendiente, disabled: row.row.checkOut, onChange: function onChange(e) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'out-' + row.row.idPendiente, disabled: row.row.checkOut == 1 ? true : false, onChange: function onChange(e) {
                                 _this6.penSalida(row.row, e, row.row._original.id, row.row._original.idPendiente);
-                            }, checked: row.row.checkOut });
+                            }, checked: row.row.checkOut == 1 ? true : false });
                     }
                 }]
             }, {
@@ -105717,7 +105717,7 @@ var ListaPendienteEntrada = function (_React$Component) {
                     Cell: function Cell(row1) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-control", type: "checkbox", id: 'call-' + row1.row.idPendiente, onChange: function onChange(e) {
                                 _this6.llamar(e, row1.row.idPendiente);
-                            }, disabled: row1.row.checkIn, checked: row1.row._original.estado == 'PENDIENTE' ? true : false });
+                            }, disabled: row1.row.checkIn == 1 ? true : false, checked: row1.row._original.estado == 'PENDIENTE' ? true : false });
                     }
                 }]
             }];

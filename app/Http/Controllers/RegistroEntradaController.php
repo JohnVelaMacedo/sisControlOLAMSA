@@ -123,7 +123,9 @@ class RegistroEntradaController extends Controller
                 'idRegistroEntrada' =>$reg
             ]);
             $claseV=\DB::table('tipovehiculo')->where('id', $request['registro']['tipoVehiculo'])->first();
-            $num=\DB::select("SELECT newTicket($reg, '$claseV->clasificacion') AS newTicket;");
+            // mysql = $num=\DB::select("SELECT newTicket($reg, '$claseV->clasificacion') AS newTicket;");
+            $num=\DB::select("DECLARE	@return_value int EXEC @return_value = [dbo].[newTicket] @idr = ?, @pre =? SELECT 'newTicket' = @return_value",
+            [$reg,$claseV->clasificacion]);
             // var_dump($num);
             $ticket=array($claseV->clasificacion.'-'.$num[0]->newTicket,$claseV->descripcion,$request['registro']['numPlaca'],$claseV->tiempoEspera,date("Y-m-d H:i:s"));
         }else{
